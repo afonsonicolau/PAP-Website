@@ -9,8 +9,8 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
-                        <h3>Registar uma Morada</h3>
-                        <p class="required-red">*Obrigatório</p>
+                            <h3>Registar uma Morada</h3>
+                            <p class="required-red">*Obrigatório</p>
                             <div class="form-group form-group--inline">
                                 <label>Nome<span class="required-red">*</span></label>
                                 <input class="form-control" id="nome" name="nome"type="text" placeholder="Nome em que fica registado a morada" value="{{ old('nome') }}" data-validate="yes" data-min="5" data-max="144" data-type="string">

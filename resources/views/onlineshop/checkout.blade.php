@@ -13,10 +13,10 @@
 							<h3>Detalhes de Envio</h3>
 							<hr>
 							<h4>Morada de Envio</h4>
-							<p>Se não tiver uma morada registada clique <a href="{{route('online-shop.create-addresses')}}">aqui</a> para criar uma. Caso já tenham uma, simplesmente selecione-a.</p>
+							<p style="color:black">Se não tiver uma morada registada clique <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration: underline; color:green;">aqui</a> para criar uma. Caso já tenham uma, simplesmente selecione-a.</p>
 							<div class="d-flex flex-column">
 								@foreach ($addresses as $address)
-									@if ($address->user_id == auth()->user()->id && ($address->type == 2 || $address->type == 3))
+									@if ($address->user_id == auth()->user()->id)
 									<div class="mt-15 unselected-address" id="address_{{ $address->id }}" onclick="selectAddress({{ $address->id }})">
 										<div class="pl-10 pt-10">{{ $address->name }}</div> 
 										<div class="pl-10">{{ $address->address }}</div>
@@ -125,6 +125,83 @@
 					</div>
 				</div>
 			</form>
+		</div>
+	</div>
+
+	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<form action="{{ route('online-shop.store-addresses', auth()->user()->id) }}" method="POST" class="ml-10 mr-10">
+					@csrf
+					<div class="form-group">
+						<h3>Registar uma Morada</h3>
+						<p class="required-red">*Obrigatório | Esta morada será guardada no seu perfil</p>
+						
+						<div class="form-group ">
+							<label>Nome<span class="required-red">*</span></label>
+							<input class="form-control" id="nome" name="nome"type="text" placeholder="Nome em que fica registado a morada" value="{{ old('nome') }}" data-validate="yes" data-min="5" data-max="144" data-type="string">
+						</div>
+						<div class="form-group ">
+							<label>Endereço<span class="required-red">*</span> </label>
+							<input id="endereço" name="endereço" class="form-control" type="text" placeholder="Endereço desejado" value="{{ old('endereço') }}" data-validate="yes" data-min="5" data-max="255" data-type="string">
+						</div>
+						<div class="form-group ">
+							<label>Telemóvel<span class="required-red">*</span></label>
+							<input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ old('telemóvel') }}" data-validate="yes" data-min="9" data-max="9" data-type="int">
+						</div>
+						<div class="form-group ">
+							<label>NIF</label>
+							<input id="nif" name="nif" class="form-control" type="text" placeholder="Não preencher caso não queira registar o mesmo" value="{{ old('nif') }}" data-validate="yes" data-min="9" data-max="9" data-type="nif">
+						</div>
+						<div class="form-group ">
+							<label>País<span class="required-red">*</span></label>
+							<select class="form-control" name="país" id="país" required>
+								<option value="" disabled selected>--Selecione um país--</option>
+								<option value="Portugal">Portugal</option>
+								<option value="Espanha">Espanha</option>
+								<option value="França">França</option>
+							</select>
+						</div>
+						<div class="form-group ">
+							<label>Código Postal<span class="required-red">*</span></label>
+							<input id="códigopostal" name="códigopostal" class="form-control" type="text" placeholder="1234-123" value="{{ old('códigopostal') }}" data-validate="yes" data-type="postalcode">
+						</div>
+						<div class="form-group ">
+							<label>Cidade<span class="required-red">*</span></label>
+							<input id="cidade" name="cidade" class="form-control" type="text" placeholder="Cidade onde se encontra a morada" value="{{ old('cidade') }}" data-validate="yes" data-min="2" data-max="100" data-type="string"> 
+						</div>
+						<div class="form-group ">
+							<label>Empresa</label>
+							<input id="empresa" name="empresa" class="form-control" type="text" placeholder="Preencher com o nome da empresa caso a morada seja numa" value="{{ old('empresa') }}" data-validate="yes" data-min="0" data-max="255" data-type="string">
+						</div>
+						<div class="form-group ">
+							<label>Definição da Morada<span class="required-red">*</span></label>
+							<select class="form-control" name="type" id="type" required>
+								<option value="" disabled selected>--Escolha uma opção--</option>
+								<option value="1">Faturação</option>
+								<option value="2">Envio</option>
+								<option value="3">Ambas</option>
+							</select>
+						</div>
+						<div class="form-group ">
+							<label>Morada Padrão?<span class="required-red">*</span></label>
+							<select class="form-control" name="default" id="default" required>
+								<option value="" disabled selected>--Escolha uma opção--</option>
+								<option value="0">Sim</option>
+								<option value="1">Não</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<div class="ps-checkbox">
+								<input type="hidden" name="here" id="here" value="here">
+								<input class="form-control" type="checkbox" id="cb01">
+								<button type="submit" class="btn btn-primary">Criar Morada</button>
+							</div>
+						</div>
+					
+					</form>
+				</div>
+			</div>
 		</div>
 	</div>
   

@@ -68,7 +68,15 @@ class BillingController extends Controller
                 'used' => 0,
             ]);
 
-            return redirect(route('online-shop.profile-addresses'));
+            if($request->here == null)
+            {
+                return redirect(route('online-shop.profile-addresses'));
+            }
+            else
+            {
+                return redirect(route('online-shop.checkout'));
+            }
+            
         }
     }
 
