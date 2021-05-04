@@ -65,6 +65,7 @@ class BillingController extends Controller
                 'company' => $request->empresa,
                 'default' => $request->default,
                 'type' => $request->type,
+                'used' => 0,
             ]);
 
             return redirect(route('online-shop.profile-addresses'));
@@ -73,15 +74,25 @@ class BillingController extends Controller
 
     public function addresses_edit($addressId)
     {
-        $countries = array('Portugal', 'Espanha', 'França');
-        $types = array('1' => 'Faturação', '2' => 'Envio', '3' => 'Ambas');
-
         $address = Address::find($addressId);
-        $carts = Cart::all();
-        $products = Product::all();
-        $total = 0;
 
-        return view('onlineshop.profile.addresses.edit', compact('carts', 'products', 'total', 'address', 'countries', 'types'));
+        if($address->used == 0 && $address->user_id == auth()->user()->id)
+        {
+            $countries = array('Portugal', 'Espanha', 'França');
+            $types = array('1' => 'Faturação', '2' => 'Envio', '3' => 'Ambas');
+
+            
+            $carts = Cart::all();
+            $products = Product::all();
+            $total = 0;
+
+            return view('onlineshop.profile.addresses.edit', compact('carts', 'products', 'total', 'address', 'countries', 'types'));
+        }
+        else
+        {
+            abort('403', 'Ação Não-Autorizada');
+        }
+        
     }
 
     public function addresses_update(Request $request, $addressId)
@@ -97,13 +108,14 @@ class BillingController extends Controller
             'type' => 'required|int',
         ]);
 
-        if($validator->fails())
+        $address = Address::find($addressId);
+
+        if($validator->fails() || $address->used == 1)
         {
             return Redirect::back()->withInput()->withErrors($validator);
         }
         else
         {
-            $address = Address::find($addressId);
             $nif = $request->nif;
 
             if($nif == null)

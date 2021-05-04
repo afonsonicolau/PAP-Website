@@ -22,11 +22,11 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'address_id' => 'required|int',
+            'address_id' => 'required',
             'cart_ids' => 'required',
             'payment_method' => 'required',
             'delivery_method' => 'required',
-            'total_price' => 'required|int'
+            'total_price' => 'required',
         ]);
 
         if($validator->fails())
@@ -37,7 +37,7 @@ class OrderController extends Controller
         {
             $address = Address::find($request->address_id);
             $cartIds = $request->cart_ids;
-
+            
             Order::create([
                 'cart_ids' => $cartIds,
                 'user_id' => $address->user_id,
@@ -49,12 +49,17 @@ class OrderController extends Controller
                 'total_price' => $request->total_price,
             ]);
 
+            $address->update([
+                'used' => 1,
+            ]);
+
             foreach(json_decode($cartIds) as $cartId)
             {
                 Cart::find($cartId)->update([
                     'bought' => 1,
                 ]);
             }
+           
             $order = Order::latest()->first();
 
             return redirect(route('online-shop.order-confirmation', $order->order_number));

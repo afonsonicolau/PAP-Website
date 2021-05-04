@@ -31,7 +31,9 @@
                                                 <p>{{ $address->country }}</p> 
                                                 <p>{{ $address->postal_code }}</p> 
                                                 <p>{{ $address->city }}</p> 
-                                                <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @if ($address->used == 0)
+                                                    <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @endif
                                             @endif
                                         @endforeach
                                         @if ($count == 0)
@@ -54,7 +56,9 @@
                                                 <p>{{ $address->country }}</p> 
                                                 <p>{{ $address->postal_code }}</p> 
                                                 <p>{{ $address->city }}</p> 
-                                                <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @if ($address->used == 0)
+                                                    <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @endif
                                             @endif
                                         @endforeach
                                         @if ($count == 0)
@@ -81,7 +85,9 @@
                                                 <p>{{ $address->country }}</p> 
                                                 <p>{{ $address->postal_code }}</p> 
                                                 <p>{{ $address->city }}</p> 
-                                                <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @if ($address->used == 0)
+                                                    <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
+                                                @endif
                                             </div>
                                         @endif
                                     @endforeach 
@@ -109,7 +115,7 @@
                             </div>
                             <div class="ps-shipping">
                                 <h3>Moradas</h3>
-                                <p>Aqui estão todas as suas moradas, pode editá-las e criar outras se precisar!</p>
+                                <p>Aqui estão todas as suas moradas, pode editá-las e criar outras se precisar! Lembre-se, após utilizar uma morada não poderá editá-la novamente.</p>
                                 <a href="{{ route('online-shop.create-addresses') }}" type="button" class="btn btn-primary" style="color: white; text-decoration: none;">Criar Morada</a>
                             </div>
                         </div>
