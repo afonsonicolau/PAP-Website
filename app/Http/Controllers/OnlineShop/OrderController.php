@@ -37,7 +37,7 @@ class OrderController extends Controller
         {
             $address = Address::find($request->address_id);
             $cartIds = $request->cart_ids;
-            
+
             Order::create([
                 'cart_ids' => $cartIds,
                 'user_id' => $address->user_id,
@@ -87,6 +87,21 @@ class OrderController extends Controller
 
     public function show($order)
     {
+        $order = Order::where('order_number', $order)->first();
+        
+        if(auth()->user()->id == $order->user_id)
+        {
+            $cart_ids = $order->cart_ids;
+            $carts = Cart::all();
+            $products = Product::all();
+            $addresses = Address::all();
+            $total = 0;
 
+            return view('onlineshop.profile.orders.show', compact('carts', 'products', 'total', 'order', 'cart_ids', 'addresses'));
+        }
+        else
+        {
+            abort(403, 'Ação Não-Autorizada.');
+        }
     }
 }

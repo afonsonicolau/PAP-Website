@@ -111,3 +111,4 @@ Route::get('/backoffice/addresses', [App\Http\Controllers\Backoffice\AddressesCo
 
 // Backoffice - Orders
 Route::get('/backoffice/orders', [App\Http\Controllers\Backoffice\OrdersController::class, 'index'])->name('orders.index');
+Route::get('/backoffice/orders/{order}', [App\Http\Controllers\Backoffice\OrdersController::class, 'show'])->name('orders.show');

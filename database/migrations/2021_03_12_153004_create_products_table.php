@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('type_id')->index();
             $table->string('color');
             $table->string('size');
-            $table->float('price');
+            $table->string('price');
             $table->float('weight');
             $table->integer('stock');
             $table->string('thumbnail');

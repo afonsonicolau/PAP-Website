@@ -4,7 +4,7 @@
 
     <div class="ps-checkout pt-80 pb-80">
         <div class="ps-container">
-            <form class="ps-checkout__form" action="do_action" method="post">
+            <form class="ps-checkout__form">
                 <div class="row">
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
@@ -21,22 +21,20 @@
                                                     $count++;    
                                                 @endphp
                                                 <h4 class="pb-10">Encomenda Nº {{ $order->order_number }}</h4>
-                                                <p>{{ $order->date_bought }}</p> 
-                                                <a href="{{ route('online-shop.show-orders', $order->order_number) }}" type="button" style="align-items: end;">Ver Detalhes</a>
+                                                <p style="color:black;">{{ $order->date_bought }}</p> 
+                                                <p style="color: black;">{{ $order->total_price }} €</p> 
+                                                <a href="{{ route('online-shop.show-orders', $order->order_number) }}" type="button" class="btn btn-info">Ver Detalhes</a>
                                             @endif
                                             <hr>
                                         @endforeach
                                         @if ($count == 0)
                                             <p>Não existe nenhuma encomenda, por enquanto.</p>
                                         @else
-                                            {{$count }} Item(s)
+                                            {{ $count }} Item(s)
                                         @endif
                                     </div>
                                 </div> 
-                            </div>  
-                            <div class="col-md-12 pt-20"> 
-                                
-                            </div> 
+                            </div>
                         </div>  
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="ps-checkout__order" style="background-color: rgb(160, 161, 163);">
@@ -51,7 +49,7 @@
                             </div>
                             <div class="ps-shipping">
                                 <h3>Encomendas</h3>
-                                <p>Aqui estão todas as suas encomendas, pode editá-las e criar outras se precisar!</p>
+                                <p>Aqui estão todas as suas encomendas!</p>
                             </div>
                         </div>
                     </div>
