@@ -190,16 +190,15 @@
 			</nav>
 			<!-- partial -->
 			<div class="main-panel">
-			<div class="content-wrapper">
+				<div class="content-wrapper">
 
-@yield('content')
-
-          </div>
-        <footer class="footer" style="position: sticky;">
-            <div class="container-fluid clearfix align-bottom">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Olfaire Mendes&Nicolau</span>
-            </div>
-        </footer>
+			@yield('content')
+			
+				<footer class="footer" style="position: sticky;">
+					<div class="container-fluid clearfix align-bottom">
+					<span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © Olfaire Mendes&Nicolau</span>
+					</div>
+				</footer>
             <!-- partial -->
             </div>
           <!-- main-panel ends -->

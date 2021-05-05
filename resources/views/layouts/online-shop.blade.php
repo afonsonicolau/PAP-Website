@@ -488,6 +488,7 @@
             {
                 let checked = $("input[id='deliveryBilling']:checked").length;
 
+                // if user wants addresses to be different checked will be > 0 
                 if (checked > 0)
                 {
                     $("#deliveryPlusBilling").addClass("hidden");
@@ -501,8 +502,13 @@
                     $("#deliveryPlusBilling").removeClass("hidden");
                 }
 
+                // Remove classes
+                $(".selected-address").addClass("unselected-address");
+                $(".selected-address").removeClass("selected-address");
+                // Set values to null
                 $("#delivery_id").val("");
                 $("#billing_id").val("");
+                // Hide necessary
                 $('footer').addClass("hidden");
                 $("#errorMessage").addClass("hidden");
             });

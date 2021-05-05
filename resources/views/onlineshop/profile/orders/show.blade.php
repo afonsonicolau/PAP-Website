@@ -13,7 +13,7 @@
                             <div class="form-group">
                                 <h4>ARTIGOS ENCOMENDADOS</h4>
                                 <br>
-                                <table class="table" rules=none>
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Tipo do Item</th>
@@ -26,7 +26,7 @@
                                         
                                     </thead>
                                     <tbody>
-                                        @foreach (json_decode($cart_ids) as $cart_id)
+                                        @foreach (json_decode($order->cart_ids) as $cart_id)
                                             @foreach ($carts as $cart)
                                                 @if ($cart->id == $cart_id)
                                                     <tr >

@@ -18,7 +18,7 @@
                                 <th>Tipo de Pagamento</th>
                                 <th>Tipo de Envio</th>
                                 <th>Adicional</th>
-                                <th></th>
+                                <th>Ver Mais</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,7 +37,7 @@
                                             {{ $order->adittional }}
                                         @endif 
                                     </td>
-                                    <td><a class="btn btn-primary" href="" data-toggle="tooltip" data-placement="top" title="Ver Mais"><i class="fas fa-plus"></i></a></td>
+                                    <td><a class="btn btn-primary" href="{{ route("orders.show", $order->order_number)}}" data-toggle="tooltip" data-placement="top" title="Ver Mais"><i class="fas fa-plus"></i></a></td>
                                 </tr>
                             @endforeach
                         </tbody>
