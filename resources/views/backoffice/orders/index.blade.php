@@ -12,8 +12,8 @@
                         <thead>
                             <tr>
                                 <th>Criador</th>
-                                <th>Registado Em</th>
-                                <th>Endereço</th>
+                                <th>Estado</th>
+                                <th>Preço Total</th>
                                 <th>Data da Compra</th>
                                 <th>Tipo de Pagamento</th>
                                 <th>Tipo de Envio</th>
@@ -25,8 +25,8 @@
                             @foreach ($orders as $order)
                                 <tr>
                                     <td>{{ $order->user->email }}</td>
-                                    <td>{{ $order->address->name }}</td>
-                                    <td>{{ $order->address->address }}</td>
+                                    <td>{{ $order->state }}</td>
+                                    <td>{{ $order->total_price }}€</td>
                                     <td>{{ $order->date_bought }}</td>
                                     <td>{{ $order->payment_method }}</td>  
                                     <td>{{ $order->delivery_method }}</td>
