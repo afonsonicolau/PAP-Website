@@ -484,13 +484,56 @@
                 }
             }
 
-            function selectAddress(addressId)
+            $("#deliveryBilling").on("click", function()
             {
-                $(".selected-address").addClass("unselected-address");
-                $(".selected-address").removeClass("selected-address");
+                let checked = $("input[id='deliveryBilling']:checked").length;
 
-                $("#address_id").val(addressId);
-                $(`#address_${addressId}`).addClass("selected-address");
+                if (checked > 0)
+                {
+                    $("#deliveryPlusBilling").addClass("hidden");
+                    $("#delivery").removeClass("hidden");
+                    $("#billing").removeClass("hidden");
+                }
+                else
+                {
+                    $("#delivery").addClass("hidden");
+                    $("#billing").addClass("hidden");
+                    $("#deliveryPlusBilling").removeClass("hidden");
+                }
+
+                $("#delivery_id").val("");
+                $("#billing_id").val("");
+                $('footer').addClass("hidden");
+                $("#errorMessage").addClass("hidden");
+            });
+
+            function selectAddress(addressId, type)
+            {
+                if (type == "Billing")
+                {
+                    $(".billing").addClass("unselected-address");
+                    $(".billing").removeClass("selected-address");
+
+                    $(`#billing_${addressId}`).addClass("selected-address");
+                    $("#billing_id").val(addressId);
+                }
+                else if (type == "Delivery")
+                {
+                    $(".delivery").addClass("unselected-address");
+                    $(".delivery").removeClass("selected-address");
+                    
+                    $(`#delivery_${addressId}`).addClass("selected-address");
+                    $("#delivery_id").val(addressId);
+                }
+                else if (type == "Both")
+                {   
+                    $(".selected-address").addClass("unselected-address");
+                    $(".selected-address").removeClass("selected-address");
+
+                    $("#delivery_id").val(addressId);
+                    $("#billing_id").val(addressId);
+                    $(`#address_${addressId}`).addClass("selected-address");
+                }
 
                 $('footer').removeClass("hidden");
             }
@@ -498,10 +541,13 @@
             $("#check_radio").on("click", function(e)
             {
                 let getRadioChecked = $('input[name="payment"]:checked');
+                let checkInputDelivery = $("#delivery_id").val();
+                let checkInputBilling =  $("#billing_id").val();
 
-                if(getRadioChecked.length != 1)
+                if(getRadioChecked.length != 1 || checkInputDelivery == null || checkInputBilling == null)
                 {
                     e.preventDefault(e);
+                    $("#errorMessage").text("Selecione todas as informações pertinentes: 'Moradas de Envio', 'Morada de Faturação' e 'Tipo de Pagamento'.").removeClass("hidden");
                 }
             });
 

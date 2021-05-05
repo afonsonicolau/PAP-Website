@@ -65,7 +65,6 @@ class BillingController extends Controller
                 'company' => $request->empresa,
                 'default' => $request->default,
                 'type' => $request->type,
-                'used' => 0,
             ]);
 
             if($request->here == null)

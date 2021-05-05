@@ -13,7 +13,7 @@
                             <div class="form-group">
                                 <h4>ARTIGOS ENCOMENDADOS</h4>
                                 <br>
-                                <table class="table">
+                                <table class="table" rules=none>
                                     <thead>
                                         <tr>
                                             <th>Tipo do Item</th>
@@ -29,12 +29,14 @@
                                         @foreach (json_decode($cart_ids) as $cart_id)
                                             @foreach ($carts as $cart)
                                                 @if ($cart->id == $cart_id)
-                                                    <td>{{ $cart->product->type->type }}</td>
-                                                    <td>{{ $cart->product->collection->collection }}</td>
-                                                    <td>{{ $cart->product->reference }}</td>
-                                                    <td>{{ $cart->price }}€</td>
-                                                    <td><b>Encomendado:</b> {{ $cart->quantity }}</td>
-                                                    <td>{{ $cart->quantity * $cart->price }}€</td>
+                                                    <tr >
+                                                        <td style="border: none;">{{ $cart->product->type->type }}</td>
+                                                        <td style="border: none;">{{ $cart->product->collection->collection }}</td>
+                                                        <td style="border: none;">{{ $cart->product->reference }}</td>
+                                                        <td style="border: none;">{{ $cart->price }}€</td>
+                                                        <td style="border: none;"><b>Encomendado:</b> {{ $cart->quantity }}</td>
+                                                        <td style="border: none;">{{ $cart->quantity * $cart->price }}€</td>
+                                                    </tr>
                                                 @endif
                                             @endforeach
                                         @endforeach
@@ -48,7 +50,7 @@
                                     <h4><b>Morada de Faturação</b></h4>
                                     <br>
                                     @foreach ($addresses as $address)
-                                        @if ($address->id == $order->address_id)
+                                        @if ($address->id == $order->billing_id)
                                             {{ $address->name }} <br>
                                             {{ $address->address }} <br>
                                             T: {{ $address->phone_number }} <br>
@@ -64,7 +66,7 @@
                                     <h4><b>Morada de Envio</b></h4>
                                     <br>
                                     @foreach ($addresses as $address)
-                                        @if ($address->id == $order->address_id)
+                                        @if ($address->id == $order->delivery_id)
                                             {{ $address->name }} <br>
                                             {{ $address->address }} <br>
                                             T: {{ $address->phone_number }} <br>

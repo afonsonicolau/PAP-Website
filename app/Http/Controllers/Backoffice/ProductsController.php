@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use App\Models\Collection;
+use App\Models\Cart;
+use App\Models\Product;
+use App\Models\ProductTypes;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Product;
-use App\Models\ProductTypes;
 use Image;
 
 class ProductsController extends Controller
@@ -285,6 +286,10 @@ class ProductsController extends Controller
                     'description' => $request->descrição,
                     'thumbnail' => $thumbnailName ?? $product->thumbnail,
                     'images' => $imageNames,
+                ]);
+
+                Cart::where('product_id', $id)->where('bought', 0)->update([
+                    'price' => $request->preço,
                 ]);
 
                 return redirect(route('products.index'));

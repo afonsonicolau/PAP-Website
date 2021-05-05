@@ -22,7 +22,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'address_id' => 'required',
+            'delivery_id' => 'required',
+            'billing_id' => 'required',
             'cart_ids' => 'required',
             'payment_method' => 'required',
             'delivery_method' => 'required',
@@ -35,13 +36,14 @@ class OrderController extends Controller
         }
         else
         {
-            $address = Address::find($request->address_id);
+            $address = Address::find($request->delivery_id);
             $cartIds = $request->cart_ids;
 
             Order::create([
                 'cart_ids' => $cartIds,
                 'user_id' => $address->user_id,
-                'address_id' => $address->id,
+                'delivery_id' => $request->delivery_id,
+                'billing_id' => $request->billing_id,
                 'additional' => $request->additional,
                 'date_bought' => date('Y-m-d'),
                 'payment_method' => $request->payment_method,

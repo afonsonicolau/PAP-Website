@@ -12,22 +12,60 @@
 							
 							<h3>Detalhes de Envio</h3>
 							<hr>
-							<h4>Morada de Envio</h4>
+							<input type="checkbox" name="deliveryBilling" id="deliveryBilling"> Morada de Faturação e de Envio diferentes
 							<p style="color:black">Se não tiver uma morada registada clique <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration: underline; color:green;">aqui</a> para criar uma. Caso já tenham uma, simplesmente selecione-a.</p>
-							<div class="d-flex flex-column">
+
+							<div id="deliveryPlusBilling">
+								<h4>Morada de Envio e Faturação</h4>
+								<div class="d-flex flex-column">
+									@foreach ($addresses as $address)
+										@if ($address->user_id == auth()->user()->id && $address->type == 3)
+										<div class="mt-15 unselected-address" id="address_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Both')">
+											<div class="pl-10 pt-10">{{ $address->name }}</div> 
+											<div class="pl-10">{{ $address->address }}</div>
+											<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
+											<div class="pl-10">{{ $address->country }}</div>
+											<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
+										</div>
+										@endif
+									@endforeach
+								</div>
+							</div>
+							
+							<div class="hidden" id="delivery">
+								<h4>Morada de Envio</h4>
+								<div class="d-flex flex-column">
+									@foreach ($addresses as $address)
+										@if ($address->user_id == auth()->user()->id && $address->type == 2)
+										<div class="mt-15 unselected-address delivery" id="delivery_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Delivery')">
+											<div class="pl-10 pt-10">{{ $address->name }}</div> 
+											<div class="pl-10">{{ $address->address }}</div>
+											<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
+											<div class="pl-10">{{ $address->country }}</div>
+											<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
+										</div>
+										@endif
+									@endforeach
+								</div>
+							</div>
+							
+							<div class="hidden" id="billing">
+								<h4>Morada de Faturação</h4>
+								<div class="d-flex flex-column">
 								@foreach ($addresses as $address)
-									@if ($address->user_id == auth()->user()->id)
-									<div class="mt-15 unselected-address" id="address_{{ $address->id }}" onclick="selectAddress({{ $address->id }})">
-										<div class="pl-10 pt-10">{{ $address->name }}</div> 
-										<div class="pl-10">{{ $address->address }}</div>
-										<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
-										<div class="pl-10">{{ $address->country }}</div>
-										<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
-									</div>
+									@if ($address->user_id == auth()->user()->id && $address->type == 1)
+										<div class="mt-15 unselected-address billing" id="billing_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Billing')">
+											<div class="pl-10 pt-10">{{ $address->name }}</div> 
+											<div class="pl-10">{{ $address->address }}</div>
+											<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
+											<div class="pl-10">{{ $address->country }}</div>
+											<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
+										</div>
 									@endif
 								@endforeach
 							</div>
-
+							</div>
+							
 							<hr>
 							<h4>Métodos de Envio</h4>
 							<p>Escolha o método de envio para enviar a sua encomenda.</p>
@@ -36,11 +74,14 @@
 									<div class="pl-10 pb-10 pt-10">CTT</div> 
 									<input type="hidden" name="delivery_method" id="delivery_method" value="CTT">
 								</div>
+								
 							</div>
+							<p class="pt-10 hidden" id="errorMessage" style="color:red;"></p>
 							<h3 class="mt-40">Informação Adicional (Não obrigatório)</h3>
 							<div class="form-group form-group--inline textarea">
 								<label>Notas</label>
 								<textarea class="form-control" rows="5" id="additional" name="additional" placeholder="Notas adicionais para a sua entrega."></textarea>
+								
 							</div>
 						</div>
 					</div>
@@ -66,19 +107,15 @@
 
 											@foreach ($carts as $cart)
 												@if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
-													@foreach ($products as $product)
-														@if ($product->id == $cart->product_id)
-															<tr>
-																<td><img src="/storage/thumbnail/{{ $product->thumbnail }}" height=100 width=100 alt=""></td>
-																<td><div class="pt-45">{{ $product->type->type }} x{{ $cart->quantity }}</td>
-																<td><div class="pt-45">{{ ($cart->quantity * $product->price)}}€</div></td>
-															</tr>	
-															@php
-																array_push($cartIds, $cart->id);
-																$total += $cart->quantity * $product->price;
-															@endphp
-														@endif
-													@endforeach	
+													<tr>
+														<td><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" height=100 width=100 alt=""></td>
+														<td><div class="pt-45">{{ $cart->product->type->type }} x{{ $cart->quantity }}</td>
+														<td><div class="pt-45">{{ ($cart->quantity * $cart->price)}}€</div></td>
+													</tr>	
+													@php
+														array_push($cartIds, $cart->id);
+														$total += $cart->quantity * $cart->price;
+													@endphp
 												@endif
 											@endforeach
 											
@@ -111,7 +148,8 @@
 										<label for="rdo03">Cartão Débito</label>
 									</div>
 									<input type="hidden" name="total_price" id="total_price" value="{{ $total }}">
-									<input type="hidden" name="address_id" id="address_id">
+									<input type="hidden" name="delivery_id" id="delivery_id">
+									<input type="hidden" name="billing_id" id="billing_id">
 									<input type="hidden" name="cart_ids" id="cart_ids" value="{{ json_encode($cartIds) }}">
 									<input type="hidden" name="payment_method" id="payment_method">
 									<button type="submit" class="ps-btn ps-btn--fullwidth" id="check_radio">Efetuar Compra<i class="ps-icon-next"></i></button>
