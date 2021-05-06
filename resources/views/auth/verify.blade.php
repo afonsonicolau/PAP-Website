@@ -1,28 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.login-register')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
-
-                <div class="card-body">
-                    @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
-                        </div>
-                    @endif
-
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
-                    <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
-                    </form>
-                </div>
-            </div>
+  <!-- Change background image here "auth-bg-1" -->
+  <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+    <div class="row w-100">
+      <div class="col-lg-4 mx-auto">
+        <h2 class="auth-title">Confirmação do seu E-mail</h2>
+        <div class="auto-form-wrapper"> 
+            <!-- E-mail -->
+			@if (session('resent'))
+				<div class="form-group">
+					<div class="alert alert-success" role="alert">
+						Foi enviado um novo e-mail para verificação, verifique assim que possível.
+					</div>
+				</div>
+			@endif
+			<div class="form-group">
+				<form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
+					@csrf
+				Antes de proceder, por favor, verifique o seu e-mail e clique no link de verificação.
+				<br>
+				Se não recebeu nenhum e-mail clique <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="font-size: 16px">aqui</button> para receber outro.
+				</form>
+			</div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 @endsection

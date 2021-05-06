@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 # Online Shop
 Route::get('/online-shop', [App\Http\Controllers\OnlineShop\ShopController::class, 'index'])->name('online-shop.index');
