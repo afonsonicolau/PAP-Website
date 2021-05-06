@@ -26,9 +26,8 @@ class OrdersController extends Controller
     public function show($orderNum)
     {
         $order = Order::where('order_number', $orderNum)->first();
-        $addresses = Address::all();
         $carts = Cart::all();
 
-        return view('backoffice.orders.show', compact('order', 'addresses', 'carts'));
+        return view('backoffice.orders.show', compact('order', 'carts'));
     }
 }

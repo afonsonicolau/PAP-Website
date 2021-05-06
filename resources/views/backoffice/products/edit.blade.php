@@ -87,12 +87,25 @@
 
 						<div class="form-group">
 							<label for="preço">Preço</label>
-							<input type="number" class="form-control" id="preço" name="preço" step="0.01" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('preço') ?? $product->price }}">
+							<input type="number" class="form-control" id="preço" name="preço" step="0.01" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('preço') ?? $product->price }}" onchange="totalPriceIva()">
 						</div>
 
 						@if ($errors->has('preço'))
 							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('preço')}}</p>
 						@endif
+
+						<div class="form-group">
+							<label for="iva">IVA</label>
+							<input type="number" min="0" class="form-control" id="iva" name="iva" step="0.1" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('iva') ?? $product->iva }}" onchange="totalPriceIva()">
+						</div>
+
+						@if ($errors->has('iva'))
+							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('iva')}}</p>
+						@endif
+
+						<div class="form-group hidden totalPrice">
+							<p id="totalPriceVal"></p>
+						</div>
 
 						<div class="form-group">
 							<label for="peso">Peso</label>

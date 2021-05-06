@@ -24,16 +24,12 @@ class ProductsController extends Controller
 
     public function index()
     {
-        $products = Product::latest()->paginate(20);
+        $products = Product::where('disabled', 0)->latest()->paginate(20);
+        $standoutCount = Product::where('standout', 1)->count();
         
-        return view('backoffice.products.index', compact('products'));
+        return view('backoffice.products.index', compact('products', 'standoutCount'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $collections = Collection::all();
@@ -137,6 +133,7 @@ class ProductsController extends Controller
                     'color' => $request->cor,
                     'size' => $request->tamanho,
                     'price' => $request->preço,
+                    'iva' => $request->iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
                     'description' => $request->descrição,
@@ -196,6 +193,13 @@ class ProductsController extends Controller
 
             return redirect(route('products.index'));
         }
+        // Disable
+        else if($request->has('disable'))
+        {
+            $product->update([
+                'disabled' => $request->visible,
+            ]);
+        }
         else
         {
             $validator = Validator::make($request->all(), [
@@ -205,7 +209,8 @@ class ProductsController extends Controller
                 'cor' => 'required',
                 'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
                 'preço' => 'required',
-                'peso' => 'required',
+                'iva' => 'required|float',
+                'peso' => 'required|float',
                 'stock' => 'required',
                 'descrição' => 'required',
                 'miniatura' => 'image|mimes:jpeg,jpg,png',
@@ -281,6 +286,7 @@ class ProductsController extends Controller
                     'color' => $request->cor,
                     'size' => $request->tamanho,
                     'price' => $request->preço,
+                    'iva' => $request->iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
                     'description' => $request->descrição,
@@ -290,6 +296,7 @@ class ProductsController extends Controller
 
                 Cart::where('product_id', $id)->where('bought', 0)->update([
                     'price' => $request->preço,
+                    'iva' => $request->iva,
                 ]);
 
                 return redirect(route('products.index'));

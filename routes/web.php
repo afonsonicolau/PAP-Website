@@ -69,8 +69,6 @@ Route::get('/backoffice/users/administrators', [App\Http\Controllers\Backoffice\
 
 Route::patch('/backoffice/users/{user}', [App\Http\Controllers\Backoffice\UsersController::class, 'update'])->name('users.update');
 
-Route::delete('/backoffice/users/{user}', [App\Http\Controllers\Backoffice\UsersController::class, 'destroy'])->name('users.delete');
-
 // Backoffice - Products
 Route::get('/backoffice/products', [App\Http\Controllers\Backoffice\ProductsController::class, 'index'])->name('products.index');
 Route::get('/backoffice/products/create', [App\Http\Controllers\Backoffice\ProductsController::class, 'create'])->name('products.create');

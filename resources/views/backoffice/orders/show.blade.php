@@ -45,34 +45,24 @@
                         <div class="col-md-4">
                             <h4><b>Morada de Faturação</b></h4>
                             <br>
-                            @foreach ($addresses as $address)
-                                @if ($address->id == $order->billing_id)
-                                    {{ $address->name }} <br>
-                                    {{ $address->address }} <br>
-                                    T: {{ $address->phone_number }} <br>
-                                    NIF: {{ $address->nif }} <br>
-                                    {{ $address->country }} <br>
-                                    {{ $address->postal_code }} <br>
-                                    {{ $address->city }} <br>
-                                    @break
-                                @endif
-                            @endforeach
+                            {{ $order->billing->name }} <br>
+                            {{ $order->billing->address }} <br>
+                            T: {{ $order->billing->phone_number }} <br>
+                            NIF: {{ $order->billing->nif }} <br>
+                            {{ $order->billing->country }} <br>
+                            {{ $order->billing->postal_code }} <br>
+                            {{ $order->billing->city }} <br>
                         </div>
                         <div class="col-md-4">
                             <h4><b>Morada de Envio</b></h4>
                             <br>
-                            @foreach ($addresses as $address)
-                                @if ($address->id == $order->delivery_id)
-                                    {{ $address->name }} <br>
-                                    {{ $address->address }} <br>
-                                    T: {{ $address->phone_number }} <br>
-                                    NIF: {{ $address->nif }} <br>
-                                    {{ $address->country }} <br>
-                                    {{ $address->postal_code }} <br>
-                                    {{ $address->city }} <br>
-                                    @break
-                                @endif
-                            @endforeach
+                            {{ $order->delivery->name }} <br>
+                            {{ $order->delivery->address }} <br>
+                            T: {{ $order->delivery->phone_number }} <br>
+                            NIF: {{ $order->delivery->nif }} <br>
+                            {{ $order->delivery->country }} <br>
+                            {{ $order->delivery->postal_code }} <br>
+                            {{ $order->delivery->city }} <br>
                         </div>
                         <div class="col-md-4">
                             <h4><b>Método de Envio e Pagamento</b></h4>

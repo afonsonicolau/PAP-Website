@@ -25,7 +25,7 @@ class UsersController extends Controller
     // View for showing clients
     public function client()
     {
-        $users = User::where('role_id', 1)->latest()->paginate(20); 
+        $users = User::where('disabled', 0)->where('role_id', 1)->latest()->paginate(20); 
 
         return view('backoffice.users.client', compact('users'));
     }
@@ -33,31 +33,26 @@ class UsersController extends Controller
     // View for showing administators
     public function administrator()
     {
-        $users = User::where('role_id', 2)->latest()->paginate(20); 
+        $users = User::where('disabled', 0)->where('role_id', 2)->latest()->paginate(20); 
 
         return view('backoffice.users.administrator', compact('users'));
     }
 
     public function update($id, Request $request)
     {
-        $this->validate($request, [
-            'role_id' => 'required',
-        ]);
-
-        $user = User::find($id);
+       $user = User::find($id);
         
-        $user->role_id = $request->get('role_id');
-
+        if($request->has('role_id'))
+        {
+            $user->role_id = $request->role_id;
+        }   
+        elseif($request->has('disable'))
+        {
+            $user->disabled = 1;
+        }
+        
         $user->save();
         
         return redirect()->back();
-    }
-
-    // 
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        return redirect(route('users.index'))->with('message', 'Projeto eliminado com sucesso.');
     }
 }

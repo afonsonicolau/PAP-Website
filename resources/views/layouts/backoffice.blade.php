@@ -234,6 +234,18 @@
 		<link rel="stylesheet" href="/assets/css/validate.css">
         <!-- Scripts -->
         <script>
+			// Price + IVA
+			function totalPriceIva()
+			{
+				$(".totalPrice").removeClass("hidden");
+				
+				let price = $("#preço").val();
+				let iva = $("#iva").val();
+				let total = (price / ((100 - iva)/100)).toFixed(2);
+				
+				$("#totalPriceVal").text("Preço total: " + total + " €");
+			}
+
 			// Selectize for Collection colors
 			$(document).ready($(function()
 			{

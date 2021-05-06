@@ -35,13 +35,16 @@
                                         </form>      
                                     </td>
                                     <td>   
-                                        <form role="form" action="{{ route('users.delete', $user->id)}}" method="POST" enctype="multipart/form-data">
+                                        <form role="form" action="{{ route('users.update', $user->id)}}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            @method('DELETE')                 
-                                            <button class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar Cliente">
+                                            @method('PATCH')      
+                                            
+                                            <input type="hidden" id="disable" name="disable" value="1">
+
+                                            <button class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar Utilizador">
                                                 <i class="fas fa-user-slash"></i>
                                             </button>
-                                        </form>
+                                        </form>   
                                     </td>
                                 </tr>
                             @endforeach  

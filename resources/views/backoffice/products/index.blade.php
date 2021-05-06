@@ -16,7 +16,9 @@
                                 <th>Cor</th>
                                 <th>Coleção</th>
                                 <th>Tamanho</th>
-                                <th>Preço</th>
+                                <th>Preço s/IVA</th>
+                                <th>IVA</th>
+                                <th>Preço c/IVA</th>
                                 <th>Peso</th>
                                 <th>Stock</th>
                                 <th>Destaque?</th>
@@ -34,34 +36,38 @@
                                     <td>{{ $product->collection->collection }}</td>
                                     <td>{{ $product->size }}</td>  
                                     <td>{{ $product->price }}€</td>
+                                    <td>{{ $product->iva }}%</td>
+                                    <td>{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</td>
                                     <td>{{ $product->weight }}Kg</td>  
                                     <td>{{ $product->stock }}</td>
                                     <td>
-                                        @if ($product->standout == 0 && $product->visible == 1) 
-                                            {{-- Make product standout --}} 
-                                            <form role="form" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PATCH')
+                                        @unless ($standoutCount == 9)
+                                            @if ($product->standout == 0 && $product->visible == 1) 
+                                                {{-- Make product standout --}} 
+                                                <form role="form" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PATCH')
 
-                                                <input type="hidden" id="standout" name="standout" value="1">
+                                                    <input type="hidden" id="standout" name="standout" value="1">
 
-                                                <button class="btn btn-dark" type="submit" data-toggle="tooltip" data-placement="top" title="Clique para destacar">
-                                                    <i class="fas fa-bookmark"></i>
-                                                </button>
-                                            </form>    
-                                        @else
-                                            {{-- Make product not standout --}} 
-                                            <form role="form" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                                                @csrf
-                                                @method('PATCH')
+                                                    <button class="btn btn-dark" type="submit" data-toggle="tooltip" data-placement="top" title="Clique para destacar">
+                                                        <i class="fas fa-bookmark"></i>
+                                                    </button>
+                                                </form>    
+                                            @else
+                                                {{-- Make product not standout --}} 
+                                                <form role="form" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PATCH')
 
-                                                <input type="hidden" id="standout" name="standout" value="0">
+                                                    <input type="hidden" id="standout" name="standout" value="0">
 
-                                                <button class="btn btn-dark" type="submit" data-toggle="tooltip" data-placement="top" title="Clique para retirar do destaque">
-                                                    <i class="far fa-bookmark"></i>
-                                                </button>
-                                            </form>    
-                                        @endif
+                                                    <button class="btn btn-dark" type="submit" data-toggle="tooltip" data-placement="top" title="Clique para retirar do destaque">
+                                                        <i class="far fa-bookmark"></i>
+                                                    </button>
+                                                </form>    
+                                            @endif
+                                        @endunless
                                     </td>
                                     <td>
                                         @if ($product->outlet == 1) 
@@ -118,10 +124,12 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form role="form" action="{{ route('products.delete', $product->id) }}" method="POST" enctype="multipart/form-data">
+                                        <form role="form" action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-                                            @method('DELETE')            
+                                            @method('PATCH')            
                                             
+                                            <input type="hidden" id="disable" name="disable">
+
                                             <a class="btn btn-primary" href="{{ route('products.edit', ['product' => $product->id]) }}" data-toggle="tooltip" data-placement="top" title="Editar Produto"><i class="fas fa-edit"></i></a>
                                             <button class="btn btn-danger" type="submit" data-toggle="tooltip" data-placement="top" title="Eliminar Produto">
                                                 <i class="fas fa-trash"></i>

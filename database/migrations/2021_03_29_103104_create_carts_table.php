@@ -18,7 +18,8 @@ class CreateCartsTable extends Migration
             $table->unsignedBigInteger('product_id')->index();
             $table->unsignedBigInteger('user_id')->index();
             $table->integer('quantity');
-            $table->string('price');
+            $table->float('price');
+            $table->float('iva');
             $table->boolean('bought');
             $table->timestamps();
         });

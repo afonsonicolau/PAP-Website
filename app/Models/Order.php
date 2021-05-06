@@ -17,7 +17,12 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function address()
+    public function billing()
+    {
+        return $this->belongsTo(Address::class);
+    }
+
+    public function delivery()
     {
         return $this->belongsTo(Address::class);
     }

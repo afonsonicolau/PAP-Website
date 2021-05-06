@@ -17,6 +17,7 @@ class CreateCollectionsTable extends Migration
             $table->id();
             $table->string('collection')->unique();
             $table->string('colors');
+            $table->boolean('disabled')->default(0);
             $table->timestamps();
         });
     }

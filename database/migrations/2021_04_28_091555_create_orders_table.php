@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('delivery_id')->index();
             $table->unsignedBigInteger('billing_id')->index();
             $table->string('additional')->nullable();
-            $table->string('total_price');
+            $table->float('total_price');
             $table->date('date_bought');
             $table->string('payment_method');
             $table->string('delivery_method');

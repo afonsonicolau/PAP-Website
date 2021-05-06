@@ -22,12 +22,14 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('type_id')->index();
             $table->string('color');
             $table->string('size');
-            $table->string('price');
+            $table->float('price');
+            $table->float('iva');
             $table->float('weight');
             $table->integer('stock');
             $table->string('thumbnail');
             $table->string('images')->nullable();
             $table->boolean('visible')->default(1);
+            $table->boolean('disabled')->default(0);
             $table->text('description');
             $table->timestamps();
         });
