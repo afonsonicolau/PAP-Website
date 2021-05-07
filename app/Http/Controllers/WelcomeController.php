@@ -9,6 +9,11 @@ use App\Models\Product;
 
 class WelcomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['verified', 'auth']);    
+    }
+
     public function index()
     {
         $products = Product::all();

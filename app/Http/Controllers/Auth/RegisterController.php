@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 
-use App\Mail\WelcomeMail;
+
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Notifications\CustomVerifyEmailNotification;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -74,7 +75,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        Mail::to($data['email'])->send(new WelcomeMail());
+        Mail::to($data['email'])->notify(new CustomVerifyEmailNotification());
 
         return User::latest()->first();
     }

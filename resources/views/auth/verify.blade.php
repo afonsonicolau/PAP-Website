@@ -7,14 +7,6 @@
       <div class="col-lg-4 mx-auto">
         <h2 class="auth-title">Confirmação do seu E-mail</h2>
         <div class="auto-form-wrapper"> 
-            <!-- E-mail -->
-			@if (session('resent'))
-				<div class="form-group">
-					<div class="alert alert-success" role="alert">
-						Foi enviado um novo e-mail para verificação, verifique assim que possível.
-					</div>
-				</div>
-			@endif
 			<div class="form-group">
 				<form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
 					@csrf
@@ -23,6 +15,13 @@
 				Se não recebeu nenhum e-mail clique <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="font-size: 16px">aqui</button> para receber outro.
 				</form>
 			</div>
+			@if (session('resent'))
+				<div class="form-group">
+					<div class="alert alert-success" role="alert">
+						Foi enviado um novo e-mail para verificação, verifique assim que possível.
+					</div>
+				</div>
+			@endif
         </div>
       </div>
     </div>

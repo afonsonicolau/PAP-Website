@@ -88,6 +88,7 @@ class CartController extends Controller
                     'quantity' => $quantity,
                     'product_id' => $product->id,
                     'price' => $product->price,
+                    'iva' => $product->iva,
                     'bought' => 0,
                 ]);
             }
