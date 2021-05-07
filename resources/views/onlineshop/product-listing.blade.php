@@ -32,7 +32,7 @@
 									<p class="ps-shoe__categories">
 										<a href="#">{{ $product->collection->collection }},	
 										</a><a href="#">{{ $product->color }}</a></p><span class="ps-shoe__price">
-										{{ $product->price}}€</span>
+										{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</span>
 								</div>
 								</div>
 							</div>

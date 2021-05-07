@@ -110,11 +110,11 @@
 													<tr>
 														<td><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" height=100 width=100 alt=""></td>
 														<td><div class="pt-45">{{ $cart->product->type->type }} x{{ $cart->quantity }}</td>
-														<td><div class="pt-45">{{ ($cart->quantity * $cart->price)}}€</div></td>
+														<td><div class="pt-45">{{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</div></td>
 													</tr>	
 													@php
 														array_push($cartIds, $cart->id);
-														$total += $cart->quantity * $cart->price;
+														$total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity;
 													@endphp
 												@endif
 											@endforeach
@@ -147,11 +147,13 @@
 										<input class="form-control" type="radio" name="payment" id="rdo03" onclick="paymentMethod('Cartão de Débito')" value="Cartão de Débito">
 										<label for="rdo03">Cartão Débito</label>
 									</div>
+									
 									<input type="hidden" name="total_price" id="total_price" value="{{ $total }}">
 									<input type="hidden" name="delivery_id" id="delivery_id">
 									<input type="hidden" name="billing_id" id="billing_id">
 									<input type="hidden" name="cart_ids" id="cart_ids" value="{{ json_encode($cartIds) }}">
 									<input type="hidden" name="payment_method" id="payment_method">
+
 									<button type="submit" class="ps-btn ps-btn--fullwidth" id="check_radio">Efetuar Compra<i class="ps-icon-next"></i></button>
 								</div>
 							</footer>

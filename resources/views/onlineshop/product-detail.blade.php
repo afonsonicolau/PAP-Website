@@ -38,7 +38,7 @@
                 </div>--}}
                 <h1>{{ $product->type->type }}</h1>
                 <p class="ps-product__category"><a href="#"> {{ $product->collection->collection }}</a>,<a href="#"> {{ $product->color }}</a></p>
-                <h3 class="ps-product__price">{{ $product->price}}€</h3>
+                <h3 class="ps-product__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</h3>
                 <div class="ps-product__block ps-product__quickview">
                     <h4>Breve Avaliação</h4>
                     <p>Não dinâmico</p>

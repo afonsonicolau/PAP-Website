@@ -123,27 +123,23 @@
 
                                     @foreach ($carts as $cart)
                                         @if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
-                                            @foreach ($products as $product)
-                                                @if ($cart->product_id == $product->id)
-                                                    <div class="ps-cart-item" id="cartItem_{{ $cart->id }}">
-                                                        <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $product->id) }}"></a><img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""></div>
-                                                        <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $product->id) }}">{{$product->type->type}}</a>
-                                                            <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $cart->id }}">{{ $cart->quantity }}</i></span>
-                                                                <br><span class="pr-10">Total:<i id="cartItemTotal_{{ $cart->id }}"> {{ ($cart->quantity * $product->price)}}€</i></span></p>
-                                                        </div>
-                                                    </div>
-                                                    @php
-                                                        $total += ($cart->quantity * $product->price);
-                                                        $totalQuantity += $cart->quantity;
-                                                    @endphp
-                                                @endif
-                                            @endforeach  
+                                            <div class="ps-cart-item" id="cartItem_{{ $cart->id }}">
+                                                <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $cart->product_id) }}"></a><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" alt=""></div>
+                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $cart->product_id) }}">{{$cart->product->type->type}}</a>
+                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $cart->id }}">{{ $cart->quantity }}</i></span>
+                                                        <br><span class="pr-15">Total:<i id="cartItemTotal_{{ $cart->id }}"> {{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</i></span></p>
+                                                </div>
+                                            </div>
+                                            @php
+                                                $total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity;
+                                                $totalQuantity += $cart->quantity;
+                                            @endphp
                                         @endif
                                     @endforeach
                                 </div>
                                 <!-- Cart total -->
                                 <div class="ps-cart__total">
-                                    <p>Quantidade total:<span id="cartQuantityTotal">{{ $totalQuantity }} produtos</span></p>
+                                    <p>Quantidade total:<span id="cartQuantityTotal">{{ $totalQuantity }} produto(s)</span></p>
                                     <p>Preço total:<span id="cartPriceTotal">{{ $total }}€</span></p>
                                 </div>
                                 @if ($totalQuantity > 0)
@@ -286,6 +282,7 @@
 		<link rel="stylesheet" href="/assets/css/validate.css">
         <!-- Custom Script -->
         <script>
+            // Delete item from cart
             function cartDelete(cartId, productPrice)
             {
                 Swal.fire({
@@ -308,20 +305,19 @@
                             data: {'_token': '{{ csrf_token() }}'},
                             datatype: "html",
                             success: function (response) {
-                                let total = $("#productsTotal").text()
-                                total = total.replace("€", "")   
+                                let total = $("#productsTotal").text();
                                 let totalCartQuantity = $("#cartQuantityTotal").text();
-                                totalCartQuantity = totalCartQuantity.replace(" produtos", "") 
-
                                 let cartQuantity = $(`#cartQuantity_${cartId}`).val();
                                 let quantity = parseInt(cartQuantity);
+
+                                total = total.replace("€", "");
+                                totalCartQuantity = totalCartQuantity.replace(" produtos", "") ;
 
                                 $("#cartQuantityTotal").text(totalCartQuantity - quantity + " produtos");
                                 $(`#productsTotal`).text(total - productPrice * quantity + "€");
                                 $(`#cartPriceTotal`).text(total - productPrice * quantity + "€");
                                 $(`#cartItem_${cartId}`).remove();
                                 $(`#cart_${cartId}`).remove();
-                                
                         
                                 Swal.fire(
                                     'Produto Removido!',
@@ -341,6 +337,7 @@
                 })
             };
 
+            //  -- Filters --
             function productsFilter(collectionId, typeId, priceRange)
             {
                 $.ajax({
@@ -415,7 +412,9 @@
 
                 productsFilter(collectionId, typeId, priceRange);
             };            
+            // -- Filters --
 
+            // When change cart quantity, change all it's prices
             function changeCartQuantity(cartId, action, price)
             {
                 $("#cartQuantity_" + cartId).removeClass('form-validate-invalid');
@@ -441,26 +440,29 @@
                             dataType: "json",
                             success: function () {
                                 let totalPrice =  $(`#productsTotal`).text(); totalPrice = totalPrice.replace("€", "");
-                                totalPrice = Number(totalPrice);
                                 let totalCartQuantity = $("#cartQuantityTotal").text(); 
+
+                                totalPrice = Number(totalPrice);
                                 totalCartQuantity = totalCartQuantity.replace(" produtos", "");
                                 totalCartQuantity = parseInt(totalCartQuantity);
 
                                 if(action == "minus")
                                 {
                                     totalCartQuantity--;
+                                    totalPrice = (totalPrice - price).toFixed(2)
                                     $("#cartQuantity_" + cartId).val(dataNumber); 
 
-                                    $(`#productsTotal`).text(totalPrice - price + "€");
-                                    $(`#cartPriceTotal`).text(totalPrice - price + "€");
+                                    $(`#productsTotal`).text(totalPrice + "€");
+                                    $(`#cartPriceTotal`).text(totalPrice + "€");
                                 }
                                 else if(action == "plus")
                                 {
                                     totalCartQuantity++;
+                                    totalPrice = (totalPrice + price).toFixed(2)
                                     $("#cartQuantity_" + cartId).val(dataNumber); 
 
-                                    $(`#productsTotal`).text(totalPrice + price + "€");
-                                    $(`#cartPriceTotal`).text(totalPrice + price + "€");
+                                    $(`#productsTotal`).text(totalPrice + "€");
+                                    $(`#cartPriceTotal`).text(totalPrice + "€");
                                 }
 
                                 $("#cartQuantityTotal").text(totalCartQuantity + " produtos"); 
@@ -484,6 +486,7 @@
                 }
             }
 
+            // Change addresses numbers
             $("#deliveryBilling").on("click", function()
             {
                 let checked = $("input[id='deliveryBilling']:checked").length;
@@ -513,6 +516,7 @@
                 $("#errorMessage").addClass("hidden");
             });
 
+            // Select addresses
             function selectAddress(addressId, type)
             {
                 if (type == "Billing")
@@ -544,6 +548,7 @@
                 $('footer').removeClass("hidden");
             }
 
+            // Checks if all fields required are filled
             $("#check_radio").on("click", function(e)
             {
                 let getRadioChecked = $('input[name="payment"]:checked');
@@ -557,6 +562,7 @@
                 }
             });
 
+            // Change payment method
             function paymentMethod(method)
             {
                 $("#payment_method").val(method);

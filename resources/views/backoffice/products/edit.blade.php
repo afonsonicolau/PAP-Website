@@ -60,15 +60,13 @@
 						<div class="form-group">
 							<label for="cor">Cor</label>
 							<select class="form-control form-control-lg" id="cor" name="cor">
-			
-									@foreach (json_decode($product->collection->colors) as $color)
-										@if ($product->color == $color)
-											<option value="{{ $color }}" selected>{{ $color }}</option>
-										@else
-											<option value="{{ $color }}">{{ $color }}</option>
-										@endif
-									@endforeach
-
+								@foreach (json_decode($product->collection->colors) as $color)
+									@if ($product->color == $color)
+										<option value="{{ $color }}" selected>{{ $color }}</option>
+									@else
+										<option value="{{ $color }}">{{ $color }}</option>
+									@endif
+								@endforeach
 							</select>
 						</div>
 

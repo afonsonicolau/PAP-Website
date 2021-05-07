@@ -23,27 +23,23 @@
 					@foreach ($carts as $cart)
 						@if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
 							<tr id="cart_{{ $cart->id }}">
-								@foreach ($products as $product)
-									@if ($product->id == $cart->product_id)
-										<td><img src="/storage/thumbnail/{{ $product->thumbnail }}" height=100 width=100 alt=""></td>
-										<td>{{ $product->type->type }}</td>
-										<td>{{ $product->price }}€</td>
-										<td>
-											<div class="form-group--number">
-												<button class="minus" onclick="changeCartQuantity({{ $cart->id }}, 'minus', {{ $product->price }})"><span>-</span></button>
-												<input class="form-control" id="cartQuantity_{{ $cart->id }}" type="number" min="1" value="{{ $cart->quantity }}" disabled>
-												<button class="plus" onclick="changeCartQuantity({{ $cart->id }}, 'plus', {{ $product->price }})"><span>+</span></button>
-											</div>
-										</td>
-										<td><p id="productPriceTotal_{{ $cart->id }}">{{($cart->quantity * $product->price)}}€</p></td>
-										@php
-											$total += $cart->quantity * $product->price
-										@endphp
-										<td>
-											<div class="ps-remove" onclick="cartDelete({{ $cart->id }}, {{ $product->price }})"></div>
-										</td>
-									@endif
-								@endforeach	
+								<td><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" height=100 width=100 alt=""></td>
+								<td>{{ $cart->product->type->type }}</td>
+								<td>{{ round($cart->price / ((100 - $cart->iva)/100), 2) }}€</td>
+								<td>
+									<div class="form-group--number">
+										<button class="minus" onclick="changeCartQuantity({{ $cart->id }}, 'minus', {{ round($cart->price / ((100 - $cart->iva)/100), 2) }})"><span>-</span></button>
+										<input class="form-control" id="cartQuantity_{{ $cart->id }}" type="number" min="1" value="{{ $cart->quantity }}" disabled>
+										<button class="plus" onclick="changeCartQuantity({{ $cart->id }}, 'plus', {{ round($cart->price / ((100 - $cart->iva)/100), 2) }})"><span>+</span></button>
+									</div>
+								</td>
+								<td><p id="productPriceTotal_{{ $cart->id }}">{{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity}}€</p></td>
+								@php
+									$total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity
+								@endphp
+								<td>
+									<div class="ps-remove" onclick="cartDelete({{ $cart->id }}, {{ $cart->price }})"></div>
+								</td>
 							</tr>
 						@endif
 					@endforeach
