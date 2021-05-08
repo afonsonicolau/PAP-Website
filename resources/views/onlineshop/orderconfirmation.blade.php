@@ -2,9 +2,9 @@
 
 @section('content')
 
-    <div class="pl-100">
-        <p>A encomenda #{{ $orderNumber }} foi registada e encontra-se neste momento em processamento.</p> 
-        <p>Consulte o seu e-mail para verificar mais detalhes</p>
+    <div class="container order-div">
+        <h2>A encomenda #{{ $order->order_number }} foi registada e encontra-se neste momento em processamento.</h2>
+        <h4>Verifique o seu e-mail para ver mais detalhes</h4>
     </div>
 	
   

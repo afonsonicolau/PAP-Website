@@ -77,9 +77,8 @@ class OrderController extends Controller
             $carts = Cart::all();
             $products = Product::all();
             $total = 0;
-            $orderNumber = $order->order_number;
 
-            return view('onlineshop.orderconfirmation', compact('carts', 'products', 'total', 'orderNumber'));
+            return view('onlineshop.orderconfirmation', compact('carts', 'products', 'total', 'order'));
         }
         else
         {

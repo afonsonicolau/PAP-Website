@@ -36,6 +36,8 @@
         <link rel="stylesheet" href="/assets/onlineshop/revolution/css/navigation.css">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/assets/onlineshop/css/style.css">
+        <!-- Order Confirmation CSS -->
+        <link rel="stylesheet" href="/assets/css/orderconfirmation.css">
     </head>
     <body class="ps-loading">
         <div class="header--sidebar"></div>
