@@ -22,9 +22,11 @@ class BillingController extends Controller
     {
         $carts = Cart::all();
         $products = Product::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+
         $total = 0;
 
-        return view('onlineshop.profile.addresses.create', compact('carts', 'products', 'total'));
+        return view('onlineshop.profile.addresses.create', compact('carts', 'products', 'total', 'cartCount'));
     }
 
     public function addresses_store(Request $request, $userId)
@@ -88,12 +90,12 @@ class BillingController extends Controller
             $countries = array('Portugal', 'Espanha', 'França');
             $types = array('1' => 'Faturação', '2' => 'Envio', '3' => 'Ambas');
 
-            
+            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
             $carts = Cart::all();
             $products = Product::all();
             $total = 0;
 
-            return view('onlineshop.profile.addresses.edit', compact('carts', 'products', 'total', 'address', 'countries', 'types'));
+            return view('onlineshop.profile.addresses.edit', compact('carts', 'products', 'total', 'address', 'countries', 'types', 'cartCount'));
         }
         else
         {

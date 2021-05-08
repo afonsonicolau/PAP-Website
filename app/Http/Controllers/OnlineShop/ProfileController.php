@@ -22,18 +22,22 @@ class ProfileController extends Controller
         $addresses = Address::all();
         $carts = Cart::all();
         $products = Product::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+
         $total = 0;
 
-        return view('onlineshop.profile.index', compact('carts', 'products', 'total', 'addresses'));
+        return view('onlineshop.profile.index', compact('carts', 'products', 'total', 'addresses', 'cartCount'));
     }
 
     public function personal_index()
     {
         $carts = Cart::all();
         $products = Product::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+
         $total = 0;
 
-        return view('onlineshop.profile.personal', compact('carts', 'products', 'total'));
+        return view('onlineshop.profile.personal', compact('carts', 'products', 'total', 'cartCount'));
     }
 
     // Addresses
@@ -41,21 +45,23 @@ class ProfileController extends Controller
     {
         $carts = Cart::all();
         $products = Product::all();
-        $total = 0;
-
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
         $addresses = Address::all();
 
-        return view('onlineshop.profile.addresses.addresses', compact('carts', 'products', 'total', 'addresses'));
+        $total = 0;
+
+        return view('onlineshop.profile.addresses.addresses', compact('carts', 'products', 'total', 'addresses', 'cartCount'));
     }
 
     public function orders_index()
     {
         $carts = Cart::all();
         $products = Product::all();
-        $total = 0;
-
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
         $orders = Order::all();
 
-        return view('onlineshop.profile.orders.orders', compact('carts', 'products', 'total', 'orders'));
+        $total = 0;
+
+        return view('onlineshop.profile.orders.orders', compact('carts', 'products', 'total', 'orders', 'cartCount'));
     }
 }

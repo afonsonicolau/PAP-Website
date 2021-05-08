@@ -18,17 +18,21 @@ class ShopController extends Controller
     {
         $carts = Cart::all();
         $products = Product::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+        
         $i = 0;
         $totalQuantity = 0;
         $total = 0;
 
-        return view('onlineshop.index', compact('products', 'i', 'carts', 'total', 'totalQuantity'));
+        return view('onlineshop.index', compact('products', 'i', 'carts', 'total', 'totalQuantity', 'cartCount'));
     }
 
     public function product_listing_index()
     {
         $carts = Cart::all();
         $products = Product::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+
         $i = 0;
         $totalQuantity = 0;
         $total = 0;
@@ -47,7 +51,7 @@ class ShopController extends Controller
         $productList = Product::latest()->paginate(2);
         $max = Product::max('price');
 
-        return view('onlineshop.product-listing', compact('products', 'i', 'carts', 'total', 'totalQuantity', 'productList', 'collections', 'types', 'carts', 'max', 'collectionsDistinct', 'typesDistinct'));
+        return view('onlineshop.product-listing', compact('products', 'i', 'carts', 'total', 'totalQuantity', 'productList', 'collections', 'types', 'carts', 'max', 'collectionsDistinct', 'typesDistinct', 'cartCount'));
     }
 
     public function product_filter($collection, $type, $priceRange)
@@ -78,7 +82,8 @@ class ShopController extends Controller
         $product = Product::find($id);
         $products = Product::all();
         $carts = Cart::all();
+        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
 
-        return view('onlineshop.product-detail', compact('product', 'products', 'carts'));
+        return view('onlineshop.product-detail', compact('product', 'products', 'carts', 'cartCount'));
     }
 }

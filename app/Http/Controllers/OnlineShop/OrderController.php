@@ -76,9 +76,10 @@ class OrderController extends Controller
         {
             $carts = Cart::all();
             $products = Product::all();
+            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
             $total = 0;
 
-            return view('onlineshop.orderconfirmation', compact('carts', 'products', 'total', 'order'));
+            return view('onlineshop.orderconfirmation', compact('carts', 'products', 'total', 'order', 'cartCount'));
         }
         else
         {
@@ -93,10 +94,11 @@ class OrderController extends Controller
         if(auth()->user()->id == $order->user_id)
         {
             $carts = Cart::all();
+            $cartCount = Cart::all()->count();
             $addresses = Address::all();
             $total = 0;
 
-            return view('onlineshop.profile.orders.show', compact('carts', 'total', 'order', 'addresses'));
+            return view('onlineshop.profile.orders.show', compact('carts', 'total', 'order', 'addresses', 'cartCount'));
         }
         else
         {

@@ -15,7 +15,7 @@ class CartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','verified']);    
+        $this->middleware(['auth', 'verified']);    
     }
 
     public function index()
@@ -28,10 +28,8 @@ class CartController extends Controller
 
         if($cartCheck != null)
         {
-            $carts = Cart::all();
-            $products = Product::all();
-            $total = 0;
-            return view('onlineshop.cart', compact('carts', 'products', 'total'));
+            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+            return view('onlineshop.cart', compact('carts', 'products', 'total', 'cartCount'));
         }
         else
         {
@@ -50,9 +48,10 @@ class CartController extends Controller
         if ($cartCheck != null)
         {   
             $addresses = Address::all();
+            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
             $cartIds = "";
 
-            return view('onlineshop.checkout', compact('carts', 'products', 'total', 'addresses', 'cartIds'));
+            return view('onlineshop.checkout', compact('carts', 'products', 'total', 'addresses', 'cartIds', 'cartCount'));
         }
         else
         {
