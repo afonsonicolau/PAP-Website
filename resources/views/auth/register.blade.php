@@ -13,61 +13,55 @@
                         <div class="form-group">
                             <label class="label" for="username">Nome do Utilizador</label>
                             <div class="input-group">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" name="username" autocomplete="username" placeholder="O seu nome" autofocus>
+                                <input type="text" class="form-control" value="{{ old('username') }}" name="username" id="username" autocomplete="username" placeholder="O seu nome de utilizador" autofocus>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>
                                 </div>
-                                <div>
-                                    @error('username')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                    @enderror
-                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            @error('username')
+							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('username')}}</p>
+                            @enderror
+                        </div>  
                         <!-- Email -->
                         <div class="form-group">
                             <label class="label" for="email">E-mail</label>
                             <div class="input-group">
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" name="email" autocomplete="email" placeholder="exemplo@exemplo.com">
+                                <input type="email" class="form-control" value="{{ old('email') }}" name="email" id="email" autocomplete="email" placeholder="exemplo@exemplo.com">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>
                                 </div>
-                                <div>
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            @error('email')
+							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('email')}}</p>
+                            @enderror
+                        </div>  
                         <!-- Password -->
                         <div class="form-group">
                             <label class="label" for="password">Palavra-passe</label>
                             <div class="input-group">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password" placeholder="********">
+                                <input type="password" class="form-control" name="password" id="password" autocomplete="new-password" placeholder="********">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>
                                 </div>
-                                <div>
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>  
                             </div>
                         </div>
+                        <div class="form-group">
+                            @error('password')
+							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('password')}}</p>
+                            @enderror
+                        </div>  
                         <!-- Confirm Password -->
                         <div class="form-group">
                             <label class="label" for="password-confirm">Confirmar Palavra-passe</label>
                             <div class="input-group">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" placeholder="********">
+                                <input type="password" class="form-control" name="password_confirmation" id="password-confirm" autocomplete="new-password" placeholder="********">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>
@@ -77,9 +71,14 @@
                         <div class="form-group d-flex justify-content-center">
                             <div class="form-check form-check-flat mt-0">
                             <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" checked>Concordo com os Termos e Condições</label>
+                                <input type="checkbox" name="termos" id="termos" class="form-check-input">Concordo com os Termos e Condições</label>
                             </div>
                         </div>
+                        <div class="form-group">
+                            @error('termos')
+							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('termos')}}</p>
+                            @enderror
+                        </div> 
                         <div class="form-group">
                             <button type="submit" class="btn btn-success submit-btn btn-block">Registar</button>
                         </div>

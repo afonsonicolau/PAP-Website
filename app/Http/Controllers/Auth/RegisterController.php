@@ -9,10 +9,11 @@ use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Notifications\CustomVerifyEmailNotification;
 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Redirect;
 
 class RegisterController extends Controller
 {
@@ -55,9 +56,17 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'termos' => 'required',
+        ],
+        [
+            'username.*' => 'Insira um nome de utilizador válido',
+            'email.unique' => 'Este endereço de e-mail já se encontra em uso',
+            'email.*' => 'Insira um e-mail válido',
+            'password.*' => 'Insira uma palavra-passe válida',
+            'termos.*' => 'Para continuar assinale o "Concordo com os Termos e Condições"',
         ]);
     }
 
@@ -69,13 +78,13 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        User::create([
+        return User::create([
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        Mail::to($data['email'])->notify(new CustomVerifyEmailNotification());
+        
+        Notification::send($data['email'], new CustomVerifyEmailNotification());
 
         return User::latest()->first();
     }
