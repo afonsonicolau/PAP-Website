@@ -294,11 +294,23 @@ class ProductsController extends Controller
                     'images' => $imageNames,
                 ]);
 
-                Cart::where('product_id', $id)->where('bought', 0)->update([
-                    'price' => $request->preço,
-                    'iva' => $request->iva,
-                ]);
+                $cartItems = CartItems::where('product_id', $id);
 
+                foreach($cartItems as $item)
+                {
+                    $cart = Cart::find($item->cart_id);
+
+                    if($cart != null && $cart->bought == 0)
+                    {
+                        $cartItems->where('cart_id', $cart->id);
+
+                        $cartItems->update([
+                            'price' => $request->preço,
+                            'iva' => $request->iva,
+                        ]);
+                    }
+                }
+                
                 return redirect(route('products.index'));
             }
         } 

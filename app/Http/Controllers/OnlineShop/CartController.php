@@ -4,6 +4,7 @@ namespace App\Http\Controllers\OnlineShop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\CartItems;
 use App\Models\Product;
 use App\Models\Address;
 
@@ -72,9 +73,12 @@ class CartController extends Controller
         else
         {
             $quantity = $request->quantidade;
-            $cartCheck = Cart::where('user_id', $userId)->where('product_id', $request->product)->latest()->first();
-            
-            if ($cartCheck != null && $cartCheck->exists() && $cartCheck->bought == 0) 
+            $product = $productId;
+
+            $cartId = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
+            $cartCheck = CartItems::where('cart_id', $cartId)->where('product_id', $productId)->latest()->first();
+
+            if ($cartCheck != null && $cartCheck->exists()) 
             {
                 $cartCheck->increment('quantity', $quantity);
             }
@@ -84,11 +88,16 @@ class CartController extends Controller
 
                 Cart::create([
                     'user_id' => $userId,
+                ]);
+
+                $cartId = Cart::where('user_id', $userId)->latest()->first();
+
+                CartItems::create([
+                    'product_id' => $productId,
+                    'cart_id' => $cartId,
                     'quantity' => $quantity,
-                    'product_id' => $product->id,
                     'price' => $product->price,
                     'iva' => $product->iva,
-                    'bought' => 0,
                 ]);
             }
             
@@ -98,7 +107,7 @@ class CartController extends Controller
 
     public function update($cartId, $quantity)
     {
-        $cart = Cart::find($cartId);
+        $cart = CartItems::where('cart_id', $cartId);
 
         if($quantity >= 1 && is_numeric($quantity))
         {
@@ -112,8 +121,10 @@ class CartController extends Controller
 
     public function destroy($cartId)
     {
+        $cartItems = CartItems::where('cart_id', $cartId);
         $cart = Cart::find($cartId);
 
+        $cartItems->delete();
         $cart->delete();
 
         return true;

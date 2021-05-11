@@ -186,7 +186,7 @@
             <div class="ps-section__header mb-50">
                 <div class="row">
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 ">
-                        <h3 class="ps-section__title" data-mask="Produtos">- Que também pode gostar</h3>
+                        <h3 class="ps-section__title" data-mask="Produtos">- Produtos parecidos</h3>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                         <div class="ps-owl-actions"><a class="ps-prev" href="#"><i class="ps-icon-arrow-right"></i>Prev</a><a class="ps-next" href="#">Next<i class="ps-icon-arrow-left"></i></a></div>

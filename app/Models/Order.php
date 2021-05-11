@@ -26,4 +26,9 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
+    
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
 }

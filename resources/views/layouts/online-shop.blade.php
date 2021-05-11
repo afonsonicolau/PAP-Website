@@ -114,7 +114,7 @@
                         <button><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
-                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"><span><i>{{ $cartCount }}</i></span><i class="ps-icon-shopping-cart"></i></a>
+                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartCount > 0) <span><i>{{ $cartCount }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
                             <div class="ps-cart__listing">
                                 <div class="ps-cart__content">
                                     <!-- Cart item -->

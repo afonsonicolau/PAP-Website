@@ -26,7 +26,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
             'delivery_id' => 'required',
             'billing_id' => 'required',
-            'cart_ids' => 'required',
+            'cart_id' => 'required',
             'payment_method' => 'required',
             'delivery_method' => 'required',
             'total_price' => 'required',
@@ -40,10 +40,10 @@ class OrderController extends Controller
         {
             $delivery = Address::find($request->delivery_id);
             $billing = Address::find($request->billing_id);
-            $cartIds = $request->cart_ids;
+            $cartId = $request->cart_id;
 
             Order::create([
-                'cart_ids' => $cartIds,
+                'cart_id' => $cartId,
                 'user_id' => $delivery->user_id,
                 'delivery_id' => $delivery->id,
                 'billing_id' => $billing->id,
@@ -62,17 +62,13 @@ class OrderController extends Controller
                 'used' => 1,
             ]);
 
-            foreach(json_decode($cartIds) as $cartId)
-            {
-                Cart::find($cartId)->update([
-                    'bought' => 1,
-                ]);
-            }
+            Cart::find($cartId)->update([
+                'bought' => 1,
+            ]);
            
             $order = Order::latest()->first();
-            $carts = Cart::all();
 
-            Mail::to($order->user->email)->send(new OrderEmail($order, $carts, $delivery, $billing));
+            Mail::to($order->user->email)->send(new OrderEmail($order, $delivery, $billing));
 
             return redirect(route('online-shop.order-confirmation', $order->order_number));
         }

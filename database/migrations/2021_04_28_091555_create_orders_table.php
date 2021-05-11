@@ -10,7 +10,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id('order_number');
-            $table->string('cart_ids');
+            $table->unsignedBigInteger('cart_id')->index();
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('delivery_id')->index();
             $table->unsignedBigInteger('billing_id')->index();

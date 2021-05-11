@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCartItemsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('cart_items', function (Blueprint $table) {
@@ -23,11 +18,6 @@ class CreateCartItemsTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('cart_items');
