@@ -12,8 +12,6 @@ use App\Notifications\CustomVerifyEmailNotification;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Redirect;
 
 class RegisterController extends Controller
 {
@@ -65,6 +63,7 @@ class RegisterController extends Controller
             'username.*' => 'Insira um nome de utilizador válido',
             'email.unique' => 'Este endereço de e-mail já se encontra em uso',
             'email.*' => 'Insira um e-mail válido',
+            'password.confirmed' => 'Palavra-passe não correspondente.',
             'password.*' => 'Insira uma palavra-passe válida',
             'termos.*' => 'Para continuar assinale o "Concordo com os Termos e Condições"',
         ]);
