@@ -129,7 +129,7 @@
                                                 <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $cart->product_id) }}"></a><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" alt=""></div>
                                                 <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $cart->product_id) }}">{{$cart->product->type->type}}</a>
                                                     <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $cart->id }}">{{ $cart->quantity }}</i></span>
-                                                        <br><span class="pr-15">Total:<i id="cartItemTotal_{{ $cart->id }}"> {{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</i></span></p>
+                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $cart->id }}"> {{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</i></span></p>
                                                 </div>
                                             </div>
                                             @php

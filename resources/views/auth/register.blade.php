@@ -52,11 +52,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            @error('password')
-							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('password')}}</p>
-                            @enderror
-                        </div>  
                         <!-- Confirm Password -->
                         <div class="form-group">
                             <label class="label" for="password-confirm">Confirmar Palavra-passe</label>
@@ -68,6 +63,11 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            @error('password')
+							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('password')}}</p>
+                            @enderror
+                        </div>  
                         <div class="form-group d-flex justify-content-center">
                             <div class="form-check form-check-flat mt-0">
                             <label class="form-check-label">
