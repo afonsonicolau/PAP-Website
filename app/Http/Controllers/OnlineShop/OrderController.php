@@ -7,10 +7,12 @@ use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Order;
+use App\Mail\OrderEmail;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -36,14 +38,15 @@ class OrderController extends Controller
         }
         else
         {
-            $address = Address::find($request->delivery_id);
+            $delivery = Address::find($request->delivery_id);
+            $billing = Address::find($request->billing_id);
             $cartIds = $request->cart_ids;
 
             Order::create([
                 'cart_ids' => $cartIds,
-                'user_id' => $address->user_id,
-                'delivery_id' => $request->delivery_id,
-                'billing_id' => $request->billing_id,
+                'user_id' => $delivery->user_id,
+                'delivery_id' => $delivery->id,
+                'billing_id' => $billing->id,
                 'additional' => $request->additional,
                 'date_bought' => date('Y-m-d'),
                 'payment_method' => $request->payment_method,
@@ -51,7 +54,11 @@ class OrderController extends Controller
                 'total_price' => $request->total_price,
             ]);
 
-            $address->update([
+            $delivery->update([
+                'used' => 1,
+            ]);
+
+            $billing->update([
                 'used' => 1,
             ]);
 
@@ -63,6 +70,9 @@ class OrderController extends Controller
             }
            
             $order = Order::latest()->first();
+            $carts = Cart::all();
+
+            Mail::to($order->user->email)->send(new OrderEmail($order, $carts, $delivery, $billing));
 
             return redirect(route('online-shop.order-confirmation', $order->order_number));
         }
