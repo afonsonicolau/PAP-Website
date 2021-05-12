@@ -68,12 +68,8 @@
 			<div class="ps-widget__content">
 				<ul class="ps-list--checked">
 					<li class="collection_filter current" id="collection_none"><a  href="#">Todas as Coleções</a></li>
-					@foreach ($collections as $collection)
-						@foreach($collectionsDistinct as $distinct)
-							@if ($distinct->collection_id == $collection->id)
-								<li class="collection_filter" id="collection_{{ $collection->id }}"><a href="#">{{ $collection->collection }}</a></li>
-							@endif
-						@endforeach
+					@foreach($collectionsDistinct as $collection)
+						<li class="collection_filter" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
 					@endforeach
 				</ul>
 			</div>
@@ -97,12 +93,8 @@
 			<div class="ps-widget__content">
 				<ul class="ps-list--checked">
 					<li class="type_filter current" id="type_none"><a href="#">Todos os Tipos de Produtos</a></li>
-					@foreach ($types as $type)
-						@foreach($typesDistinct as $distinct)
-							@if ($distinct->type_id == $type->id)
-								<li class="type_filter" id="type_{{ $type->id }}"><a href="#">{{ $type->type }}</a></li>
-							@endif
-						@endforeach
+					@foreach($typesDistinct as $distinct)
+						<li class="type_filter" id="type_{{ $distinct->type->id }}"><a href="#">{{ $distinct->type->type }}</a></li>
 					@endforeach
 				</ul>
 			</div>

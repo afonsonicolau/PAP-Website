@@ -114,7 +114,7 @@
                         <button><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
-                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartCount > 0) <span><i>{{ $cartCount }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
+                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartItems->count() > 0) <span><i>{{ $cartItems->count() }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
                             <div class="ps-cart__listing">
                                 <div class="ps-cart__content">
                                     <!-- Cart item -->
@@ -123,21 +123,22 @@
                                         $totalQuantity = 0;
                                     @endphp
 
-                                    @foreach ($carts as $cart)
-                                        @if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
-                                            <div class="ps-cart-item" id="cartItem_{{ $cart->id }}">
-                                                <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $cart->product_id) }}"></a><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" alt=""></div>
-                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $cart->product_id) }}">{{$cart->product->type->type}}</a>
-                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $cart->id }}">{{ $cart->quantity }}</i></span>
-                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $cart->id }}"> {{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</i></span></p>
+                                    @if ($cartItems != "")
+                                        @foreach ($cartItems as $item)
+                                        
+                                            <div class="ps-cart-item" id="cartItem_{{ $item->cart_id }}">
+                                                <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
+                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{$item->product->type->type}}</a>
+                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->cart_id }}">{{ $item->quantity }}</i></span>
+                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->cart_id }}"> {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</i></span></p>
                                                 </div>
                                             </div>
                                             @php
-                                                $total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity;
-                                                $totalQuantity += $cart->quantity;
+                                                $total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
+                                                $totalQuantity += $item->quantity;
                                             @endphp
-                                        @endif
-                                    @endforeach
+                                        @endforeach
+                                    @endif
                                 </div>
                                 <!-- Cart total -->
                                 <div class="ps-cart__total">

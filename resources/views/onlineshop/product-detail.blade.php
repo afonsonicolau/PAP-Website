@@ -79,12 +79,15 @@
                 
                 </div>
                 @if (auth()->user()) 
-                    <form class="forms-sample" method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
 						@csrf
                         <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" data-validate="yes" data-min="1" data-max="10" data-type="int">
+                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 2em;" data-validate="yes" data-min="1" data-max="10" data-type="int">
+                            
                         </div>
-                        <div class="ps-product__shopping"><button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button></div>
+                        <div class="form-group">
+                            <button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button>
+                        </div>
                     </form>
                 @else
                     <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('login') }}">Inicie Sessão<i class="ps-icon-next"></i></a>

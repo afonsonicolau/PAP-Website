@@ -5,6 +5,7 @@ namespace App\Http\Controllers\OnlineShop;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\CartItems;
 use App\Models\Product;
 use App\Models\Order;
 use App\Mail\OrderEmail;

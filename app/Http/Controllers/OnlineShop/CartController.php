@@ -85,16 +85,16 @@ class CartController extends Controller
             else
             {
                 $product = Product::find($productId);
-
+                
                 Cart::create([
                     'user_id' => $userId,
                 ]);
 
-                $cartId = Cart::where('user_id', $userId)->latest()->first();
-
+                $cart = Cart::where('user_id', $userId)->latest()->first();
+                
                 CartItems::create([
                     'product_id' => $productId,
-                    'cart_id' => $cartId,
+                    'cart_id' => $cart->id,
                     'quantity' => $quantity,
                     'price' => $product->price,
                     'iva' => $product->iva,

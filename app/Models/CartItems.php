@@ -9,6 +9,9 @@ class CartItems extends Model
 {
     use HasFactory;
 
+    // Tells Laravel it doesn't need it's security data related
+    protected $guarded = [];
+    
     public function cart()
     {
         return $this->hasMany(Cart::class);
@@ -16,6 +19,6 @@ class CartItems extends Model
 
     public function product()
     {
-        return $this->hasMany(Cart::class);
+        return $this->belongsTo(Product::class);
     }
 }

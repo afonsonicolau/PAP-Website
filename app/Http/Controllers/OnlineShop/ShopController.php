@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Collection;
 use App\Models\ProductTypes;
 use App\Models\Cart;
+use App\Models\CartItems;
 
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
@@ -16,42 +17,43 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $carts = Cart::all();
+        $cart = "";
+        $cartItems = "";
         $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-        
-        $i = 0;
-        $totalQuantity = 0;
-        $total = 0;
 
-        return view('onlineshop.index', compact('products', 'i', 'carts', 'total', 'totalQuantity', 'cartCount'));
+        if(auth()->user())
+        {
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
+        }
+        
+        return view('onlineshop.index', compact('products', 'cart', 'cartItems'));
     }
 
     public function product_listing_index()
     {
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-
-        $i = 0;
-        $totalQuantity = 0;
-        $total = 0;
-
+        $cart = "";
+        $cartItems = "";
         $collectionsDistinct = "";
         $typesDistinct = "";
-        $collections = Collection::all();
-        $types = ProductTypes::all();
+        $productList = Product::all();
+        $max = Product::max('price');
 
-        foreach($products as $product)
+        if(auth()->user())
         {
-            $typesDistinct = Product::distinct()->get('type_id');
-            $collectionsDistinct = Product::distinct()->get('collection_id');
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
+        }
+
+        foreach($productList as $product)
+        {
+            $typesDistinct = Product::distinct('type_id')->get();
+            $collectionsDistinct = Product::distinct('collection_id')->get();
         }
 
         $productList = Product::latest()->paginate(2);
-        $max = Product::max('price');
-
-        return view('onlineshop.product-listing', compact('products', 'i', 'carts', 'total', 'totalQuantity', 'productList', 'collections', 'types', 'carts', 'max', 'collectionsDistinct', 'typesDistinct', 'cartCount'));
+        
+        return view('onlineshop.product-listing', compact('cart', 'cartItems','productList', 'max', 'collectionsDistinct', 'typesDistinct'));
     }
 
     public function product_filter($collection, $type, $priceRange)
@@ -80,10 +82,15 @@ class ShopController extends Controller
     public function product_detail_index($id)
     {
         $product = Product::find($id);
-        $products = Product::all();
-        $carts = Cart::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+        $cart = "";
+        $cartItems = "";
 
-        return view('onlineshop.product-detail', compact('product', 'products', 'carts', 'cartCount'));
+        if(auth()->user())
+        {
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
+        }
+
+        return view('onlineshop.product-detail', compact('product', 'cart', 'cartItems'));
     }
 }

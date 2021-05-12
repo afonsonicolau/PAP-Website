@@ -17,4 +17,9 @@ class WelcomeController extends Controller
 
         return view('welcome', compact('products', 'i'));
     }
+
+    public function terms()
+    {
+        return view('terms');
+    }
 }
