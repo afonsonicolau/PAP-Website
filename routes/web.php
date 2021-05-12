@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
+Route::get('/terms', [App\Http\Controllers\WelcomeController::class, 'terms'])->name('terms');
 
 Auth::routes(['verify' => true]);
 

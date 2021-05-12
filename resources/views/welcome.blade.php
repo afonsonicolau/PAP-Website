@@ -2,48 +2,6 @@
 
 @section('content')
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container">
-      <div class="header-container d-flex align-items-center justify-content-between">
-        <div class="logo">
-          <h1 class="text-light"><a href="#home"><span>Olfaire</span></a></h1>
-          <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <a href="index.html"><img src="/assets/mainpage/img/logo.png" alt="" class="img-fluid"></a>-->
-        </div>
-
-        <nav id="navbar" class="navbar">
-          <ul>
-            <li><a href="#header">Início</a></li>
-            <li><a href="#about">Sobre Nós</a></li>
-            <li><a href="#portfolio">Produtos</a></li>
-            <li><a href="#team">Equipa</a></li>
-            <li><a href="#contact">Contacte-nos</a></li>
-            <li><a href="{{ route('online-shop.index') }}">Loja Online</a></li>
-            @if (auth()->user() && auth()->user()->role_id == 2)
-				<li><a href="{{ route('home') }}">Backoffice</a></li>
-			@endif
-            @if (auth()->user())
-              <a class="getstarted scrollto" href="{{ route('logout') }}"
-					onclick="event.preventDefault();
-					document.getElementById('logout-form').submit();">Terminar Sessão
-              </a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-              	@csrf
-              </form>
-            @else
-              <li><a class="getstarted scrollto" href="{{ route('register') }}">Registe-se!</a></li>
-            @endif
-            
-          </ul>
-          <i class="bi bi-list mobile-nav-toggle"></i>
-        </nav><!-- .navbar -->
-
-      </div><!-- End Header Container -->
-    </div>
-  </header>
-  <!-- End Header -->
-
   <!-- ======= Home Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container text-center position-relative" data-aos="fade-in" data-aos-delay="200">
@@ -54,7 +12,7 @@
   </section>
   <!-- End Home -->
 
-  <main id="main">
+    <main id="main">
 
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
