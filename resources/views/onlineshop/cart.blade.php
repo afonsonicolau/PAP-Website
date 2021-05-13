@@ -5,44 +5,48 @@
 	<div class="ps-content pt-80 pb-80">
 		<div class="ps-container">
 			<div class="ps-cart-listing">
+			@if($cartItems->count() > 0)
 				<table class="table ps-cart__table">
-				<thead>
-					<tr>
-					<th></th>
-					<th>Produtos</th>
-					<th>Preço</th>
-					<th>Quantidade</th>
-					<th>Total</th>
-					<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					@php
-						$total = 0;
-					@endphp
-					@foreach ($carts as $cart)
-						@if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
-							<tr id="cart_{{ $cart->id }}">
-								<td><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" height=100 width=100 alt=""></td>
-								<td>{{ $cart->product->type->type }}</td>
-								<td>{{ round($cart->price / ((100 - $cart->iva)/100), 2) }}€</td>
+					<thead>
+						<tr>
+							<th></th>
+							<th>Produtos</th>
+							<th>Preço</th>
+							<th>Quantidade</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@php
+							$total = 0;
+						@endphp
+						@foreach ($cartItems as $item)
+							<tr id="cart_{{ $item->product_id }}">
+								<td><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" height=100 width=100 alt=""></td>
+								<td>{{ $item->product->type->type }}</td>
+								<td>{{ round($item->price / ((100 - $item->iva)/100), 2) }}€</td>
 								<td>
 									<div class="form-group--number">
-										<input class="form-control" id="cartQuantity_{{ $cart->id }}" type="number" min="1" value="{{ $cart->quantity }}">
+										<input class="form-control" id="cartQuantity_{{ $item->product_id }}" type="number" min="1" value="{{ $item->quantity }}">
 									</div>
 								</td>
-								<td><p id="productPriceTotal_{{ $cart->id }}">{{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity}}€</p></td>
-								@php
-									$total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity
-								@endphp
+								<td><p id="productPriceTotal_{{ $item->product_id }}">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</p></td>
 								<td>
-									<div class="ps-remove" onclick="cartDelete({{ $cart->id }}, {{ $cart->price }})"></div>
+									<div class="ps-remove" onclick="cartDelete({{ $item->product_id }}, {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }})"></div>
 								</td>
+								@php
+									$total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
+								@endphp
 							</tr>
-						@endif
-					@endforeach
-				</tbody>
+						@endforeach
+					</tbody>
 				</table>
+			@else
+				
+				<h3><b>Carrinho de Compras sem produtos</b></h3>
+				<h5 class="pb-10">Adicione produtos para poder avançar para uma possível compra</h5>
+			@endif
 				<div class="ps-cart__actions">
 					<div class="ps-cart__promotion">
 						{{-- <div class="form-group">
@@ -52,9 +56,12 @@
 							<a class="ps-btn ps-btn--gray pt-3" href="{{ route('online-shop.product-listing') }}">Continuar a Comprar</a>
 						</div>
 					</div>
-					<div class="ps-cart__total">
-						<h3>Preço Total: <span id="productsTotal">{{ $total }}€</span></h3><a class="ps-btn" href="{{ route('online-shop.checkout') }}">Finalizar Compra<i class="ps-icon-next"></i></a>
-					</div>
+					@if($cartItems->count() > 0) 
+						<div class="ps-cart__total">
+							<h3>Preço Total: <span id="productsTotal">{{ $total }}€</span></h3> 
+							<a class="ps-btn" href="{{ route('online-shop.checkout') }}">Finalizar Compra<i class="ps-icon-next"></i></a> 
+						</div>
+					@endif
 				</div>
 			</div>
 		</div>

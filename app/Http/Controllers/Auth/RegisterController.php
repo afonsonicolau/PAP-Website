@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Cart;
 use App\Notifications\CustomVerifyEmailNotification;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -77,14 +78,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        User::create([
             'username' => $data['username'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-        
-        Notification::send($data['email'], new CustomVerifyEmailNotification());
 
-        return User::latest()->first();
+        $user = User::latest()->first();
+
+        $user->notify(new CustomVerifyEmailNotification());
+        
+        Cart::create([
+            'user_id' => $user->id,
+        ]);
+
+        return $user;
     }
 }

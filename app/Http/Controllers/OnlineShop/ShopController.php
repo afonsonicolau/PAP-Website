@@ -18,7 +18,7 @@ class ShopController extends Controller
     public function index()
     {
         $cart = "";
-        $cartItems = "";
+        $cartItems = 0;
         $products = Product::all();
 
         if(auth()->user())
@@ -47,8 +47,8 @@ class ShopController extends Controller
 
         foreach($productList as $product)
         {
-            $typesDistinct = Product::distinct('type_id')->get();
-            $collectionsDistinct = Product::distinct('collection_id')->get();
+            $typesDistinct = Product::distinct('type_id')->where('disabled', 0)->where('visible', 1)->get();
+            $collectionsDistinct = Product::distinct('collection_id')->where('disabled', 0)->where('visible', 1)->get();
         }
 
         $productList = Product::latest()->paginate(2);

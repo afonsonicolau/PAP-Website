@@ -34,11 +34,10 @@ Route::get('/online-shop/cart/checkout', [App\Http\Controllers\OnlineShop\CartCo
 Route::post('/online-shop/cart/checkout/orderconfirmation', [App\Http\Controllers\OnlineShop\OrderController::class, 'store'])->name('online-shop.create-order');
 Route::get('/online-shop/cart/checkout/orderconfirmation/{order}', [App\Http\Controllers\OnlineShop\OrderController::class, 'confirmation'])->name('online-shop.order-confirmation');
 
-// Cart - Add to
+// Cart Actions
 Route::post('/online-shop/product-listing/product-detail/{product}/{userId}', [App\Http\Controllers\OnlineShop\CartController::class, 'store'])->name('online-shop.add-to-cart');
-
-Route::delete('/online-shop/cart/{user}', [App\Http\Controllers\OnlineShop\CartController::class, 'destroy'])->name('online-shop.delete-cart');
 Route::patch('/online-shop/cart/{cartId}/{productId}/{quantity}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-cart');
+Route::delete('/online-shop/cart/{productId}', [App\Http\Controllers\OnlineShop\CartController::class, 'destroy'])->name('online-shop.delete-cart');
 
 //User Profile
 Route::get('/online-shop/profile', [App\Http\Controllers\OnlineShop\ProfileController::class, 'index'])->name('online-shop.profile-index');

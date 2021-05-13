@@ -7,7 +7,7 @@
 			<div class="ps-product__columns">
 				<!-- Product Listing -->
 				@foreach ($productList as $product)
-					@if ($product->visible == 1)
+					@if ($product->visible == 1 && $product->disabled == 0)
 						<div class="ps-product__column" id="product_{{ $product->id }}">
 							<div class="ps-shoe mb-30">
 								<div class="ps-shoe__thumbnail">

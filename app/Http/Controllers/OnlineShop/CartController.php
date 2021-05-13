@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\OnlineShop;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Cart;
 use App\Models\CartItems;
 use App\Models\Product;
@@ -21,42 +22,26 @@ class CartController extends Controller
 
     public function index()
     {
-        $cartCheck = Cart::where('bought', 0)->where('user_id', auth()->user()->id)->first();
-
-        $carts = Cart::all();
-        $products = Product::all();
-        $total = 0;
-
-        if($cartCheck != null)
-        {
-            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-            return view('onlineshop.cart', compact('carts', 'products', 'total', 'cartCount'));
-        }
-        else
-        {
-            return redirect(route('online-shop.product-listing'))->with(['carts', 'products', 'total']);
-        }
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
+            
+        return view('onlineshop.cart', compact('cartItems'));
     }
 
     public function checkout()
     {
-        $cartCheck = Cart::where('bought', 0)->where('user_id', auth()->user()->id)->first();
-        
-        $carts = Cart::all();
-        $products = Product::all();
-        $total = 0;
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        if ($cartCheck != null)
+        if ($cartItems->count() > 0)
         {   
             $addresses = Address::all();
-            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-            $cartIds = "";
 
-            return view('onlineshop.checkout', compact('carts', 'products', 'total', 'addresses', 'cartIds', 'cartCount'));
+            return view('onlineshop.checkout', compact('cart', 'addresses', 'cartItems'));
         }
         else
         {
-            return redirect(route('online-shop.product-listing'))->with(['carts', 'products', 'total']);
+            return redirect(route('online-shop.cart'))->with('cartItems');
         }
     }
 
@@ -75,8 +60,8 @@ class CartController extends Controller
             $quantity = $request->quantidade;
             $product = $productId;
 
-            $cartId = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
-            $cartCheck = CartItems::where('cart_id', $cartId)->where('product_id', $productId)->latest()->first();
+            $cart = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
+            $cartCheck = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->latest()->first();
 
             if ($cartCheck != null && $cartCheck->exists()) 
             {
@@ -86,10 +71,13 @@ class CartController extends Controller
             {
                 $product = Product::find($productId);
                 
-                Cart::create([
-                    'user_id' => $userId,
-                ]);
-
+                if($cart == null)
+                {
+                    Cart::create([
+                        'user_id' => $userId,
+                    ]);
+                }
+                
                 $cart = Cart::where('user_id', $userId)->latest()->first();
                 
                 CartItems::create([
@@ -119,12 +107,15 @@ class CartController extends Controller
         }
     }
 
-    public function destroy($cartId)
+    public function destroy($productId)
     {
-        $cartItems = CartItems::where('cart_id', $cartId);
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->where('product_id', $productId);
 
         $cartItems->delete();
 
-        return true;
+        $cartItems = CartItems::where('cart_id', $cart->id)->count();
+
+        return response()->json($cartItems); 
     }
 }

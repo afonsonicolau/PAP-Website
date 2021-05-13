@@ -114,7 +114,7 @@
                         <button><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
-                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartItems->count() > 0) <span><i>{{ $cartItems->count() }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
+                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartItems->count() > 0) <span><i id="itemsCount">{{ $cartItems->count() }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
                             <div class="ps-cart__listing">
                                 <div class="ps-cart__content">
                                     <!-- Cart item -->
@@ -125,12 +125,11 @@
 
                                     @if ($cartItems != "")
                                         @foreach ($cartItems as $item)
-                                        
-                                            <div class="ps-cart-item" id="cartItem_{{ $item->cart_id }}">
+                                            <div class="ps-cart-item" id="cartItem_{{ $item->product_id }}">
                                                 <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
                                                 <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{$item->product->type->type}}</a>
-                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->cart_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->cart_id }}"> {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</i></span></p>
+                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
+                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->product_id }}"> {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</i></span></p>
                                                 </div>
                                             </div>
                                             @php
@@ -286,12 +285,11 @@
         <!-- Custom Script -->
         <script>
             // Delete item from cart
-            function cartDelete(cartId, productPrice)
+            function cartDelete(productId, productPrice)
             {
                 Swal.fire({
 
-                title: 'Tem a certeza que quer remover este produto?',
-                //text: `Todos os produtos associados a esta coleção serão removidos com ela!`,
+                title: 'Tem a certeza que quer retirar este produto do carrinho?',
                 icon: 'warning',
 
                 showCancelButton: true,
@@ -303,32 +301,57 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: `/online-shop/cart/${cartId}`,
+                            url: `/online-shop/cart/${productId}`,
                             type: "DELETE",
                             data: {'_token': '{{ csrf_token() }}'},
                             datatype: "html",
-                            success: function (response) {
+                            success: function (response)
+                            {
+                                // Variables
                                 let total = $("#productsTotal").text();
-                                let totalCartQuantity = $("#cartQuantityTotal").text();
-                                let cartQuantity = $(`#cartQuantity_${cartId}`).val();
-                                let quantity = parseInt(cartQuantity);
-
                                 total = total.replace("€", "");
-                                totalCartQuantity = totalCartQuantity.replace(" produtos", "") ;
 
+                                let totalCartQuantity = $("#cartQuantityTotal").text();
+                                totalCartQuantity = totalCartQuantity.replace(" produto(s)", "");
+
+                                // Quantity
+                                let cartQuantity = $(`#cartQuantity_${productId}`).val();
+                                let quantity = parseInt(cartQuantity);
+                                
+                                // Change front-end values
                                 $("#cartQuantityTotal").text(totalCartQuantity - quantity + " produtos");
-                                $(`#productsTotal`).text(total - productPrice * quantity + "€");
-                                $(`#cartPriceTotal`).text(total - productPrice * quantity + "€");
-                                $(`#cartItem_${cartId}`).remove();
-                                $(`#cart_${cartId}`).remove();
-                        
+                                $(`#productsTotal`).text(total - productPrice + "€");
+                                $(`#cartPriceTotal`).text(total - productPrice + "€");
+
+                                // Change icon number
+                                let count = $("#itemsCount").text();
+                                let countTotal = Number(count);
+                                countTotal--
+                                $("#itemsCount").text(countTotal--);
+
+                                // Remove cart items front-end
+                                $(`#cartItem_${productId}`).remove();
+                                $(`#cart_${productId}`).remove();
+                                
+                                // Send front-end notification 
                                 Swal.fire(
-                                    'Produto Removido!',
-                                    'A ação ocorreu com sucesso e o produto foi removido!',
+                                    'Produto Retirado!',
+                                    'A ação ocorreu com sucesso e o produto foi retirado do carrinho!',
                                     'success'
                                 )
+
+                                if(response <= 0)
+                                {
+                                    setTimeout(function()
+                                    { 
+                                        // Reload page
+                                        location.reload(true)
+                                    }, 2000);
+                                }
+                                
                             },
-                            error: function () {
+                            error: function () 
+                            {
                                 Swal.fire(
                                     'Não foi possível retirar o produto!',
                                     'Tente novamente mais tarde.',
