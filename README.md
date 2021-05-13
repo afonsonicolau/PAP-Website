@@ -11,13 +11,10 @@
 
 My project consists in making a website for a enterprise in the urgent need of one while learning with everything I do and search while I develop the project. Has objetives, I have the following:
 
-- [Use the Laravel framework to develop skills so I can better use other frameworks]();
-- [Use Github with Gitbash to keep all the information I need stored]();
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Use the Laravel framework to develop skills so I can better use other frameworks;
+- Use Github with Gitbash to keep all the information I need stored;
+- Organize myself and the project while making it better and bigger;
+
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 

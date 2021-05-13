@@ -34,10 +34,6 @@ class ShopController extends Controller
     {
         $cart = "";
         $cartItems = "";
-        $collectionsDistinct = "";
-        $typesDistinct = "";
-        $productList = Product::all();
-        $max = Product::max('price');
 
         if(auth()->user())
         {
@@ -45,14 +41,19 @@ class ShopController extends Controller
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
         }
 
+        $productList = Product::where('disabled', 0)->where('visible', 1)->get();
+        $collectionsDistinct = "";
+        $typesDistinct = "";
+
         foreach($productList as $product)
         {
-            $typesDistinct = Product::distinct('type_id')->where('disabled', 0)->where('visible', 1)->get();
-            $collectionsDistinct = Product::distinct('collection_id')->where('disabled', 0)->where('visible', 1)->get();
+            $typesDistinct = $product->distinct('type_id')->get();
+            $collectionsDistinct = $product->distinct('collection_id')->get();
         }
 
-        $productList = Product::latest()->paginate(2);
-        
+        $productList = Product::where('disabled', 0)->where('visible', 1)->latest()->paginate(2);
+        $max = Product::max('price');
+
         return view('onlineshop.product-listing', compact('cart', 'cartItems','productList', 'max', 'collectionsDistinct', 'typesDistinct'));
     }
 

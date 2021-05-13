@@ -7,37 +7,35 @@
 			<div class="ps-product__columns">
 				<!-- Product Listing -->
 				@foreach ($productList as $product)
-					@if ($product->visible == 1 && $product->disabled == 0)
-						<div class="ps-product__column" id="product_{{ $product->id }}">
-							<div class="ps-shoe mb-30">
-								<div class="ps-shoe__thumbnail">
-								{{-- <div class="ps-badge"><span>New</span></div> --}}
-								{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
-								<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-								<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
-								<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
-								</div>
-								<div class="ps-shoe__content">
-								{{-- <div class="ps-shoe__variants">
-									
-									<select class="ps-rating ps-shoe__rating">
-										<option value="1">1</option>
-										<option value="1">2</option>
-										<option value="1">3</option>
-										<option value="1">4</option>
-										<option value="2">5</option>
-									</select>
-								</div> --}}
-								<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
-									<p class="ps-shoe__categories">
-										<a href="#">{{ $product->collection->collection }},	
-										</a><a href="#">{{ $product->color }}</a></p><span class="ps-shoe__price">
-										{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</span>
-								</div>
-								</div>
+					<div class="ps-product__column" id="product_{{ $product->id }}">
+						<div class="ps-shoe mb-30">
+							<div class="ps-shoe__thumbnail">
+							{{-- <div class="ps-badge"><span>New</span></div> --}}
+							{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
+							<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+							<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
+							<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
+							</div>
+							<div class="ps-shoe__content">
+							{{-- <div class="ps-shoe__variants">
+								
+								<select class="ps-rating ps-shoe__rating">
+									<option value="1">1</option>
+									<option value="1">2</option>
+									<option value="1">3</option>
+									<option value="1">4</option>
+									<option value="2">5</option>
+								</select>
+							</div> --}}
+							<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
+								<p class="ps-shoe__categories">
+									<a href="#">{{ $product->collection->collection }},	
+									</a><a href="#">{{ $product->color }}</a></p><span class="ps-shoe__price">
+									{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</span>
+							</div>
 							</div>
 						</div>
-					@endif
+					</div>
 				@endforeach
 			</div>
 			<div class="ps-product-action">
@@ -68,8 +66,19 @@
 			<div class="ps-widget__content">
 				<ul class="ps-list--checked">
 					<li class="collection_filter current" id="collection_none"><a  href="#">Todas as Coleções</a></li>
-					@foreach($collectionsDistinct as $collection)
-						<li class="collection_filter" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
+					@php
+					 	$collectionHere = array();
+					@endphp
+					@foreach ($collectionHere as $checked)
+						@foreach($collectionsDistinct as $collection)
+							@if($collection->collection->collection != $checked)
+								@php
+								dd("sadasdsada");
+									array_push($collectionHere, $collection->collection);
+								@endphp
+								<li class="collection_filter" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
+							@endif
+						@endforeach
 					@endforeach
 				</ul>
 			</div>
