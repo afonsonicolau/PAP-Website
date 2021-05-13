@@ -10,7 +10,7 @@ class CreateCollectionsTable extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
-            $table->string('collection')->unique();
+            $table->string('collection');
             $table->string('colors');
             $table->boolean('disabled')->default(0);
             $table->timestamps();

@@ -60,34 +60,15 @@ class TypesController extends Controller
         return view('backoffice.types.edit', compact('types'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $disable)
     {
         $type = ProductTypes::find($id);
 
-        $validator = Validator::make($request->all(), [
-            'tipo' => 'required|alpha|unique:product_types,type,' . $type->id,
-        ]);
-
-        if($validator->fails())
+        if($disable)
         {
-            return Redirect::back()->withInput()->withErrors($validator);
-        }
-        else
-        {
-            $type->update([
-                'type' => $request->tipo,
-            ]);
+            $products = Product::where('type_id', '=', $id)->get();
 
-            return redirect(route('types.index'));
-        }
-    }
-
-    public function destroy($id)
-    {
-        $type = ProductTypes::find($id);
-        $products = Product::where('type_id', '=', $id)->get();
-
-            // Deletes images before deleting products
+            // Deletes images before disabling products
             foreach($products as $product)
             {
                 if($product->images != null)
@@ -97,16 +78,36 @@ class TypesController extends Controller
     
                     foreach($images as $key => $value)
                     {
-                        Storage::delete('public/products/' . $value);
+                        Storage::delete('/public/products/' . $value);
                     }
-    
-                    Storage::delete('public/thumbnail/' . $product->thumbnail);
-                    Product::where('id', $product->id)->delete();
-
-                    $type->delete();
                 }
+
+                $product->update([
+                    'disabled' => 1,
+                    'images' => "[]",
+                ]);
             }
         
-        return true;
+            return true;
+        }
+        else
+        {
+            $validator = Validator::make($request->all(), [
+                'tipo' => 'required|alpha,' . $type->id,
+            ]);
+
+            if($validator->fails())
+            {
+                return Redirect::back()->withInput()->withErrors($validator);
+            }
+            else
+            {
+                $type->update([
+                    'type' => $request->tipo,
+                ]);
+    
+                return redirect(route('types.index'));
+            }
+        }
     }
 }

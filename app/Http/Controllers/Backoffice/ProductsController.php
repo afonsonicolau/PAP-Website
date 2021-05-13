@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Collection;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductTypes;
+use App\Models\CartItems;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -212,8 +214,8 @@ class ProductsController extends Controller
                 'cor' => 'required',
                 'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
                 'preço' => 'required',
-                'iva' => 'required|float',
-                'peso' => 'required|float',
+                'iva' => 'required',
+                'peso' => 'required',
                 'stock' => 'required',
                 'descrição' => 'required',
                 'miniatura' => 'image|mimes:jpeg,jpg,png',

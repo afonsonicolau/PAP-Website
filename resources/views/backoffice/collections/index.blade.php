@@ -18,43 +18,49 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $colors = "";
+                                $colorsText = "";
+                            @endphp  
                             @foreach ($collections as $collection)
-                                <tr id="collection_{{$collection->id}}">
-                                    <td>{{ $collection->collection }}</td>
-                                    <td>
-                                        @php
-                                            $colors = json_decode($collection->colors);
-                                            $colorsText = "";
-                                        
-                                            foreach ($colors as $value) {
-                                                $colorsText .= $value . ', ';
-                                            }
+                                @if ($collection->disabled == 0)
+                                    <tr id="collection_{{$collection->id}}">
+                                        <td>{{ $collection->collection }}</td>
+                                        <td>
+                                            @php
+                                                $colors = json_decode($collection->colors);
+                                                $colorsText = "";
+                                            
+                                                foreach ($colors as $value) {
+                                                    $colorsText .= $value . ', ';
+                                                }
 
-                                            $colorsText = rtrim($colorsText, ", ");
-                                        @endphp     
-                                        {{ $colorsText }}
-                                    </td>
-                                    <td>
-                                        @php
-                                            $i = 0;
-                                        @endphp                                      
-                                        @foreach ($products as $product)
-                                            @if ($product->collection_id == $collection->id)
-                                                @php
-                                                    $i++;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                        {{ $i }}
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary" href="{{ route('collections.edit', $collection->id) }}" title="Editar Coleção"><i class="fas fa-edit"></i></a>
-                                        
-                                         <button class="btn btn-danger" onclick="collectionDelete({{ $collection->id }})" type="button" title="Eliminar Coleção">
-                                            <i class="fas fa-trash"></i>
-                                        </button> 
-                                    </td>                                    
-                                </tr>
+                                                $colorsText = rtrim($colorsText, ", ");
+                                            @endphp     
+                                            {{ $colorsText }}
+                                        </td>
+                                        <td>
+                                            @php
+                                                $i = 0;
+                                            @endphp                                      
+                                            @foreach ($products as $product)
+                                                @if ($product->collection_id == $collection->id)
+                                                    @php
+                                                        $i++;
+                                                    @endphp
+                                                @endif
+                                            @endforeach
+                                            {{ $i }}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="{{ route('collections.edit', $collection->id) }}" title="Editar Coleção"><i class="fas fa-edit"></i></a>
+                                            
+                                            <button class="btn btn-danger" onclick="collectionDelete({{ $collection->id }})" type="button" title="Eliminar Coleção">
+                                                <i class="fas fa-trash"></i>
+                                            </button> 
+                                        </td>                                    
+                                    </tr>
+                                @endif
                             @endforeach                          
                         </tbody>
                     </table>

@@ -89,9 +89,7 @@ Route::get('/backoffice/collections/create', [App\Http\Controllers\Backoffice\Co
 Route::post('/backoffice/collections', [App\Http\Controllers\Backoffice\CollectionsController::class, 'store'])->name('collections.store');
 
 Route::get('/backoffice/collections/{collection}/edit', [App\Http\Controllers\Backoffice\CollectionsController::class, 'edit'])->name('collections.edit');
-Route::patch('/backoffice/collections/{collection}', [App\Http\Controllers\Backoffice\CollectionsController::class, 'update'])->name('collections.update');
-
-Route::delete('/backoffice/collections/{collection}', [App\Http\Controllers\Backoffice\CollectionsController::class, 'destroy'])->name('collections.delete');
+Route::patch('/backoffice/collections/{collection}/{disable?}', [App\Http\Controllers\Backoffice\CollectionsController::class, 'update'])->name('collections.update');
 
 // Backoffice - Types
 Route::get('/backoffice/types', [App\Http\Controllers\Backoffice\TypesController::class, 'index'])->name('types.index');
@@ -100,9 +98,7 @@ Route::get('/backoffice/types/create', [App\Http\Controllers\Backoffice\TypesCon
 Route::post('/backoffice/types', [App\Http\Controllers\Backoffice\TypesController::class, 'store'])->name('types.store');
 
 Route::get('/backoffice/types/{type}/edit', [App\Http\Controllers\Backoffice\TypesController::class, 'edit'])->name('types.edit');
-Route::patch('/backoffice/types/{type}', [App\Http\Controllers\Backoffice\TypesController::class, 'update'])->name('types.update');
-
-Route::delete('/backoffice/types/{type}', [App\Http\Controllers\Backoffice\TypesController::class, 'destroy'])->name('types.delete');
+Route::patch('/backoffice/types/{type}/{disable?}', [App\Http\Controllers\Backoffice\TypesController::class, 'update'])->name('types.update');
 
 // Backoffice - Addresses
 Route::get('/backoffice/addresses', [App\Http\Controllers\Backoffice\AddressesController::class, 'index'])->name('addresses.index');

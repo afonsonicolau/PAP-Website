@@ -26,10 +26,12 @@
 							<select class="form-control form-control-lg" id="tipo" name="tipo">
 								{{-- Get the type attached to the product and then all the other types--}}
 								@foreach ($types as $type)
-									@if ($product->type_id == $type->id)
-										<option value="{{ $type->id }}" selected>{{ $type->type }}</option>
-									@else
-										<option value="{{ $type->id }}">{{ $type->type }}</option>		
+									@if ($type->type == 0)
+										@if ($product->type_id == $type->id)
+											<option value="{{ $type->id }}" selected>{{ $type->type }}</option>
+										@else
+											<option value="{{ $type->id }}">{{ $type->type }}</option>		
+										@endif
 									@endif
 								@endforeach
 							</select>
@@ -44,10 +46,12 @@
 							<select class="form-control form-control-lg" id="coleção" name="coleção">
 								{{-- Get the collection attached to the product and then the rest of the collections --}}
 								@foreach ($collections as $collection)
-									@if ($product->collection_id == $collection->id)
+									@if ($collection->disabled == 0)
+										@if ($product->collection_id == $collection->id)
 										<option value="{{ $collection->id }}" selected>{{ $collection->collection }}</option>
-									@else
-										<option value="{{ $collection->id }}">{{ $collection->collection }}</option>
+										@else
+											<option value="{{ $collection->id }}">{{ $collection->collection }}</option>
+										@endif
 									@endif
 								@endforeach
 							</select>
@@ -131,10 +135,7 @@
 						@if ($errors->has('descrição'))
 							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('descrição')}}</p>
 						@endif
-						{{-- Thumbnail Preview --}}
-						<div class="form-group">
-							<img src="/storage/thumbnail/{{ $product->thumbnail }}" height="200">
-						</div>
+						
 					
 						{{-- Thumbnail --}}
 						<div class="form-group">
@@ -144,13 +145,30 @@
 							</div>
 						</div>
 
+						{{-- Thumbnail Preview --}}
+						<div class="form-group thumbnailPreview">
+							<img src="/storage/thumbnail/{{ $product->thumbnail }}" height="200">
+						</div>
+
 						@if ($errors->has('miniatura'))
 							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('miniatura')}}</p>
 						@endif
 
+						{{-- Images --}}
+						<div class="form-group">
+							<label for="imagens">Imagens Restantes</label>
+							<div>
+								<input type="file" class="imagens" id="imagens[]" name="imagens[]" multiple>
+							</div>
+						</div>
+
+						@if ($errors->has('imagens.*'))
+							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('imagens.*')}}</p>
+						@endif
+
 						{{-- Images Preview --}}
 						<div class="form-group">
-							<div class="imagePreview">
+							<div class="imagePreview imagesPreview">
 								@foreach ($imageNames as $name)
 									@if (Storage::exists('public/products/' . $name))
 										<span class="pic" id="{{ $loop->index }}">
@@ -164,18 +182,6 @@
 							</div>
 						</div>
 					
-						{{-- Images --}}
-						<div class="form-group">
-							<label for="imagens">Imagens Restantes</label>
-							<div>
-								<input type="file" id="imagens" name="imagens[]" multiple>
-							</div>
-						</div>
-
-						@if ($errors->has('imagens.*'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('imagens.*')}}</p>
-						@endif
-
 						<button type="submit" class="btn btn-success mr-2">Atualizar</button>
 						<a href="{{ route('products.index') }}" class="btn btn-danger">Cancelar</a>
 					</form>

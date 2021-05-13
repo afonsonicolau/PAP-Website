@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Collection;
+use App\Models\Product;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-
-use App\Models\Collection;
-use App\Models\Product;
 
 class CollectionsController extends Controller
 {
@@ -25,11 +24,7 @@ class CollectionsController extends Controller
         $collections = Collection::latest()->paginate(10);
         $products = Product::all();
 
-        $colors = "";
-        $colorsText = "";
-        $i = 0;
-        // ->latest()
-        return view('backoffice.collections.index', compact('collections', 'products', 'i', 'colors', 'colorsText'));
+        return view('backoffice.collections.index', compact('collections', 'products'));
     }
 
     public function create()
@@ -39,7 +34,6 @@ class CollectionsController extends Controller
 
     public function store(Request $request)
     {
-        
         $validator = Validator::make($request->all(), [
             'coleção' => 'required|alpha|unique:collections,collection',
             'cores' => 'required',
@@ -77,6 +71,7 @@ class CollectionsController extends Controller
                     break;
                 }
             }
+
             $colorsArray = json_encode($colorsValidation);
 
             // Create and save to database
@@ -105,53 +100,50 @@ class CollectionsController extends Controller
         return view('backoffice.collections.edit', compact('collection', 'colorsText'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $disable)
     {
         $collection = Collection::find($id);
 
-        $validator = Validator::make($request->all(), [
-            'coleção' => 'required|alpha|unique:collections,collection,' . $collection->id,
-            'cores' => 'required',
-        ]);
-
-        if($validator->fails())
+        if($disable)
         {
-            return Redirect::back()->withInput()->withErrors($validator);
+            Collection::find($id)->update([
+                'disabled' => 1,
+            ]);
+
+            $products = Product::where('collection_id', $id)->get();
+
+            // Deletes images before disabling products
+            foreach($products as $product)
+            {
+                if($product->images != null)
+                {
+                    $images = "";
+                    $images = json_decode($product->images);
+    
+                    foreach($images as $key => $value)
+                    {
+                        Storage::delete('/public/products/' . $value);
+                    }
+                }
+
+                $product->update([
+                    'disabled' => 1,
+                    'images' => "[]",
+                ]);
+            }
+
+            return true;
         }
         else
         {
-            if(request->has('disable'))
+            $validator = Validator::make($request->all(), [
+                'coleção' => 'required|alpha|unique:collections,collection,' . $collection->id,
+                'cores' => 'required',
+            ]);
+
+            if($validator->fails())
             {
-                Collection::find($id)->update([
-                    'disabled' => 1,
-                ]);
-
-                $products = Product::where('collection_id', $id)->get();
-                // Deletes images before deleting products
-                foreach($products as $product)
-                {
-                    $product->update([
-                        'disabled' => 1,
-                    ]);
-                    
-                    /* if($product->images != null)
-                    {
-                        $images = "";
-                        $images = json_decode($product->images);
-
-                        foreach($images as $key => $value)
-                        {
-                            Storage::delete('public/products/' . $value);
-                        }
-
-                        Storage::delete('public/thumbnail/' . $product->thumbnail);
-                        Product::where('id', $product->id)->delete();
-
-                        $collection->delete();
-                    } */
-                }
-
-                return true;
+                return Redirect::back()->withInput()->withErrors($validator);
             }
             else
             {
@@ -185,13 +177,7 @@ class CollectionsController extends Controller
                 ]);
 
                 return redirect(route('collections.index'));
-            }
+            }   
         }
     }
-
-    public function destroy($id)
-    {
-        
-    }
-
 }

@@ -24,7 +24,9 @@
 							<select class="form-control form-control-lg" id="tipo" name="tipo" required>
 								<option value="" selected disabled>--Escolha um tipo--</option>
 							@foreach ($types as $type)
-								<option value="{{ $type->id }}">{{ $type->type }}</option>
+								@if ($type->disabled == 0)
+									<option value="{{ $type->id }}">{{ $type->type }}</option>
+								@endif
 							@endforeach
 							</select>
 						</div>
@@ -38,7 +40,9 @@
 							<select class="form-control form-control-lg" id="coleção" name="coleção" required>
 								<option value="" selected disabled>--Escolha uma coleção--</option>
 								@foreach ($collections as $collection)
-									<option value="{{ $collection->id }}">{{ $collection->collection }}</option>
+									@if ($collection->disabled == 0)
+										<option value="{{ $collection->id }}">{{ $collection->collection }}</option>
+									@endif
 								@endforeach
 							</select>
 						</div>

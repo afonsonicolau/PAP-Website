@@ -5,7 +5,7 @@ namespace App\Http\Controllers\OnlineShop;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Cart;
-use App\Models\Product;
+use App\Models\CartItems;
 use App\Models\Order;
 
 use Illuminate\Http\Request;
@@ -20,48 +20,36 @@ class ProfileController extends Controller
     public function index()
     {
         $addresses = Address::all();
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        $total = 0;
-
-        return view('onlineshop.profile.index', compact('carts', 'products', 'total', 'addresses', 'cartCount'));
+        return view('onlineshop.profile.index', compact('cart', 'cartItems', 'addresses'));
     }
 
     public function personal_index()
     {
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        $total = 0;
-
-        return view('onlineshop.profile.personal', compact('carts', 'products', 'total', 'cartCount'));
+        return view('onlineshop.profile.personal', compact('cart', 'cartItems'));
     }
 
     // Addresses
     public function addresses_index()
     {
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
         $addresses = Address::all();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        $total = 0;
-
-        return view('onlineshop.profile.addresses.addresses', compact('carts', 'products', 'total', 'addresses', 'cartCount'));
+        return view('onlineshop.profile.addresses.addresses', compact('cart', 'addresses', 'cartItems'));
     }
 
     public function orders_index()
     {
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
         $orders = Order::all();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        $total = 0;
-
-        return view('onlineshop.profile.orders.orders', compact('carts', 'products', 'total', 'orders', 'cartCount'));
+        return view('onlineshop.profile.orders.orders', compact('cart', 'orders', 'cartItems'));
     }
 }

@@ -294,8 +294,8 @@
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$.ajax({
-							url: `/backoffice/collections/${collectionId}`,
-							type: "DELETE",
+							url: `/backoffice/collections/${collectionId}/true`,
+							type: "PATCH",
 							data: {'_token': '{{ csrf_token() }}'},
 							datatype: "html",
 							success: function (response) {
@@ -336,8 +336,8 @@
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$.ajax({
-							url: `/backoffice/types/${typeId}`,
-							type: "DELETE",
+							url: `/backoffice/types/${typeId}/true`,
+							type: "PATCH",
 							data: {'_token': '{{ csrf_token() }}'},
 							datatype: "html",
 							success: function (response) {
@@ -395,42 +395,40 @@
         </script>
 
 		<script>
-			$(function() {
-				// Multiple images preview in browser
-				let imagesPreview = function(input, placeToInsertImagePreview) {
-					if (input.files) {
-						var filesAmount = input.files.length;
+			function imagesPreview(input, placeToInsertImagePreview) {
+				if (input.files) {
+					var filesAmount = input.files.length;
 
-						if(placeToInsertImagePreview == '.thumbnailPreview')
-						{
-							$('.thumbnailPreview').children('img').remove()
-						}
-						else if(placeToInsertImagePreview == '.imagesPreview')
-						{
-							$('.imagesPreview').children('img').remove()
-						}
-
-						for (i = 0; i < filesAmount; i++) {
-							var reader = new FileReader();
-
-							reader.onload = function(event) {
-								$($.parseHTML('<img>')).attr('src', event.target.result).attr('width', 200).attr('heigth', 300).attr('class', 'pr-3').appendTo(placeToInsertImagePreview);
-								//let image = `<img src="${e.target.result}" width="100" height="200" style="border: 5px solid green;  border-radius: 10px;">`	
-							}
-
-							reader.readAsDataURL(input.files[i]);
-						}
+					if(placeToInsertImagePreview == '.thumbnailPreview')
+					{
+						$('.thumbnailPreview').children('img').remove()
+					}
+					else if(placeToInsertImagePreview == '.imagesPreview')
+					{
+						$('.imagesPreview').children('img').remove()
 					}
 
-				};
+					for (i = 0; i < filesAmount; i++) {
+						var reader = new FileReader();
 
-				$("#miniatura").change(function() {
+						reader.onload = function(event) {
+							$($.parseHTML('<img>')).attr('src', event.target.result).attr('width', 200).attr('heigth', 300).attr('class', 'pr-3').appendTo(placeToInsertImagePreview);
+							//let image = `<img src="${e.target.result}" width="100" height="200" style="border: 5px solid green;  border-radius: 10px;">`	
+						}
+
+						reader.readAsDataURL(input.files[i]);
+					}
+				}
+
+			};
+
+			$("#miniatura").change(function() {
 					imagesPreview(this, '.thumbnailPreview');
 				});
-				$('.imagens').change(function() {
-					imagesPreview(this, '.imagesPreview');
-				});
+			$('.imagens').change(function() {
+				imagesPreview(this, '.imagesPreview');
 			});
+
 		</script>
  
 	</body>

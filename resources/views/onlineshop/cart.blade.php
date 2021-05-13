@@ -28,9 +28,7 @@
 								<td>{{ round($cart->price / ((100 - $cart->iva)/100), 2) }}€</td>
 								<td>
 									<div class="form-group--number">
-										<button class="minus" onclick="changeCartQuantity({{ $cart->id }}, 'minus', {{ round($cart->price / ((100 - $cart->iva)/100), 2) }})"><span>-</span></button>
-										<input class="form-control" id="cartQuantity_{{ $cart->id }}" type="number" min="1" value="{{ $cart->quantity }}" disabled>
-										<button class="plus" onclick="changeCartQuantity({{ $cart->id }}, 'plus', {{ round($cart->price / ((100 - $cart->iva)/100), 2) }})"><span>+</span></button>
+										<input class="form-control" id="cartQuantity_{{ $cart->id }}" type="number" min="1" value="{{ $cart->quantity }}">
 									</div>
 								</td>
 								<td><p id="productPriceTotal_{{ $cart->id }}">{{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity}}€</p></td>
