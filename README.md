@@ -7,12 +7,12 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## eCommerce Project
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+My project consists in making a website for a enterprise in the urgent need of one while learning with everything I do and search while I develop the project. Has objetives, I have the following:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
+- [Use the Laravel framework to develop skills so I can better use other frameworks]();
+- [Use Github with Gitbash to keep all the information I need stored]();
 - Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
 - Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
 - Database agnostic [schema migrations](https://laravel.com/docs/migrations).
