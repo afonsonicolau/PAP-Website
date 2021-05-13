@@ -418,7 +418,7 @@
             // -- Filters --
 
             // When change cart quantity, change all it's prices
-            function changeCartQuantity(cartId, action, price)
+            function changeCartQuantity(cartId, productId, price)
             {
                 $("#cartQuantity_" + cartId).removeClass('form-validate-invalid');
                 let dataValue = $("#cartQuantity_" + cartId).val();
@@ -437,7 +437,7 @@
                     if(dataNumber >= 1)
                     {
                         $.ajax({
-                            url: `/online-shop/cart/${cartId}/${dataNumber}`,
+                            url: `/online-shop/cart/${cartId}/${productId}/${quantity}`,
                             type: "PATCH",
                             data: {'_token': '{{ csrf_token() }}'},
                             dataType: "json",

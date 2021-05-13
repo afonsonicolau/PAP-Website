@@ -38,7 +38,7 @@ Route::get('/online-shop/cart/checkout/orderconfirmation/{order}', [App\Http\Con
 Route::post('/online-shop/product-listing/product-detail/{product}/{userId}', [App\Http\Controllers\OnlineShop\CartController::class, 'store'])->name('online-shop.add-to-cart');
 
 Route::delete('/online-shop/cart/{user}', [App\Http\Controllers\OnlineShop\CartController::class, 'destroy'])->name('online-shop.delete-cart');
-Route::patch('/online-shop/cart/{cartId}/{quantity}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-cart');
+Route::patch('/online-shop/cart/{cartId}/{productId}/{quantity}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-cart');
 
 //User Profile
 Route::get('/online-shop/profile', [App\Http\Controllers\OnlineShop\ProfileController::class, 'index'])->name('online-shop.profile-index');
@@ -80,7 +80,6 @@ Route::post('/backoffice/products', [App\Http\Controllers\Backoffice\ProductsCon
 Route::get('/backoffice/products/{product}/edit', [App\Http\Controllers\Backoffice\ProductsController::class, 'edit'])->name('products.edit');
 Route::patch('/backoffice/products/{product}', [App\Http\Controllers\Backoffice\ProductsController::class, 'update'])->name('products.update');
 
-Route::delete('/backoffice/products/{product}', [App\Http\Controllers\Backoffice\ProductsController::class, 'destroy'])->name('products.delete');
 Route::delete('/backoffice/products/{product}/{imageName}', [App\Http\Controllers\Backoffice\ImageController::class, 'destroy'])->name('image.delete');
 
 // Backoffice - Collections

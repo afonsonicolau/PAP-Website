@@ -159,6 +159,7 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
+        $cartItems = CartItems::where('product_id', $id);
 
         // Standout
         if($request->has('standout'))
@@ -191,13 +192,15 @@ class ProductsController extends Controller
                 'standout' => 0,
             ]);
 
+            $cartItems->delete();
+
             return redirect(route('products.index'));
         }
         // Disable
         else if($request->has('disable'))
         {
             $product->update([
-                'disabled' => $request->visible,
+                'disabled' => 1,
             ]);
         }
         else
@@ -294,8 +297,6 @@ class ProductsController extends Controller
                     'images' => $imageNames,
                 ]);
 
-                $cartItems = CartItems::where('product_id', $id);
-
                 foreach($cartItems as $item)
                 {
                     $cart = Cart::find($item->cart_id);
@@ -314,26 +315,5 @@ class ProductsController extends Controller
                 return redirect(route('products.index'));
             }
         } 
-    }
-
-    public function destroy($id)
-    {
-        $product = Product::find($id);
-        
-        $images = json_decode($product->images);
-
-        if($images != "")
-        {
-            foreach($images as $key => $value)
-            {
-                Storage::delete('public/products/' . $value);
-            }
-        }
-        
-        Storage::delete('public/thumbnail/' . $product->thumbnail);
-
-        $product->delete();
-
-        return redirect()->back();
     }
 }

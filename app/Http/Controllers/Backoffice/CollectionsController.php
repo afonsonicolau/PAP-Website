@@ -120,65 +120,78 @@ class CollectionsController extends Controller
         }
         else
         {
-            $colors = $request->cores;
-            $colorsArray = explode(",", $colors); 
-
-            $colorsValidation = array();
-            foreach($colorsArray as $color)
+            if(request->has('disable'))
             {
-                if(!is_numeric($color))
-                {
-                    if(strpos($color, ' ') == true)
-                    {
-                        $colorCleared = str_replace(' ', '', $color);
+                Collection::find($id)->update([
+                    'disabled' => 1,
+                ]);
 
-                        array_push($colorsValidation, $colorCleared);
-                    }
-                    else
+                $products = Product::where('collection_id', $id)->get();
+                // Deletes images before deleting products
+                foreach($products as $product)
+                {
+                    $product->update([
+                        'disabled' => 1,
+                    ]);
+                    
+                    /* if($product->images != null)
                     {
-                        array_push($colorsValidation, $color);
+                        $images = "";
+                        $images = json_decode($product->images);
+
+                        foreach($images as $key => $value)
+                        {
+                            Storage::delete('public/products/' . $value);
+                        }
+
+                        Storage::delete('public/thumbnail/' . $product->thumbnail);
+                        Product::where('id', $product->id)->delete();
+
+                        $collection->delete();
+                    } */
+                }
+
+                return true;
+            }
+            else
+            {
+                $colors = $request->cores;
+                $colorsArray = explode(",", $colors); 
+
+                $colorsValidation = array();
+                foreach($colorsArray as $color)
+                {
+                    if(!is_numeric($color))
+                    {
+                        if(strpos($color, ' ') == true)
+                        {
+                            $colorCleared = str_replace(' ', '', $color);
+
+                            array_push($colorsValidation, $colorCleared);
+                        }
+                        else
+                        {
+                            array_push($colorsValidation, $color);
+                        }
                     }
                 }
+
+                $colorsArray = json_encode($colorsValidation);
+
+                // Create and save to database
+                $collection->update([
+                    'collection' => $request->coleção,
+                    'colors' => $colorsArray,
+                ]);
+
+                return redirect(route('collections.index'));
             }
-
-            $colorsArray = json_encode($colorsValidation);
-
-            // Create and save to database
-            $collection->update([
-                'collection' => $request->coleção,
-                'colors' => $colorsArray,
-            ]);
-
-            return redirect(route('collections.index'));
         }
     }
 
     public function destroy($id)
     {
-        $collection = Collection::find($id);
-        $products = Product::where('collection_id', $id)->get();
         
-        // Deletes images before deleting products
-        foreach($products as $product)
-        {
-            if($product->images != null)
-            {
-                $images = "";
-                $images = json_decode($product->images);
-
-                foreach($images as $key => $value)
-                {
-                    Storage::delete('public/products/' . $value);
-                }
-
-                Storage::delete('public/thumbnail/' . $product->thumbnail);
-                Product::where('id', $product->id)->delete();
-
-                $collection->delete();
-            }
-        }
-
-        return true;
     }
 
 }

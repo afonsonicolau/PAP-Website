@@ -105,12 +105,12 @@ class CartController extends Controller
         }  
     }
 
-    public function update($cartId, $quantity)
+    public function update($cartId, $productId, $quantity)
     {
-        $cart = CartItems::where('cart_id', $cartId);
-
         if($quantity >= 1 && is_numeric($quantity))
         {
+            $cart = CartItems::where('cart_id', $cartId)->where('product_id', $productId);
+
             $cart->update([
                 'quantity' => $quantity
             ]);
