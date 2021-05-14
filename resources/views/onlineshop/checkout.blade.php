@@ -13,6 +13,7 @@
 							<h3>Detalhes de Envio</h3>
 							<hr>
 							<input type="checkbox" name="deliveryBilling" id="deliveryBilling"> Morada de Faturação e de Envio diferentes
+							<br><br>
 							<p style="color:black">Se não tiver uma morada registada clique <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration: underline; color:green;">aqui</a> para criar uma. Caso já tenham uma, simplesmente selecione-a.</p>
 
 							<div id="deliveryPlusBilling">
@@ -94,7 +95,7 @@
 								<table class="table ps-checkout__products">
 									<thead>
 										<tr>
-										<th></th>
+										<th class="text-uppercase">Imagem</th>
 										<th class="text-uppercase">Produto</th>
 										<th class="text-uppercase">Total</th>
 										</tr>
@@ -102,25 +103,20 @@
 									<tbody>
 											@php
 												$total = 0; 
-												$cartIds = array(); 
 											@endphp
-
-											@foreach ($carts as $cart)
-												@if ($cart->user_id == auth()->user()->id && $cart->bought == 0)
+											@foreach ($cartItems as $item)
 													<tr>
-														<td><img src="/storage/thumbnail/{{ $cart->product->thumbnail }}" height=100 width=100 alt=""></td>
-														<td><div class="pt-45">{{ $cart->product->type->type }} x{{ $cart->quantity }}</td>
-														<td><div class="pt-45">{{ round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity }}€</div></td>
+														<td><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" height=100 width=100 alt=""></td>
+														<td><div class="pt-45">{{ $item->product->type->type }} x{{ $item->quantity }}</td>
+														<td><div class="pt-45">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</div></td>
 													</tr>	
 													@php
-														array_push($cartIds, $cart->id);
-														$total += round($cart->price / ((100 - $cart->iva)/100), 2) * $cart->quantity;
+														$total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
 													@endphp
-												@endif
 											@endforeach
 											
 											<tr>
-												<td>Total dos Produtos</td>
+												<td class="text-uppercase"><b>Total</b></td>
 												<td></td>
 												<td>{{ $total }}€</td>
 											</tr>
@@ -151,7 +147,6 @@
 									<input type="hidden" name="total_price" id="total_price" value="{{ $total }}">
 									<input type="hidden" name="delivery_id" id="delivery_id">
 									<input type="hidden" name="billing_id" id="billing_id">
-									<input type="hidden" name="cart_ids" id="cart_ids" value="{{ json_encode($cartIds) }}">
 									<input type="hidden" name="payment_method" id="payment_method">
 
 									<button type="submit" class="ps-btn ps-btn--fullwidth" id="check_radio">Efetuar Compra<i class="ps-icon-next"></i></button>
@@ -168,6 +163,7 @@
 		</div>
 	</div>
 
+	<!-- Modal to create an address in checkout -->
 	<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -238,11 +234,10 @@
 								<button type="submit" class="btn btn-primary">Criar Morada</button>
 							</div>
 						</div>
-					
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-  
+
 @endsection

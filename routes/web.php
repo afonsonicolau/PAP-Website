@@ -32,7 +32,7 @@ Route::get('/online-shop/cart', [App\Http\Controllers\OnlineShop\CartController:
 Route::get('/online-shop/cart/checkout', [App\Http\Controllers\OnlineShop\CartController::class, 'checkout'])->name('online-shop.checkout');
 
 Route::post('/online-shop/cart/checkout/orderconfirmation', [App\Http\Controllers\OnlineShop\OrderController::class, 'store'])->name('online-shop.create-order');
-Route::get('/online-shop/cart/checkout/orderconfirmation/{order}', [App\Http\Controllers\OnlineShop\OrderController::class, 'confirmation'])->name('online-shop.order-confirmation');
+Route::get('/online-shop/cart/checkout/orderconfirmation/{order}/{delivery}/{billing}', [App\Http\Controllers\OnlineShop\OrderController::class, 'confirmation'])->name('online-shop.order-confirmation');
 
 // Cart Actions
 Route::post('/online-shop/product-listing/product-detail/{product}/{userId}', [App\Http\Controllers\OnlineShop\CartController::class, 'store'])->name('online-shop.add-to-cart');

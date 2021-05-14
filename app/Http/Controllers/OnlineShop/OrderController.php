@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItems;
-use App\Models\Product;
+use App\Models\User;
 use App\Models\Order;
 use App\Mail\OrderEmail;
 
@@ -27,7 +27,6 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
             'delivery_id' => 'required',
             'billing_id' => 'required',
-            'cart_id' => 'required',
             'payment_method' => 'required',
             'delivery_method' => 'required',
             'total_price' => 'required',
@@ -41,11 +40,12 @@ class OrderController extends Controller
         {
             $delivery = Address::find($request->delivery_id);
             $billing = Address::find($request->billing_id);
-            $cartId = $request->cart_id;
+            $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
+            $user = User::find($delivery->user_id);
 
             Order::create([
-                'cart_id' => $cartId,
-                'user_id' => $delivery->user_id,
+                'cart_id' => $cart->id,
+                'user_id' => $user->id,
                 'delivery_id' => $delivery->id,
                 'billing_id' => $billing->id,
                 'additional' => $request->additional,
@@ -55,6 +55,7 @@ class OrderController extends Controller
                 'total_price' => $request->total_price,
             ]);
 
+            // Update tables in database 
             $delivery->update([
                 'used' => 1,
             ]);
@@ -63,30 +64,36 @@ class OrderController extends Controller
                 'used' => 1,
             ]);
 
-            Cart::find($cartId)->update([
+            $cart->update([
                 'bought' => 1,
             ]);
-           
+                
+            // Create a new cart for user
+            Cart::create([
+                'user_id' => $user->id,
+            ]);
+
+            // Get order to send e-mail to user
             $order = Order::latest()->first();
+            $cartItems = CartItems::where('cart_id', 1)->get();
 
-            Mail::to($order->user->email)->send(new OrderEmail($order, $delivery, $billing));
+            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
 
-            return redirect(route('online-shop.order-confirmation', $order->order_number));
+            return redirect(route('online-shop.order-confirmation', [$order->order_number, $delivery->id, $billing->id]));
         }
     }
 
-    public function confirmation($order)
+    public function confirmation($order, $delivery, $billing)
     {
         $order = Order::where('order_number', $order)->first();
+        $delivery = Address::find($delivery);
+        $billing = Address::find($billing);
         
         if(auth()->user()->id == $order->user_id)
         {
-            $carts = Cart::all();
-            $products = Product::all();
-            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-            $total = 0;
+            $cartItems = CartItems::where('cart_id', $order->cart_id)->get();
 
-            return view('onlineshop.orderconfirmation', compact('carts', 'products', 'total', 'order', 'cartCount'));
+            return view('onlineshop.orderconfirmation', compact('cartItems', 'order', 'delivery', 'billing'));
         }
         else
         {
