@@ -47,14 +47,14 @@ class ShopController extends Controller
 
         foreach($productList as $product)
         {
-            $typesDistinct = $product->distinct('type_id')->get();
-            $collectionsDistinct = $product->distinct('collection_id')->get();
+            $typesDistinct = $product->distinct('type_id');
+            $collectionsDistinct = $product->distinct('collection_id');
         }
 
         $productList = Product::where('disabled', 0)->where('visible', 1)->latest()->paginate(2);
         $max = Product::max('price');
 
-        return view('onlineshop.product-listing', compact('cart', 'cartItems','productList', 'max', 'collectionsDistinct', 'typesDistinct'));
+        return view('onlineshop.product-listing', compact('cart', 'cartItems', 'max', 'productList', 'collectionsDistinct', 'typesDistinct'));
     }
 
     public function product_filter($collection, $type, $priceRange)

@@ -20,6 +20,8 @@
 					<tbody>
 						@php
 							$total = 0;
+							$i = 0;
+							$productIds = array();
 						@endphp
 						@foreach ($cartItems as $item)
 							<tr id="cart_{{ $item->product_id }}">
@@ -36,6 +38,7 @@
 									<div class="ps-remove" onclick="cartDelete({{ $item->product_id }}, {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }})"></div>
 								</td>
 								@php
+									array_push($productIds, $item->product_id . ' => ' . round($item->price / ((100 - $item->iva)/100), 2));
 									$total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
 								@endphp
 							</tr>
@@ -43,15 +46,16 @@
 					</tbody>
 				</table>
 			@else
-				
 				<h3><b>Carrinho de Compras sem produtos</b></h3>
 				<h5 class="pb-10">Adicione produtos para poder avançar para uma possível compra</h5>
 			@endif
 				<div class="ps-cart__actions">
 					<div class="ps-cart__promotion">
-						{{-- <div class="form-group">
-							<a class="ps-btn ps-btn--black" href="">Atualizar Carrinho</a>
-						</div> --}}
+						@if($cartItems->count() > 0) 
+							<div class="form-group">
+								<a type="button" class="ps-btn" href="" id="cartQuantityButton" onclick="return changeCartQuantity(event, {{ json_encode($productIds) }})">Atualizar Carrinho<i class="fas fa-redo"></i></a>
+							</div>
+						@endif
 						<div class="form-group">
 							<a class="ps-btn ps-btn--gray pt-3" href="{{ route('online-shop.product-listing') }}">Continuar a Comprar</a>
 						</div>

@@ -282,6 +282,8 @@
         <!-- Validation JS & CSS -->
 		<script src="/assets/js/validate.js"></script>
 		<link rel="stylesheet" href="/assets/css/validate.css">
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
         <!-- Custom Script -->
         <script>
             // Delete item from cart
@@ -319,7 +321,7 @@
                                 let quantity = parseInt(cartQuantity);
                                 
                                 // Change front-end values
-                                $("#cartQuantityTotal").text(totalCartQuantity - quantity + " produtos");
+                                $("#cartQuantityTotal").text(totalCartQuantity - quantity + " produto(s)");
                                 $(`#productsTotal`).text(total - productPrice + "€");
                                 $(`#cartPriceTotal`).text(total - productPrice + "€");
 
@@ -347,7 +349,7 @@
                                         // Reload page
                                         location.reload(true)
                                     }, 2000);
-                                }
+                                } 
                                 
                             },
                             error: function () 
@@ -406,7 +408,7 @@
                         }                       
                     },
                 });
-            }
+            };
 
             $(".collection_filter").on("click", function(){
                 $(".collection_filter").removeClass("current");
@@ -441,76 +443,73 @@
             // -- Filters --
 
             // When change cart quantity, change all it's prices
-            function changeCartQuantity(cartId, productId, price)
-            {
-                $("#cartQuantity_" + cartId).removeClass('form-validate-invalid');
-                let dataValue = $("#cartQuantity_" + cartId).val();
-                let dataNumber = parseInt(dataValue);
-                
-                if(action == "minus")
-                {
-                    dataNumber--;
-                }
-                else if(action == "plus")
-                {
-                    dataNumber++;
-                }
+            function changeCartQuantity(e, productIds)
+            {  
+                e.preventDefault();
 
-                if (Number.isInteger(dataNumber)) {
-                    if(dataNumber >= 1)
+                let totalPrice = 0;
+                let totalQuantity = 0;
+                let valid = true;
+
+                $.each(productIds, function(key, value){
+                    // Variables treatment
+                    let result = value.split(' => ');
+                    let productId = result[0];
+                    let productPrice = result[1];
+                    productPrice = Number(productPrice);
+
+                    // Remove red border
+                    $("#cartQuantity_" + productId).removeClass('form-validate-invalid');
+
+                    // Get product cart quantity
+                    let cartQuantity = $("#cartQuantity_" + productId).val();
+                    totalQuantity += Number(cartQuantity);
+                    
+                    totalPrice += (productPrice * Number(cartQuantity));
+
+                    if(cartQuantity >= 1)
                     {
                         $.ajax({
-                            url: `/online-shop/cart/${cartId}/${productId}/${quantity}`,
+                            url: `/online-shop/cart/${productId}/${cartQuantity}`,
                             type: "PATCH",
                             data: {'_token': '{{ csrf_token() }}'},
                             dataType: "json",
                             success: function () {
-                                let totalPrice =  $(`#productsTotal`).text(); totalPrice = totalPrice.replace("€", "");
-                                let totalCartQuantity = $("#cartQuantityTotal").text(); 
+                                valid = true;
+                                let total = 0;
 
-                                totalPrice = Number(totalPrice);
-                                totalCartQuantity = totalCartQuantity.replace(" produtos", "");
-                                totalCartQuantity = parseInt(totalCartQuantity);
+                                total = (productPrice * cartQuantity).toFixed(2);
 
-                                if(action == "minus")
-                                {
-                                    totalCartQuantity--;
-                                    totalPrice = (totalPrice - price).toFixed(2)
-                                    $("#cartQuantity_" + cartId).val(dataNumber); 
-
-                                    $(`#productsTotal`).text(totalPrice + "€");
-                                    $(`#cartPriceTotal`).text(totalPrice + "€");
-                                }
-                                else if(action == "plus")
-                                {
-                                    totalCartQuantity++;
-                                    totalPrice = (totalPrice + price).toFixed(2)
-                                    $("#cartQuantity_" + cartId).val(dataNumber); 
-
-                                    $(`#productsTotal`).text(totalPrice + "€");
-                                    $(`#cartPriceTotal`).text(totalPrice + "€");
-                                }
-
-                                $("#cartQuantityTotal").text(totalCartQuantity + " produtos"); 
-                                $(`#cartItemQuantity_${cartId}`).text(dataNumber);
-                                $(`#cartItemTotal_${cartId}`).text(price * dataNumber + "€");
-                                $(`#productPriceTotal_${cartId}`).text(price * dataNumber + "€"); 
+                                $(`#cartItemQuantity_${productId}`).text(cartQuantity);
+                                $(`#cartItemTotal_${productId}`).text(total + "€");
+                                $(`#productPriceTotal_${productId}`).text(total + "€"); 
                             },
                             error: function(){
-                                $("#cartQuantity_" + cartId).addClass('form-validate-invalid');
+                                valid = false;
+                                $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                             },
                         });
                     }
                     else
                     {
-                        $("#cartQuantity_" + cartId).addClass('form-validate-invalid');
+                        valid = false;
+                        $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                     }
-                }
-                else
+                });
+
+                if(valid)
                 {
-                    $("#cartQuantity_" + cartId).addClass('form-validate-invalid');
+                    totalPrice.toFixed(2);
+                    $(`#productsTotal`).text(totalPrice + "€");
+                    $(`#cartPriceTotal`).text(totalPrice + "€");
+
+                    $("#cartQuantityTotal").text(totalQuantity + " produto(s)"); 
                 }
-            }
+
+                $("#cartQuantityButton").attr('style', 'color: white !important');
+
+                return false
+            };
 
             // Change addresses numbers
             $("#deliveryBilling").on("click", function()
@@ -584,7 +583,7 @@
                 if(getRadioChecked.length != 1 || checkInputDelivery == null || checkInputBilling == null)
                 {
                     e.preventDefault(e);
-                    $("#errorMessage").text("Selecione todas as informações pertinentes: 'Moradas de Envio', 'Morada de Faturação' e 'Tipo de Pagamento'.").removeClass("hidden");
+                    $("#errorMessage").text("Selecione todas as informações pertinentes: 'Moradas de Envio', 'Morada de Faturação', 'Método de Envio' e 'Tipo de Pagamento'.").removeClass("hidden");
                 }
             });
 

@@ -35,7 +35,7 @@
 			<div class="navbar-menu-wrapper d-flex align-items-center">
 			<form class="ml-auto search-form d-none d-md-block" action="#">
 				<div class="form-group">
-				<input type="search" class="form-control" placeholder="Pesquisar...">
+					<input type="search" class="form-control" placeholder="Pesquisar...">
 				</div>
 			</form>
 			<ul class="navbar-nav ml-auto">    
