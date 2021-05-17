@@ -21,24 +21,21 @@
                                             <th>Referência</th>
                                             <th>Preço</th>
                                             <th>Quantidade</th>
-                                            <th>Subtotal</th>
+                                            <th>IVA</th>
+                                            <th>Total</th>
                                         </tr>
-                                        
                                     </thead>
                                     <tbody>
-                                        @foreach (json_decode($order->cart_ids) as $cart_id)
-                                            @foreach ($carts as $cart)
-                                                @if ($cart->id == $cart_id)
-                                                    <tr >
-                                                        <td style="border: none;">{{ $cart->product->type->type }}</td>
-                                                        <td style="border: none;">{{ $cart->product->collection->collection }}</td>
-                                                        <td style="border: none;">{{ $cart->product->reference }}</td>
-                                                        <td style="border: none;">{{ $cart->price }}€</td>
-                                                        <td style="border: none;"><b>Encomendado:</b> {{ $cart->quantity }}</td>
-                                                        <td style="border: none;">{{ $cart->quantity * $cart->price }}€</td>
-                                                    </tr>
-                                                @endif
-                                            @endforeach
+                                        @foreach ($cartItems as $item)
+                                            <tr>
+                                                <td style="border: none;">{{ $item->product->type->type }}</td>
+                                                <td style="border: none;">{{ $item->product->collection->collection }}</td>
+                                                <td style="border: none;">{{ $item->product->reference }}</td>
+                                                <td style="border: none;">{{ $item->price }}€</td>
+                                                <td style="border: none;"><b>Encomendado:</b> {{ $item->quantity }}</td>
+                                                <td style="border: none;">{{ $item->iva }}%</td>
+                                                <td style="border: none;">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        return view('onlineshop.profile.index', compact('cart', 'cartItems', 'addresses'));
+        return view('onlineshop.profile.index', compact('cartItems', 'addresses'));
     }
 
     public function personal_index()
@@ -31,7 +31,7 @@ class ProfileController extends Controller
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        return view('onlineshop.profile.personal', compact('cart', 'cartItems'));
+        return view('onlineshop.profile.personal', compact('cartItems'));
     }
 
     // Addresses
@@ -41,7 +41,7 @@ class ProfileController extends Controller
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        return view('onlineshop.profile.addresses.addresses', compact('cart', 'addresses', 'cartItems'));
+        return view('onlineshop.profile.addresses.addresses', compact('addresses', 'cartItems'));
     }
 
     public function orders_index()
@@ -50,6 +50,6 @@ class ProfileController extends Controller
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        return view('onlineshop.profile.orders.orders', compact('cart', 'orders', 'cartItems'));
+        return view('onlineshop.profile.orders.orders', compact('orders', 'cartItems'));
     }
 }

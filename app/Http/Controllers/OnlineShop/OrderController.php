@@ -107,12 +107,10 @@ class OrderController extends Controller
         
         if(auth()->user()->id == $order->user_id)
         {
-            $carts = Cart::all();
-            $cartCount = Cart::all()->count();
+            $cartItems = CartItems::where('cart_id', $order->cart_id)->get();
             $addresses = Address::all();
-            $total = 0;
 
-            return view('onlineshop.profile.orders.show', compact('carts', 'total', 'order', 'addresses', 'cartCount'));
+            return view('onlineshop.profile.orders.show', compact('cartItems', 'order', 'addresses'));
         }
         else
         {

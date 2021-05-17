@@ -83,7 +83,6 @@ class ShopController extends Controller
     public function product_detail_index($id)
     {
         $product = Product::find($id);
-        $cart = "";
         $cartItems = "";
 
         if(auth()->user())
@@ -92,6 +91,6 @@ class ShopController extends Controller
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
         }
 
-        return view('onlineshop.product-detail', compact('product', 'cart', 'cartItems'));
+        return view('onlineshop.product-detail', compact('product', 'cartItems'));
     }
 }
