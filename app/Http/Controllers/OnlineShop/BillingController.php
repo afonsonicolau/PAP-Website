@@ -5,6 +5,7 @@ namespace App\Http\Controllers\OnlineShop;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\CartItems;
 use App\Models\Product;
 
 use Illuminate\Support\Facades\Validator;
@@ -20,13 +21,10 @@ class BillingController extends Controller
 
     public function addresses_create()
     {
-        $carts = Cart::all();
-        $products = Product::all();
-        $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
+        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        $total = 0;
-
-        return view('onlineshop.profile.addresses.create', compact('carts', 'products', 'total', 'cartCount'));
+        return view('onlineshop.profile.addresses.create', compact('cartItems'));
     }
 
     public function addresses_store(Request $request, $userId)

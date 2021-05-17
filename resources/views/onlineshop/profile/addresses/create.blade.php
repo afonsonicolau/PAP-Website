@@ -71,9 +71,6 @@
                                     <button type="submit" class="btn btn-primary">Criar Morada</button>
                                 </div>
                             </div>
-                            @if ($errors->any())
-                                <p>{{$errors}}</p>
-                            @endif
                         </div>
                     </div>
                 </form>
