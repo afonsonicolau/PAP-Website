@@ -18,7 +18,7 @@
 						</div>
 					
 						@if($errors->has('tipo'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('tipo')}}</p>
+							<p class="text-danger">{{$errors->first('tipo')}}</p>
 						@endif
 
 						<button type="submit" class="btn btn-success mr-2">Atualizar</button>

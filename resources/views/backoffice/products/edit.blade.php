@@ -18,7 +18,7 @@
 						</div>
 
 						@if ($errors->has('referência'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('referência')}}</p>
+							<p class="text-danger">{{$errors->first('referência')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -38,7 +38,7 @@
 						</div>
 
 						@if ($errors->has('tipo'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('tipo')}}</p>
+							<p class="text-danger">{{$errors->first('tipo')}}</p>
 						@endif	
 
 						<div class="form-group">
@@ -58,7 +58,7 @@
 						</div>
 
 						@if ($errors->has('coleção'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('coleção')}}</p>
+							<p class="text-danger">{{$errors->first('coleção')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -75,7 +75,7 @@
 						</div>
 
 						@if ($errors->has('cor'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('cor')}}</p>
+							<p class="text-danger">{{$errors->first('cor')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -84,7 +84,7 @@
 						</div>
 
 						@if ($errors->has('tamanho'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('tamanho')}}</p>
+							<p class="text-danger">{{$errors->first('tamanho')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -93,7 +93,7 @@
 						</div>
 
 						@if ($errors->has('preço'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('preço')}}</p>
+							<p class="text-danger">{{$errors->first('preço')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -102,7 +102,7 @@
 						</div>
 
 						@if ($errors->has('iva'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('iva')}}</p>
+							<p class="text-danger">{{$errors->first('iva')}}</p>
 						@endif
 
 						<div class="form-group hidden totalPrice">
@@ -115,7 +115,7 @@
 						</div>
 
 						@if ($errors->has('peso'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('peso')}}</p>
+							<p class="text-danger">{{$errors->first('peso')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -124,7 +124,7 @@
 						</div>
 
 						@if ($errors->has('stock'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('stock')}}</p>
+							<p class="text-danger">{{$errors->first('stock')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -133,7 +133,7 @@
 						</div>
 
 						@if ($errors->has('descrição'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('descrição')}}</p>
+							<p class="text-danger">{{$errors->first('descrição')}}</p>
 						@endif
 						
 					
@@ -151,7 +151,7 @@
 						</div>
 
 						@if ($errors->has('miniatura'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('miniatura')}}</p>
+							<p class="text-danger">{{$errors->first('miniatura')}}</p>
 						@endif
 
 						{{-- Images --}}
@@ -163,7 +163,7 @@
 						</div>
 
 						@if ($errors->has('imagens.*'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('imagens.*')}}</p>
+							<p class="text-danger">{{$errors->first('imagens.*')}}</p>
 						@endif
 
 						{{-- Images Preview --}}

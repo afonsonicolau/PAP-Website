@@ -22,8 +22,7 @@
 
 						<div class="form-group">
 							<label for="cores">Cores</label>
-							<p class="text-small danger">Para separar as cores use uma virgula.</p>
-							<input type="text" id="cores" name="cores" value="{{ old('cores') }}">
+							<input type="text" id="cores" name="cores" data-validate="yes" data-min="1" data-max="80" data-type="string" value="{{ old('cores') }}">
 						</div>
 						
 						@if ($errors->has('cores'))

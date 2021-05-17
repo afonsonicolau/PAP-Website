@@ -19,17 +19,16 @@
 						</div>
 
 						@if ($errors->has('coleção'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('coleção')}}</p>
+							<p class="text-danger">{{$errors->first('coleção')}}</p>
 						@endif
 
 						<div class="form-group">
 							<label for="cores">Cores</label>
-							<p class="text-small danger">Para separar as cores use uma virgula.</p>
-							<input type="text" id="cores" name="cores" value="{{ old('cores') ?? $colorsText }}">
+							<input type="text" id="cores" name="cores" data-validate="yes" data-min="1" data-max="80" data-type="string" value="{{ old('cores') ?? $colorsText }}">
 						</div>
 
 						@if ($errors->has('cores'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('cores')}}</p>
+							<p class="text-danger">{{$errors->first('cores')}}</p>
 						@endif
 
 						<button type="submit" class="btn btn-success mr-2">Atualizar</button>

@@ -28,6 +28,7 @@ $('form').submit(function(){
                 if (dataValue.length > dataMax || dataValue.length < dataMin) {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
                 }        
                 break;
 
@@ -36,12 +37,14 @@ $('form').submit(function(){
                 if (!Number.isInteger(dataNumber)) {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append('<p class="text-danger">Este campo tem de ser preenchido apenas com números.</p>');
                 }
                 else
                 {
                     if (dataValue.length > dataMax || dataValue.length < dataMin) {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
+                        $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} números.</p>`);
                     }   
                 }
                 
@@ -51,6 +54,7 @@ $('form').submit(function(){
                 if (dataValue.length > dataMax || dataValue.length < dataMin) {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} números.</p>`);
                 }
                 break;
 
@@ -59,6 +63,7 @@ $('form').submit(function(){
                 if (!regexSize.test(dataValue)) {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append(`<p class="text-danger">Este campo tem o formato inválido: <u>123x123</u>.</p>`);
                 }  
                 break;
 
@@ -67,6 +72,7 @@ $('form').submit(function(){
                 if (!regexPostal.test(dataValue)) {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append(`<p class="text-danger">Este campo tem o formato inválido: <u>1234x123</u>.</p>`);
                 }  
                 break;
             case 'nif':
@@ -76,6 +82,7 @@ $('form').submit(function(){
                     if (dataValue.length > dataMax || dataValue.length < dataMin) {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
+                        $(this).parent("div").append(`<p class="text-danger">Este campo deve estar vazio ou completo com 9 caracteres.</p>`);
                     }
                 }
                 break;
