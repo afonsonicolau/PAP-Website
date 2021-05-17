@@ -52,17 +52,5 @@
 					</div>
 				</form>
         	</div>
-			<ul class="auth-footer">
-				<!-- Terms and Conditions -->
-				<li>
-				<a href="#">Termos e Condições</a>
-				</li>
-				<!-- Client Support -->
-				<li>
-				<a href="#">Ajuda ao Cliente</a>
-				</li>
-			</ul>
-    	</div>
-  	</div>
 
 @endsection

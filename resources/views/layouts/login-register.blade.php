@@ -26,6 +26,18 @@
 
 @yield('content')
 
+                    <ul class="auth-footer">
+                        <!-- Terms and Conditions -->
+                        <li>
+                            <a href="{{ route('terms') }}">Termos e Condições</a>
+                        </li>
+                        <!-- Client Support -->
+                        <li>
+                            <a href="{{ route('welcome') }}">Página Inicial</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     <!-- page-body-wrapper ends -->
     </div>

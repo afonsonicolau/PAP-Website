@@ -132,7 +132,7 @@
           </div>
 
           <div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
-            <iframe style="border:0; width: 100%; height: 270px;" src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1870.571895895891!2d-9.129546242643082!3d39.43485719195862!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2spt!4v1608726153620!5m2!1sen!2spt" frameborder="0" allowfullscreen></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12326.154545922802!2d-9.1301935!3d39.4345561!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x9e61dc6b201a642d!2sOlfaire%20Mendes%20%26%20Nicolau%2C%20Lda!5e0!3m2!1sen!2spt!4v1621259549663!5m2!1sen!2spt" width="600" height="270" style="border:0; width: 100%;" loading="lazy"></iframe>
             <div class="info mt-4">
               <i class="bi bi-geo-alt"></i>
               <h4>Localização:</h4>
@@ -143,7 +143,7 @@
                 <div class="info">
                   <i class="bi bi-envelope"></i>
                   <h4>E-mail:</h4>
-                  <p>olfaire@gmail.com</p>
+                  <p>geral@olfaire.com</p>
                 </div>
               </div>
               <div class="col-lg-6">
