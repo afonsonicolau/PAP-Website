@@ -38,6 +38,12 @@
                                         @endif 
                                     </td>
                                     <td><a class="btn btn-primary" href="{{ route("orders.show", $order->order_number)}}" data-toggle="tooltip" data-placement="top" title="Ver Mais"><i class="fas fa-plus"></i></a></td>
+                                    <td>@if ($order->paid == 0) 
+                                            <td class="text-danger">Por pagar</td>
+                                        @else
+                                            <td class="text-success">Pago</td>
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

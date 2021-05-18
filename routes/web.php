@@ -54,6 +54,7 @@ Route::patch('/online-shop/profile/addresses/{address}', [App\Http\Controllers\O
 // User Orders
 Route::get('/online-shop/profile/orders', [App\Http\Controllers\OnlineShop\ProfileController::class, 'orders_index'])->name('online-shop.profile-orders');
 Route::get('/online-shop/profile/orders/{order}', [App\Http\Controllers\OnlineShop\OrderController::class, 'show'])->name('online-shop.show-orders');
+Route::patch('/online-shop/profile/orders/{order}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-order');
 
 # Backoffice
 Route::get('/backoffice', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

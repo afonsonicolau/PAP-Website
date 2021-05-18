@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->string('payment_method');
             $table->string('delivery_method');
             $table->string('state')->default('Em Processamento');
+            $table->boolean('paid')->default('0');
             $table->timestamps();
         });
     }

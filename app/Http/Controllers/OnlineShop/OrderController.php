@@ -83,6 +83,18 @@ class OrderController extends Controller
         }
     }
 
+    public function update(Request $request, $id)
+    {
+        if($request->has('paid'))
+        {
+            Order::where('order_number', $id)->update([
+                'paid' => 1,
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
     public function confirmation($order, $delivery, $billing)
     {
         $order = Order::where('order_number', $order)->first();

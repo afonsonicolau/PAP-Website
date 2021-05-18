@@ -20,7 +20,8 @@
                                                 @php
                                                     $count++;    
                                                 @endphp
-                                                <h4 class="pb-10">Encomenda Nº {{ $order->order_number }} - <i>{{ $order->state }}</i></h4>
+                                                <h4 class="pb-10">Encomenda Nº {{ $order->order_number }} - <i>{{ $order->state }}</i></h4> @if($order->paid == 0) <form action="{{ route('online-shop.update-order', $order->id) }}" method="POST"><button type="submit" class="btn btn-primary">Acabar Pagamento</button></form> @endif
+                                                
                                                 <p style="color:black;">{{ $order->date_bought }}</p> 
                                                 <p style="color: black;">{{ $order->total_price }} €</p> 
                                                 <a href="{{ route('online-shop.show-orders', $order->order_number) }}" type="button" class="btn btn-info">Ver Detalhes</a>
