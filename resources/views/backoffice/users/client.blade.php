@@ -13,6 +13,7 @@
                             <tr>
                                 <th>Nome</th>
                                 <th>E-mail</th>
+                                <th>Verificação de E-mail</th>
                                 <th>Função</th>
                                 <th>Remover</th>
                             </tr>
@@ -22,6 +23,11 @@
                                 <tr>
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
+                                    @if ($user->email_verified_at == null)
+                                        <td class="text-danger">Não Verificado</td>
+                                    @else
+                                        <td class="text-success">Verificado</td>
+                                    @endif
                                     <td>
                                         <form role="form" action="{{ route('users.update', ['user' => $user->id]) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
