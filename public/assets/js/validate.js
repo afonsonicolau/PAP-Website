@@ -3,7 +3,7 @@ $('form').submit(function(){
     let validForm = true;
 
     $(this).find('textarea[data-validate="yes"]').each(function(){
-        
+        $(this).parent("div").children('p').remove();
         $(this).removeClass('form-validate-invalid');
 
         let dataMin = Number($(this).attr('data-min'));
@@ -12,7 +12,8 @@ $('form').submit(function(){
 
         if (dataValue.length > dataMax || dataValue.length < dataMin) {
             validForm = false;
-            $(this).addClass('form-validate-invalid')
+            $(this).addClass('form-validate-invalid');
+            $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
         }
     });
     
@@ -31,7 +32,7 @@ $('form').submit(function(){
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
+                    $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
                 }        
                 break;
 
@@ -49,13 +50,13 @@ $('form').submit(function(){
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parent("div").append(`<p class="text-danger">Este campo só pode conter ${dataMin} números.</p>`);
+                        $(this).parent("div").append(`<p class="text-danger">Este campo deve conter ${dataMin} números.</p>`);
                     }
                     else if(dataValue.length > dataMax || dataValue.length < dataMin) 
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} números.</p>`);
+                        $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
                     }   
                 }
                 
@@ -66,7 +67,7 @@ $('form').submit(function(){
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo só pode ter entre ${dataMin} a ${dataMax} números.</p>`);
+                    $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
                 }
                 break;
 

@@ -113,7 +113,7 @@
 
 						<div class="form-group">
 							<label for="descrição">Descrição</label>
-							<textarea class="form-control" id="descrição" name="descrição" data-validate="yes" data-min="10" data-max="255" data-type="string" rows="2">{{ old('descrição') }}</textarea>
+							<textarea class="form-control" id="descrição" name="descrição" data-validate="yes" data-min="10" data-max="255" rows="2">{{ old('descrição') }}</textarea>
 						</div>
 
 						@if ($errors->has('descrição'))
