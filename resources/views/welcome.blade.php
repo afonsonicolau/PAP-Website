@@ -57,10 +57,10 @@
 					
 						<div class="col-lg-4 col-md-6 portfolio-item filter-app">
 							<div class="portfolio-wrap">
-								<img src="storage/thumbnail/{{ $product->thumbnail }}" class="img-fluid" alt="">
+								<img src="/storage/thumbnail/{{ $product->thumbnail }}" class="img-fluid" alt="">
 								<div class="portfolio-info">
 									<p>{{ $product->type->type }}</p> 
-									<p>{{ $product->price }}€</p>
+									<p>{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</p>
 									<div class="portfolio-links">
 										<a href="storage/thumbnail/{{ $product->thumbnail }}" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
 										<a href="{{ route('online-shop.product-detail', $product->id) }}" title="Mais detalhes"><i class="bx bx-link"></i></a>
@@ -70,6 +70,26 @@
 						</div>
 					@endif  
 				@endforeach
+                @foreach ($products as $product)
+                    @if ($product->standout == 0 && $i < 9)
+                        @php
+                            $i++
+                        @endphp
+                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                            <div class="portfolio-wrap">
+                                <img src="storage/thumbnail/{{ $product->thumbnail }}" class="img-fluid" alt="">
+                                <div class="portfolio-info">
+                                    <p>{{ $product->type->type }}</p> 
+                                    <p>{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</p>
+                                    <div class="portfolio-links">
+                                        <a href="storage/thumbnail/{{ $product->thumbnail }}" data-gallery="portfolioGallery" class="portfolio-lightbox"><i class="bx bx-plus"></i></a>
+                                        <a href="{{ route('online-shop.product-detail', $product->id) }}" title="Mais detalhes"><i class="bx bx-link"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif  
+                @endforeach
       		</div>
 		</div>
     </section>
