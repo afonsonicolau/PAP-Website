@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('welcome');
+Route::post('/sendemail', [App\Http\Controllers\ClientEmailsController::class, 'store'])->name('welcome-sendemail');
 Route::get('/terms', [App\Http\Controllers\WelcomeController::class, 'terms'])->name('terms');
 
 Auth::routes(['verify' => true]);
@@ -54,7 +55,6 @@ Route::patch('/online-shop/profile/addresses/{address}', [App\Http\Controllers\O
 // User Orders
 Route::get('/online-shop/profile/orders', [App\Http\Controllers\OnlineShop\ProfileController::class, 'orders_index'])->name('online-shop.profile-orders');
 Route::get('/online-shop/profile/orders/{order}', [App\Http\Controllers\OnlineShop\OrderController::class, 'show'])->name('online-shop.show-orders');
-Route::patch('/online-shop/profile/orders/{order}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-order');
 
 # Backoffice
 Route::get('/backoffice', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
