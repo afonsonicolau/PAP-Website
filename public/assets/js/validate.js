@@ -1,4 +1,4 @@
-$('form').submit(function(){
+$('form').submit(function () { 
 
     let validForm = true;
 
@@ -34,6 +34,15 @@ $('form').submit(function(){
                     $(this).addClass('form-validate-invalid');
                     $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
                 }        
+                break;
+
+            case 'email':
+                if(dataValue.length > dataMax || dataValue.length < dataMin) 
+                {
+                    validForm = false;
+                    $(this).addClass('form-validate-invalid');
+                    $(this).parent("div").append(`<p class="text-danger">Este campo tem de conter um e-mail válido.</p>`);
+                }       
                 break;
 
             case 'int':

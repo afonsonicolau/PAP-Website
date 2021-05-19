@@ -175,31 +175,45 @@
               </div>
             </div>
 
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Nome" data-rule="minlen:4" data-msg="Este campo tem de ter pelo menos 4 caracteres." />
-                  <div class="validate"></div>
+            <form action="{{ route('welcome-sendemail') }}" method="POST" class="php-email-form mt-4">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <input type="text" class="form-control" name="nome"  id="nome" placeholder="Nome" data-validate="yes" data-min="4" data-max="100" data-type="string" value="{{ old('nome') }}"/>
+                        @if ($errors->has('nome'))
+                            <p class="text-danger">{{$errors->first('nome')}}</p>
+                        @endif
+                    </div>
+                    
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" data-validate="yes" data-min="4" data-max="100" data-type="email" value="{{ old('email') }}"/>
+                        @if ($errors->has('email'))
+                            <p class="text-danger">{{$errors->first('email')}}</p>
+                        @endif
+                    </div>
                 </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="E-mail" data-rule="email" data-msg="Por favor, introduza um e-mail válido." />
-                  <div class="validate"></div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name="assunto" id="assunto" placeholder="Assunto" data-validate="yes" data-min="4" data-max="100" data-type="string" value="{{ old('assunto') }}"/>
+                    @if ($errors->has('assunto'))
+                        <p class="text-danger">{{$errors->first('assunto')}}</p>
+                    @endif
                 </div>
-              </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Este campo tem de ter pelo menos 8 caracteres." />
-                <div class="validate"></div>
-              </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Por favor, escreva uma mensagem." placeholder="Mensagem"></textarea>
-                <div class="validate"></div>
-              </div>
-              <div class="mb-3">
-                <div class="loading">A carregar...</div>
-                <div class="error-message">Não foi possível enviar esta mensagem, por favor, tente mais tarde.</div>
-                <div class="sent-message">A sua mensagem foi enviada. Obrigado!</div>
-              </div>
-              <div class="text-center"><button type="submit">Enviar Mensagem</button></div>
+                <div class="form-group mt-3">
+                    <textarea class="form-control" name="mensagem" id="mensagem" rows="5" placeholder="Mensagem" data-validate="yes" data-min="4" data-max="255" value="{{ old('mensagem') }}"></textarea>
+                    @if ($errors->has('mensagem'))
+                        <p class="text-danger">{{$errors->first('mensagem')}}</p>
+                    @endif
+                </div>
+                @if (Session::has('success'))
+                    <div class="form-group">
+                        <div class="alert alert-success text-center" role="alert">
+                            {{ Session::get('success') }}
+                        </div>
+                    </div>
+                @endif
+                <div class="text-center">
+                    <button type="submit">Enviar Mensagem</button>
+                </div>
             </form>
           </div>
         </div>

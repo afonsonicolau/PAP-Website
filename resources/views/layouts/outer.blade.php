@@ -12,10 +12,8 @@
   <!-- Favicons -->
   <link href="/assets/mainpage/img/favicon.png" rel="icon">
   <link href="/assets/mainpage/img/apple-touch-icon.png" rel="apple-touch-icon">
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
   <!-- Vendor CSS Files -->
   <link href="/assets/mainpage/vendor/aos/aos.css" rel="stylesheet">
   <link href="/assets/mainpage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +22,6 @@
   <link href="/assets/mainpage/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/assets/mainpage/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="/assets/mainpage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
   <!-- Template Main CSS File -->
   <link href="/assets/mainpage/css/style.css" rel="stylesheet">
 
@@ -128,18 +125,20 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Ajax -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Validation JS & CSS -->
+  <script src="assets/js/validate.js"></script>
+  <link rel="stylesheet" href="assets/css/validate.css">
   <!-- Vendor JS Files -->
   <script src="/assets/mainpage/vendor/aos/aos.js"></script>
   <script src="/assets/mainpage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/mainpage/vendor/glightbox/js/glightbox.min.js"></script>
   <script src="/assets/mainpage/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="/assets/mainpage/vendor/php-email-form/validate.js"></script>
   <script src="/assets/mainpage/vendor/purecounter/purecounter.js"></script>
   <script src="/assets/mainpage/vendor/swiper/swiper-bundle.min.js"></script>
-
   <!-- Template Main JS File -->
   <script src="/assets/mainpage/js/main.js"></script>
-  
   <!-- Font Awesome-->
   <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
 
