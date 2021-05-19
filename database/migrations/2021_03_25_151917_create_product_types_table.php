@@ -10,7 +10,8 @@ class CreateProductTypesTable extends Migration
     {
         Schema::create('product_types', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
+            $table->bigInteger('reference')->unique();
+            $table->string('type')->unique();
             $table->boolean('disabled')->default(0);
             $table->timestamps();
         });

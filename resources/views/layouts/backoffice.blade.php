@@ -150,38 +150,27 @@
 					<div class="collapse" id="types">
 					<ul class="nav flex-column sub-menu">
 						<li class="nav-item">
-						<a class="nav-link" href="{{ route('types.create') }}">Criar Tipo de Produto</a>
+							<a class="nav-link" href="{{ route('types.create') }}">Criar Tipo de Produto</a>
 						</li>
 						<li class="nav-item">
-						<a class="nav-link" href="{{ route('types.index') }}">Listar Tipos</a>
-						</li>
-					</ul>
-					</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="collapse" href="#addresses" aria-expanded="false" aria-controls="ui-basic">
-					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Moradas de Utilizadores</span>
-					<i class="menu-arrow"></i>
-					</a>
-					<div class="collapse" id="addresses">
-					<ul class="nav flex-column sub-menu">
-						<li class="nav-item">
-						<a class="nav-link" href="{{ route('addresses.index') }}">Listar Moradas</a>
+							<a class="nav-link" href="{{ route('types.index') }}">Listar Tipos</a>
 						</li>
 					</ul>
 					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" data-toggle="collapse" href="#orders" aria-expanded="false" aria-controls="ui-basic">
+					<a class="nav-link" data-toggle="collapse" href="#clientes" aria-expanded="false" aria-controls="ui-basic">
 					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Encomendas Realizadas</span>
+					<span class="menu-title">Clientes</span>
 					<i class="menu-arrow"></i>
 					</a>
-					<div class="collapse" id="orders">
+					<div class="collapse" id="clientes">
 					<ul class="nav flex-column sub-menu">
 						<li class="nav-item">
-						<a class="nav-link" href="{{ route('orders.index') }}">Listar Encomendas</a>
+							<a class="nav-link" href="{{ route('addresses.index') }}">Listar Moradas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ route('orders.index') }}">Listar Encomendas</a>
 						</li>
 					</ul>
 					</div>
@@ -206,19 +195,12 @@
         <!-- page-body-wrapper ends -->
         </div>
         <!-- container-scroller -->
-        <!-- plugins:js -->
+        <!-- JS -->
         <script src="/assets/vendors/js/vendor.bundle.base.js"></script>
         <script src="/assets/vendors/js/vendor.bundle.addons.js"></script>
-        <!-- endinject -->
-        <!-- Plugin js for this page-->
-        <!-- End plugin js for this page-->
-        <!-- inject:js -->
         <script src="/assets/js/shared/off-canvas.js"></script>
         <script src="/assets/js/shared/misc.js"></script>
-        <!-- endinject -->
-        <!-- Custom js for this page-->
         <script src="/assets/js/demo_1/dashboard.js"></script>
-        <!-- End custom js for this page-->
         <script src="/assets/js/shared/jquery.cookie.js" type="text/javascript"></script>
         <!-- Font Awesome Icons -->
         <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
@@ -246,6 +228,58 @@
 				$("#totalPriceVal").text("Preço total: " + total + " €");
 			}
 
+			// On product type change reference changes as well 
+			$("#tipo").on("change", function()
+			{
+				let typeId = $('#tipo option:selected').val();
+				$.ajax({
+					url: `/backoffice/products/create/getInfo/null/${typeId}`, 
+					type: "GET",
+					data: {'_token': '{{ csrf_token() }}'},
+					dataType: "json",
+					success: function (response) {
+						// Empty label
+						$('#reference').empty(); 
+
+						let reference = JSON.parse(response);
+						// Set reference according to type choosen
+						$('#reference').val(reference); 
+					}
+				});
+			});
+
+			// Everytime a collection changes so does its colors while creating or editing a product
+			$("#coleção").change(function(){
+				var selectedCollection = $(this).children("option:selected").val();
+				
+				$('#cor').find('option').not(':first').remove();
+
+				if(selectedCollection)
+				{
+					$.ajax({
+					url: `/backoffice/products/create/getInfo/${selectedCollection}/null`,
+					type: "GET",
+					data: {'_token': '{{ csrf_token() }}'},
+					dataType: 'json',
+						success: function (response) {
+							$('select[name="cor"]').empty();
+							
+							for (let i = 0; i < response.length; i++) {
+								let color = response[i];
+
+								let option = `<option value="${color}">${color}</option>`;
+
+								$('#cor').append(option);
+							}
+						},
+					});	
+				}
+				else 
+				{
+					$('select[name="cor"]').empty();
+				}
+			});
+
 			// Selectize for Collection colors
 			$(document).ready($(function()
 			{
@@ -263,8 +297,8 @@
 			}));
 			
 			// Function to delete the image front-end and send request to backend
-			function imageDelete(imageName, inputId, product){	
-				
+			function imageDelete(imageName, inputId, product)
+			{	
 				$.ajax({
 					url: `/backoffice/products/${product}/${imageName}`, 
 					type: "DELETE",
@@ -359,39 +393,6 @@
 					}
 				})
 			};
-
-			// Everytime a collection changes so does its colors while creating or editing a product
-			$("#coleção").change(function(){
-				var selectedCollection = $(this).children("option:selected").val();
-				
-				$('#cor').find('option').not(':first').remove();
-
-				if(selectedCollection)
-				{
-					$.ajax({
-					url: `/backoffice/products/create/getColors/${selectedCollection}`,
-					type: "GET",
-					data: {'_token': '{{ csrf_token() }}'},
-					dataType: 'json',
-						success: function (response) {
-							$('select[name="cor"]').empty();
-							let colors = JSON.parse(response[0].colors);
-
-							for (let i = 0; i < colors.length; i++) {
-								let color = colors[i];
-
-								let option = `<option value="${color}">${color}</option>`;
-
-								$('#cor').append(option);
-							}
-						},
-					});	
-				}
-				else 
-				{
-					$('select[name="cor"]').empty();
-				}
-			});
         </script>
 
 		<script>

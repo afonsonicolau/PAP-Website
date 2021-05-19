@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\ProductTypes;
 use App\Models\CartItems;
 
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -40,19 +41,30 @@ class ProductsController extends Controller
         return view('backoffice.products.create', compact('collections', 'types'));
     }
 
-    public function getColors($collectionId)
+    public function getInfo($collectionId, $typeId)
     {
-        $colors = Collection::select('colors')->where('id', $collectionId)->get();
+        if($collectionId != "null")
+        {
+            $collection = Collection::find($collectionId);
 
-        $colors = json_decode($colors, true);
+            $colors = $collection->colors;
 
-        return $colors;
+            return $colors;
+        }
+        else if($typeId != "null")
+        {
+            $type = ProductTypes::find($typeId);
+
+            $reference = json_decode($type->reference);
+
+            return $reference;
+        }
+        
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'referência' => 'required|int',
             'tipo' => 'required',
             'coleção' => 'required',
             'cor' => 'required',
@@ -74,6 +86,8 @@ class ProductsController extends Controller
         {
             $color = $request->cor; 
             $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
+            $productType = ProductTypes::find($request->tipo);
+            $collection = Collection::find($request->coleção);
 
             // For thumbnail
             if($thumbnail = $request->file('miniatura'))
@@ -83,7 +97,7 @@ class ProductsController extends Controller
                 $extension = pathinfo($thumbnailName, PATHINFO_EXTENSION); // Image extension | .jpg, .png, .jpeg, etc...
                 
                 // Create custom name
-                $thumbnailName = "thumbnail_" . $request->referência . "_" . $request->tipo . "_" . $color . "." . $extension;
+                $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
                 
                 // Image path to database
                 $imagePath = $request->file('miniatura')->storeAs('thumbnail', $thumbnailName, 'public');
@@ -106,7 +120,7 @@ class ProductsController extends Controller
                     $extension = pathinfo($imageName, PATHINFO_EXTENSION);
 
                     // Create custom name
-                    $imageName = "produto_" . $i . "_" . $request->referência . "_" . $request->tipo . "_" . $color . "." . $extension;
+                    $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->tipo . "_" . $collection->collection . "." . $extension;
 
                     // Image path to database
                     $imagePath = $image->storeAs('products', $imageName, 'public');
@@ -129,7 +143,6 @@ class ProductsController extends Controller
 
                 // Create and save to database
                 Product::create([
-                    'reference' => $request->referência,
                     'type_id' => $request->tipo,
                     'collection_id' => $request->coleção,
                     'color' => $request->cor,
@@ -205,10 +218,10 @@ class ProductsController extends Controller
                 'disabled' => 1,
             ]);
         }
+        // Normal update
         else
         {
             $validator = Validator::make($request->all(), [
-                'referência' => 'required|int',
                 'tipo' => 'required',
                 'coleção' => 'required',
                 'cor' => 'required',
@@ -231,6 +244,8 @@ class ProductsController extends Controller
             {
                 $color = $request->cor; 
                 $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
+                $productType = ProductTypes::find($request->tipo);
+                $collection = Collection::find($request->coleção);
 
                 // Thumbnail
                 if($thumbnail = $request->file('miniatura'))
@@ -242,7 +257,7 @@ class ProductsController extends Controller
                     $extension = pathinfo($thumbnailName, PATHINFO_EXTENSION); // Image extension | .jpg, .png, .jpeg, etc...
                     
                     // Create custom name
-                    $thumbnailName = "thumbnail_" . $request->referência . "_" . $request->tipo . "_" . $color . "." . $extension;
+                    $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
                     
                     // Image path to database
                     $imagePath = $request->file('miniatura')->storeAs('thumbnail', $thumbnailName, 'public');
@@ -267,7 +282,7 @@ class ProductsController extends Controller
                         $extension = pathinfo($imageName, PATHINFO_EXTENSION);
 
                         // Create custom name
-                        $imageName = "produto_" . $i . "_" . $request->referência . "_" . $request->tipo . "_" . $color . "." . $extension;
+                        $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
 
                         // Image path to database
                         $imagePath = $image->storeAs('products', $imageName, 'public');
@@ -285,7 +300,6 @@ class ProductsController extends Controller
                 $imageNames = json_encode($savedImages);
 
                 $product->update([
-                    'reference' => $request->referência,
                     'type_id' => $request->tipo,
                     'collection_id' => $request->coleção,
                     'color' => $request->cor,

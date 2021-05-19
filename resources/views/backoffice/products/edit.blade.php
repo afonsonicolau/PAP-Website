@@ -13,14 +13,10 @@
 						@method('PATCH')
 
 						<div class="form-group">
-							<label for="referência">Referência do Produto</label>
-							<input type="text" class="form-control" id="referência" name="referência" data-validate="yes" data-min="2" data-max="5" data-type="int" value="{{ old('referência') ?? $product->reference }}">
+							<label for="reference">Referência do Produto</label>
+							<input type="text" class="form-control" id="reference" name="reference" disabled>
 						</div>
-
-						@if ($errors->has('referência'))
-							<p class="text-danger">{{$errors->first('referência')}}</p>
-						@endif
-
+						
 						<div class="form-group">
 							<label for="tipo">Tipo de Produto</label>
 							<select class="form-control form-control-lg" id="tipo" name="tipo">

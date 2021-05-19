@@ -19,7 +19,8 @@ class ProductSeeder extends Seeder
         $faker = Faker::create();
         foreach (range(1, 100) as $index) {
             DB::table('product_types')->insert([
-                'type' => $faker->unique()->sentence(1)
+                'reference' => $faker->unique()->randomNumber($nbDigits = NULL, $strict = false),
+                'type' => $faker->unique()->sentence(1),
             ]);
         }
         foreach (range(1, 100) as $index) {

@@ -10,6 +10,16 @@
 					<p class="card-description">Este formulário cria uma coleção que poderá ser utilizada para associar a produtos.</p>
 					<form class="forms-sample" method="POST" action="{{ route('types.store') }}" enctype="multipart/form-data">
 						@csrf
+
+						<div class="form-group">
+							<label for="referencia">Referência do Produto</label>
+							<input type="number" class="form-control" id="referencia" name="referencia" min="1" data-validate="yes" data-min="1" data-max="10" data-type="int" value="{{ old('referencia') }}">
+						</div>
+
+						@if ($errors->has('referencia'))
+							<p class="text-danger">{{$errors->first('referencia')}}</p>
+						@endif
+
 						<div class="form-group">
 							<label for="tipo">Tipo de Produto</label>
 							<input type="text" class="form-control" id="tipo" name="tipo" data-validate="yes" data-min="2" data-max="30" data-type="string" value="{{ old('tipo') }}">

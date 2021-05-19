@@ -100,7 +100,7 @@ class CollectionsController extends Controller
         return view('backoffice.collections.edit', compact('collection', 'colorsText'));
     }
 
-    public function update(Request $request, $id, $disable)
+    public function update(Request $request, $id, $disable = null)
     {
         $collection = Collection::find($id);
 

@@ -10,7 +10,6 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('reference');
             $table->unsignedBigInteger('collection_id')->index();
             $table->boolean('standout')->default(0);
             $table->boolean('outlet')->default(0);

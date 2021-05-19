@@ -30,7 +30,7 @@
                         <tbody>
                             @foreach ($products as $product)
                                 <tr>
-                                    <td>{{ $product->reference }}</td>
+                                    <td>{{ $product->type->reference }}</td>
                                     <td>{{ $product->type->type }}</td>
                                     <td>{{ $product->color }}</td>
                                     <td>{{ $product->collection->collection }}</td>

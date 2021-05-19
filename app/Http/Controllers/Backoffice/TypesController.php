@@ -35,7 +35,8 @@ class TypesController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'tipo' => 'required|alpha|unique:product_types,type',
+            'referencia' => 'required|int|unique:product_types,reference',
+            'tipo' => 'required|unique:product_types,type',
         ]);
 
         if($validator->fails())
@@ -46,6 +47,7 @@ class TypesController extends Controller
         {
             // Create and save to database
             ProductTypes::create([
+                'reference' => $request->referencia,
                 'type' => $request->tipo,
             ]);
 
@@ -73,7 +75,6 @@ class TypesController extends Controller
             {
                 if($product->images != null)
                 {
-                    $images = "";
                     $images = json_decode($product->images);
     
                     foreach($images as $key => $value)
@@ -93,7 +94,8 @@ class TypesController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'tipo' => 'required|alpha,' . $type->id,
+                'referencia' => 'required|int|unique:product_types,reference',
+                'tipo' => 'required|unique:product_types,type',
             ]);
 
             if($validator->fails())
@@ -103,6 +105,7 @@ class TypesController extends Controller
             else
             {
                 $type->update([
+                    'reference' => $request->referencia,
                     'type' => $request->tipo,
                 ]);
     

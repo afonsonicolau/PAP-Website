@@ -9,7 +9,7 @@
 					<h4 class="card-title">Editar Coleção</h4>
 					<p class="card-description">Este formulário tem como propósito editar uma coleção.</p>
 
-					<form class="forms-sample" method="POST" action="{{ route('collections.update', $collection->id) }}" enctype="multipart/form-data">
+					<form class="forms-sample" method="POST" action="{{ route('collections.update', [$collection->id, false]) }}" enctype="multipart/form-data">
 						@csrf
 						@method('PATCH')
 

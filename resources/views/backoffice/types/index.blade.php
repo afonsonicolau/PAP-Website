@@ -11,6 +11,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                                <th>Referência</th>
                                 <th>Tipo de Produto</th>
                                 <th>Número de Produtos Associados</th>
                                 <th>Editar/Remover</th>
@@ -19,6 +20,7 @@
                         <tbody>
                             @foreach ($types as $type)
                                 <tr id="type_{{ $type->id }}">
+                                    <td>{{ $type->reference }}</td>
                                     <td>{{ $type->type }}</td>
                                     <td>
                                         @php
@@ -36,8 +38,7 @@
                                         {{$i}}
                                     </td>
                                     <td>
-                                        <a class="btn btn-primary" href="{{ route('types.edit', ['type' => $type->id]) }}" title="Editar Tipo"><i class="fas fa-edit"></i></a>
-                                        
+                                        <a class="btn btn-primary" href="{{ route('types.edit', $type->id) }}" title="Editar Tipo"><i class="fas fa-edit"></i></a>
                                          <button class="btn btn-danger" onclick="typeDelete({{ $type->id }})" type="button" title="Eliminar Tipo de Produto">
                                             <i class="fas fa-trash"></i>
                                         </button> 

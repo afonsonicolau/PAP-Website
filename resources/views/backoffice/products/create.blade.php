@@ -10,14 +10,11 @@
 					<p class="card-description">Este formulário tem como propósito criar um produto para exibir na loja online, seja o produto outlet ou não.</p>
 					<form class="forms-sample" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
 						@csrf
+						
 						<div class="form-group">
-							<label for="referência">Referência do Produto</label>
-							<input type="text" class="form-control" id="referência" name="referência" data-validate="yes" data-min="2" data-max="5" data-type="int" value="{{ old('referência') }}">
+							<label for="reference">Referência do Produto</label>
+							<input type="text" class="form-control" id="reference" name="reference" disabled>
 						</div>
-
-						@if ($errors->has('referência'))
-							<p class="text-danger">{{$errors->first('referência')}}</p>
-						@endif
 
 						<div class="form-group">
 							<label for="tipo">Tipo de Produto</label>

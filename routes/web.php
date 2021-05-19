@@ -73,7 +73,7 @@ Route::patch('/backoffice/users/{user}', [App\Http\Controllers\Backoffice\UsersC
 // Backoffice - Products
 Route::get('/backoffice/products', [App\Http\Controllers\Backoffice\ProductsController::class, 'index'])->name('products.index');
 Route::get('/backoffice/products/create', [App\Http\Controllers\Backoffice\ProductsController::class, 'create'])->name('products.create');
-Route::get('/backoffice/products/create/getColors/{collection}', [App\Http\Controllers\Backoffice\ProductsController::class, 'getColors'])->name('products.get-colors');
+Route::get('/backoffice/products/create/getInfo/{collection}/{type}', [App\Http\Controllers\Backoffice\ProductsController::class, 'getInfo'])->name('products.get-info');
 
 Route::post('/backoffice/products', [App\Http\Controllers\Backoffice\ProductsController::class, 'store'])->name('products.store');
 
