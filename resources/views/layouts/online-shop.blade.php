@@ -499,7 +499,8 @@
 
                 if(valid)
                 {
-                    totalPrice.toFixed(2);
+                    
+                    totalPrice = Math.round(totalPrice * 100) / 10;
                     $(`#productsTotal`).text(totalPrice + "€");
                     $(`#cartPriceTotal`).text(totalPrice + "€");
 

@@ -38,10 +38,20 @@ class OrderController extends Controller
         }
         else
         {
+            // Variable treatment
             $delivery = Address::find($request->delivery_id);
             $billing = Address::find($request->billing_id);
             $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
             $user = User::find($delivery->user_id);
+
+            $paid = 1;
+            $state = "Em Processamento";
+
+            if($request->payment_method == 'Multibanco')
+            {
+                $paid = 0;
+                $state = "Falta Pagamento";
+            }
 
             Order::create([
                 'cart_id' => $cart->id,
@@ -53,6 +63,8 @@ class OrderController extends Controller
                 'payment_method' => $request->payment_method,
                 'delivery_method' => $request->delivery_method,
                 'total_price' => $request->total_price,
+                'paid' => $paid,
+                'state' => $state,
             ]);
 
             // Update tables in database 
@@ -68,14 +80,14 @@ class OrderController extends Controller
                 'bought' => 1,
             ]);
                 
+            // Get order to send e-mail to user
+            $order = Order::latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
+
             // Create a new cart for user
             Cart::create([
                 'user_id' => $user->id,
             ]);
-
-            // Get order to send e-mail to user
-            $order = Order::latest()->first();
-            $cartItems = CartItems::where('cart_id', 1)->get();
 
             Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
 
@@ -103,7 +115,8 @@ class OrderController extends Controller
         
         if(auth()->user()->id == $order->user_id)
         {
-            $cartItems = CartItems::where('cart_id', $order->cart_id)->get();
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
             return view('onlineshop.orderconfirmation', compact('cartItems', 'order', 'delivery', 'billing'));
         }
