@@ -216,17 +216,26 @@
 		<link rel="stylesheet" href="/assets/css/validate.css">
         <!-- Scripts -->
         <script>
-			// Price + IVA
-			function totalPriceIva()
+			// When administrator changes state of order, ajax request is made
+			$("#state").on("change", function()
 			{
-				$(".totalPrice").removeClass("hidden");
+				let state = $( "#state option:selected" ).text();
+				/* $.ajax({
+					url: `/backoffice/orders/{order}`, 
+					type: "GET",
+					data: {'_token': '{{ csrf_token() }}'},
+					dataType: "json",
+					success: function (response) {
+						// Empty label
+						$('#reference').empty(); 
+
+						let reference = JSON.parse(response);
+						// Set reference according to type choosen
+						$('#reference').val(reference); 
+					}
+				}); */
 				
-				let price = $("#preço").val();
-				let iva = $("#iva").val();
-				let total = (price / ((100 - iva)/100)).toFixed(2);
-				
-				$("#totalPriceVal").text("Preço total: " + total + " €");
-			}
+			});
 
 			// On product type change reference changes as well 
 			$("#tipo").on("change", function()
@@ -250,7 +259,7 @@
 
 			// Everytime a collection changes so does its colors while creating or editing a product
 			$("#coleção").change(function(){
-				var selectedCollection = $(this).children("option:selected").val();
+				let selectedCollection = $(this).children("option:selected").val();
 				
 				$('#cor').find('option').not(':first').remove();
 
@@ -295,7 +304,27 @@
 					}
 				});
 			}));
+
+			// Images Preview
+			$("#miniatura").change(function() {
+					imagesPreview(this, '.thumbnailPreview');
+			});
+			$('.imagens').change(function() {
+				imagesPreview(this, '.imagesPreview');
+			});
 			
+			// Price + IVA
+			function totalPriceIva()
+			{
+				$(".totalPrice").removeClass("hidden");
+				
+				let price = $("#preço").val();
+				let iva = $("#iva").val();
+				let total = (price / ((100 - iva)/100)).toFixed(2);
+				
+				$("#totalPriceVal").text("Preço total: " + total + " €");
+			}
+
 			// Function to delete the image front-end and send request to backend
 			function imageDelete(imageName, inputId, product)
 			{	
@@ -349,7 +378,7 @@
 							}
 						});						
 					}
-				})
+				});
 			};
 
 			// Function to delete the type front-end with a warning (Sweet Alert) and send request to backend
@@ -391,14 +420,14 @@
 							}
 						});						
 					}
-				})
+				});
 			};
-        </script>
 
-		<script>
-			function imagesPreview(input, placeToInsertImagePreview) {
-				if (input.files) {
-					var filesAmount = input.files.length;
+			function imagesPreview(input, placeToInsertImagePreview) 
+			{
+				if (input.files) 
+				{
+					let filesAmount = input.files.length;
 
 					if(placeToInsertImagePreview == '.thumbnailPreview')
 					{
@@ -410,27 +439,16 @@
 					}
 
 					for (i = 0; i < filesAmount; i++) {
-						var reader = new FileReader();
+						let reader = new FileReader();
 
 						reader.onload = function(event) {
 							$($.parseHTML('<img>')).attr('src', event.target.result).attr('width', 200).attr('heigth', 300).attr('class', 'pr-3').appendTo(placeToInsertImagePreview);
 							//let image = `<img src="${e.target.result}" width="100" height="200" style="border: 5px solid green;  border-radius: 10px;">`	
 						}
-
 						reader.readAsDataURL(input.files[i]);
 					}
 				}
-
 			};
-
-			$("#miniatura").change(function() {
-					imagesPreview(this, '.thumbnailPreview');
-				});
-			$('.imagens').change(function() {
-				imagesPreview(this, '.imagesPreview');
-			});
-
-		</script>
- 
+        </script>
 	</body>
 </html>

@@ -23,10 +23,23 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $states = array('Falta Pagamento', 'Em Processamento', 'Produtos em Distribuição')   
+                            @endphp
                             @foreach ($orders as $order)
                                 <tr>
                                     <td>{{ $order->user->email }}</td>
-                                    <td>{{ $order->state }}</td>
+                                    <td>
+                                        <select class="form-control form-control-lg" name="state" id="state">
+                                            @foreach ($states as $state)
+                                                @if($state == $order->state)
+                                                    <option value="{{ $order->state }}" selected disabled>{{ $order->state }}</option>  
+                                                @else
+                                                    <option value="{{ $state }}">{{ $state }}</option> 
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td>{{ $order->total_price }}€</td>
                                     <td>{{ $order->date_bought }}</td>
                                     <td>{{ $order->payment_method }}</td>  

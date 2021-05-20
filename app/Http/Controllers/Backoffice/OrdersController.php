@@ -22,6 +22,11 @@ class OrdersController extends Controller
         return view('backoffice.orders.index', compact('orders'));
     }
 
+    public function update($state)
+    {
+        
+    }
+
     public function show($orderNum)
     {
         $order = Order::where('order_number', $orderNum)->first();
