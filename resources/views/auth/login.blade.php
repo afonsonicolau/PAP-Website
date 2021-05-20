@@ -13,7 +13,7 @@
 					<div class="form-group">
 						<label class="label">E-mail</label>
 						<div class="input-group">
-							<input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" autocomplete="email" placeholder="exemplo@exemplo.com" autofocus>
+							<input type="email" class="form-control" name="email" id="email" data-validate="yes" data-min="5" data-max="144" data-type="email" autocomplete="email" placeholder="exemplo@exemplo.com" value="{{ old('email') }}" autofocus>
 							<div class="input-group-append">
 								<span class="input-group-text">
 								</span>

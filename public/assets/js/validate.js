@@ -18,7 +18,10 @@ $('form').submit(function () {
     });
     
     $(this).find('input[data-validate="yes"]').each(function(){
+        // Remove classes and <p> tags
         $(this).parent("div").children('p').remove();
+        $(this).parents(".form-group").children('p').remove();
+        $(".check").children('p').remove();
         $(this).removeClass('form-validate-invalid');
 
         let dataMin = Number($(this).attr('data-min'));
@@ -32,7 +35,7 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
                 }        
                 break;
 
@@ -41,17 +44,17 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo tem de conter um e-mail válido.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo tem de conter um e-mail válido.</p>`);
                 }       
                 break;
-
+                
             case 'int':
                 dataNumber = Number(dataValue);
                 if(!Number.isInteger(dataNumber)) 
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append('<p class="text-danger">Este campo tem de ser preenchido apenas com números.</p>');
+                    $(this).parents(".form-group").append('<p class="text-danger">Este campo tem de ser preenchido apenas com números.</p>');
                 }
                 else
                 {
@@ -59,16 +62,15 @@ $('form').submit(function () {
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parent("div").append(`<p class="text-danger">Este campo deve conter ${dataMin} números.</p>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve conter ${dataMin} números.</p>`);
                     }
                     else if(dataValue.length > dataMax || dataValue.length < dataMin) 
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
                     }   
                 }
-                
                 break;
 
             case 'float':
@@ -76,7 +78,7 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
                 }
                 break;
 
@@ -86,7 +88,7 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo tem o formato inválido: <u>123x123</u>.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo tem o formato inválido: <u>123x123</u>.</p>`);
                 }  
                 break;
 
@@ -96,7 +98,7 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parent("div").append(`<p class="text-danger">Este campo tem o formato inválido: <u>1234x123</u>.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo tem o formato inválido: <u>1234x123</u>.</p>`);
                 }  
                 break;
 
@@ -107,7 +109,39 @@ $('form').submit(function () {
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parent("div").append(`<p class="text-danger">Este campo deve estar vazio ou completo com 9 caracteres.</p>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve estar vazio ou completo com 9 caracteres.</p>`);
+                    }
+                }
+                break;
+
+            case 'checkbox':
+                let checkedbox = $('#termos:checkbox:checked').length;
+                if(checkedbox == 0)
+                {
+                    validForm = false;
+                    $(`<p class="text-danger">Para continuar, verifique que concorda com os termos e condições.</p>`).appendTo(".check");
+                }
+                break;
+
+            case 'password':
+                const regexPassword = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})");
+                if(!regexPassword.test(dataValue)) 
+                {
+                    validForm = false;
+                    $(this).addClass('form-validate-invalid');
+                    $(this).parents(".form-group").append(`<p class="text-danger">A palavra-passe deve ter 8 caracteres, uma letra, um número e um caractere especial.</p>`);
+                }       
+                break;
+
+            case 'confirmpassword':
+                let password = $("#password").val();
+                if (password != "")
+                {
+                    if(password != dataValue)
+                    {
+                        validForm = false;
+                        $(this).addClass('form-validate-invalid');
+                        $(this).parents(".form-group").append(`<p class="text-danger">As palavras-passe inseridas têm de ser iguais.<p/>`);
                     }
                 }
                 break;

@@ -10,16 +10,20 @@
                         <div class="ps-product__preview">
                             <div class="ps-product__variants">
                                 <div class="item"><img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""></div>
-                                @foreach (json_decode($product->images) as $key => $image)
-                                    <div class="item"><img src="/storage/products/{{ $image }}" alt=""></div>
-                                @endforeach
+                                @if ($product->images != [] && $product->images != null)
+                                    @foreach (json_decode($product->images) as $key => $image)
+                                        <div class="item"><img src="/storage/products/{{ $image }}" alt=""></div>
+                                    @endforeach
+                                @endif 
                             </div>
                         </div>
                         <div class="ps-product__image">
                         <div class="item"><img class="zoom" src="/storage/thumbnail/{{ $product->thumbnail }}" alt="" data-zoom-image="/storage/thumbnail/{{ $product->thumbnail }}"></div>
-                        @foreach (json_decode($product->images) as $key => $image)
+                        @if ($product->images != [] && $product->images != null)
+                            @foreach (json_decode($product->images) as $key => $image)
                             <div class="item"><img class="zoom" src="/storage/products/{{ $image }}" alt="" data-zoom-image="/storage/products/{{ $image }}"></div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
             </div>
             <div class="ps-product__thumbnail--mobile">

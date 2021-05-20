@@ -24,7 +24,7 @@ class ProductsController extends Controller
     {
         $this->middleware(['auth', 'admin']);
     }
-
+    
     public function index()
     {
         $products = Product::where('disabled', 0)->latest()->paginate(20);
@@ -59,7 +59,6 @@ class ProductsController extends Controller
 
             return $reference;
         }
-        
     }
 
     public function store(Request $request)
@@ -158,7 +157,6 @@ class ProductsController extends Controller
             
             return redirect(route('products.index'));
         }
-        
     }
 
     public function edit($id)

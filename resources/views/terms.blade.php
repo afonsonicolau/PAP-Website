@@ -34,7 +34,7 @@
                     As cookies são usadas em algumas áreas do nosso site para permitir a funcionalidade desta área e facilitar a utilização dos visitantes. Alguns dos nossos afiliados / parceiros publicitários podem também usar cookies.
 
                     Licença
-
+    
                     Excetuando referência em contrário, a (Nome da Loja) e/ou os seus licenciantes são proprietários dos direitos de propriedade intelectual para todo o material em (Nome da Loja).
 
                     Todos os direitos de propriedade intelectual são reservados. Pode visualizar e/ou imprimir páginas de (Adicionar URL) para o seu uso pessoal, sujeito às restrições definidas nestes termos e condições.
