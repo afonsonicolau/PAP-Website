@@ -15,6 +15,11 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    public function __construct()
+    {
+        $this->paginateNumber = 20;
+    }
+
     public function index()
     {
         $cart = "";
@@ -41,17 +46,14 @@ class ShopController extends Controller
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
         }
 
-        $productList = Product::where('disabled', 0)->where('visible', 1)->get();
+        $productList = Product::where('disabled', 0)->where('visible', 1);
         $collectionsDistinct = "";
         $typesDistinct = "";
 
-        foreach($productList as $product)
-        {
-            $typesDistinct = $product->distinct('type_id');
-            $collectionsDistinct = $product->distinct('collection_id');
-        }
+        $typesDistinct = $productList->distinct()->get('type_id');
+        $collectionsDistinct = $productList->distinct()->get('collection_id');
 
-        $productList = Product::where('disabled', 0)->where('visible', 1)->latest()->paginate(2);
+        $productList = Product::where('disabled', 0)->where('visible', 1)->latest()->paginate($this->paginateNumber);
         $max = Product::max('price');
 
         return view('onlineshop.product-listing', compact('cart', 'cartItems', 'max', 'productList', 'collectionsDistinct', 'typesDistinct'));
@@ -62,21 +64,21 @@ class ShopController extends Controller
         $price = explode("-", $priceRange);
         $collectionId = trim($collection, 'collection_');
         $typeId = trim($type, 'type_');
-        $productsSelected = Product::where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->get();
+        $productsSelected = Product::where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
 
         if ($collectionId > 0 && $typeId > 0)
         {
-            $productsSelected = Product::where('collection_id', $collectionId)->where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->get();
+            $productsSelected = Product::where('collection_id', $collectionId)->where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
         }
         elseif ($typeId > 0)
         {
-            $productsSelected = Product::where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->get();
+            $productsSelected = Product::where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
         }
         elseif ($collectionId > 0 )
         {
-            $productsSelected = Product::where('collection_id', $collectionId)->with('collection')->with('type')->latest()->get();
+            $productsSelected = Product::where('collection_id', $collectionId)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
         }
-
+        
         return response()->json($productsSelected); 
     }
 

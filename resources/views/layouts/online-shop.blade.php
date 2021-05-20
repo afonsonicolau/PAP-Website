@@ -376,8 +376,8 @@
                     url: `/online-shop/product-listing/${collectionId}/${typeId}/${priceRange}`,
                     success: function (response) {
                         $('.ps-product__columns').empty();
-                        
-                        let products = response;
+
+                        let products = response.data ? response.data : response;
                         for (let i = 0; i < products.length; i++) {
                             let product = products[i];
 
