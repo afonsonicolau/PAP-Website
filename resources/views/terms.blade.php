@@ -47,9 +47,6 @@
                         <li>Reproduzir, duplicar ou copiar material de www.olfaire.pt;</li>
                         <li>Redistribuir conteúdo da Empresa (a não ser que o conteúdo seja feito especificamente para redistribuição).</li>
                     </ul>
-                   
-                    
-                    
                     
                     <b>AVISO</b>   
 

@@ -52,7 +52,7 @@
                         <div class="header__actions">
                             <!-- Authentication -->
                             @if (auth()->user())
-                                <a href="{{ route('online-shop.profile-index') }}">Perfil</a>
+                                <a href="{{ route('online-shop.profile-personal') }}">Perfil</a>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">Terminar Sessão

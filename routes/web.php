@@ -40,8 +40,7 @@ Route::post('/online-shop/product-listing/product-detail/{product}/{userId}', [A
 Route::patch('/online-shop/cart/{productId}/{quantity}', [App\Http\Controllers\OnlineShop\CartController::class, 'update'])->name('online-shop.update-cart');
 Route::delete('/online-shop/cart/{productId}', [App\Http\Controllers\OnlineShop\CartController::class, 'destroy'])->name('online-shop.delete-cart');
 
-//User Profile
-Route::get('/online-shop/profile', [App\Http\Controllers\OnlineShop\ProfileController::class, 'index'])->name('online-shop.profile-index');
+//User Personal
 Route::get('/online-shop/profile/personal', [App\Http\Controllers\OnlineShop\ProfileController::class, 'personal_index'])->name('online-shop.profile-personal');
 
 // User Addresses

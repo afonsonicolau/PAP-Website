@@ -4655,7 +4655,7 @@ textarea.form-control {
 .ps-checkout .ps-checkout__billing {
   padding-right: 100px; }
   .ps-checkout .ps-checkout__billing > h3 {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     font-family: "Archivo Narrow", sans-serif;
     font-size: 30px;
     font-weight: 700;
@@ -4663,7 +4663,7 @@ textarea.form-control {
     color: #000;
     text-transform: uppercase; }
   .ps-checkout .ps-checkout__billing .form-group {
-    margin-bottom: 20px; }
+    margin-bottom: 10px; }
 
 .ps-checkout table.ps-checkout__products > thead > tr > th {
   color: #fff;
@@ -6542,4 +6542,51 @@ html .bg--parallax {
 .collection-filter {
   	width: 25px;
 	height: 25px;
+}
+
+.profile-side-text {
+  color: black;
+}
+
+.profile-side-text:hover{
+    font-weight: bolder;
+    color:rgb(68, 146, 68);
+    text-decoration: underline;
+}
+
+.ps-profile {
+  border: 1px solid #e5e5e5;
+  padding-right: 100px; 
+  margin-bottom: 30px;
+}
+
+.ps-profile > h3 {
+  margin-bottom: 30px;
+  font-family: "Archivo Narrow", sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 0.7em;
+  color: black;
+  text-transform: uppercase; 
+}
+
+.ps-profile h3 {
+  margin-bottom: 0;
+  font-family: "Archivo Narrow", sans-serif;
+  font-size: 20px;
+  line-height: 1.8;
+  color: black;
+  font-weight: bolder;
+  text-transform: uppercase; 
+}
+
+.ps-profile > header {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-left: 25px;
+}
+
+.ps-profile .content {
+  padding-bottom: 20px;
+  padding-left: 25px;
 }

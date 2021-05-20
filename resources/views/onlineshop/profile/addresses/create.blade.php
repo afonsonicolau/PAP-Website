@@ -75,14 +75,14 @@
                     </div>
                 </form>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="ps-checkout__order" style="background-color: rgb(160, 161, 163);">
+                    <div class="ps-profile">
                         <header>
-                            <h3><a href="{{ route('online-shop.profile-index') }}">A Sua Conta</a></h3>
+                            <h3>O SEU PERFIL</h3>
                         </header>
-                        <div class="content" >
-                            <a href="{{ route('online-shop.profile-orders') }}">As Minhas Encomendas</a>         <br>
-                            <a href="{{ route('online-shop.profile-addresses') }}">As Minhas Moradas</a>            <br>
-                            <a href="{{ route('online-shop.profile-personal') }}">Mudar Informações da Conta</a>
+                        <div class="content">
+                            <a class="profile-side-text" href="{{ route('online-shop.profile-personal') }}">Informações da Conta</a> <br>
+                            <a class="profile-side-text" href="{{ route('online-shop.profile-addresses') }}" >As Minhas Moradas</a> <br>
+                            <a class="profile-side-text" href="{{ route('online-shop.profile-orders') }}">As Minhas Encomendas</a> <br>
                         </div>
                     </div>
                     <div class="ps-shipping">

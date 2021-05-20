@@ -17,15 +17,8 @@ class ProfileController extends Controller
         $this->middleware(['auth','verified']);    
     }
 
-    public function index()
-    {
-        $addresses = Address::all();
-        $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-        $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-        return view('onlineshop.profile.index', compact('cartItems', 'addresses'));
-    }
-
+    // Personal
     public function personal_index()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
