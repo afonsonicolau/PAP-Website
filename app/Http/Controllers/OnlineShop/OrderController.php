@@ -30,6 +30,10 @@ class OrderController extends Controller
             'payment_method' => 'required',
             'delivery_method' => 'required',
             'total_price' => 'required',
+        ],
+        [
+            'delivery_id.required' => "Selecione uma morada de envio",
+            'billing_id.required' => "Selecione uma morada de faturação",
         ]);
 
         if($validator->fails())

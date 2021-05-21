@@ -16,11 +16,12 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Tipo do Item</th>
-                                            <th>Coleção do Item</th>
                                             <th>Referência</th>
+                                            <th>Tipo</th>
+                                            <th>Coleção</th>
                                             <th>Preço</th>
                                             <th>Quantidade</th>
+                                            <th>Subtotal</th>
                                             <th>IVA</th>
                                             <th>Total</th>
                                         </tr>
@@ -28,11 +29,12 @@
                                     <tbody>
                                         @foreach ($cartItems as $item)
                                             <tr>
+                                                <td style="border: none;">{{ $item->product->type->reference }}</td>
                                                 <td style="border: none;">{{ $item->product->type->type }}</td>
                                                 <td style="border: none;">{{ $item->product->collection->collection }}</td>
-                                                <td style="border: none;">{{ $item->product->reference }}</td>
                                                 <td style="border: none;">{{ $item->price }}€</td>
                                                 <td style="border: none;"><b>Encomendado:</b> {{ $item->quantity }}</td>
+                                                <td style="border: none;">{{ $item->price * $item->quantity }}€</td>
                                                 <td style="border: none;">{{ $item->iva }}%</td>
                                                 <td style="border: none;">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</td>
                                             </tr>

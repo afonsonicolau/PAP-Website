@@ -587,8 +587,7 @@
                 let getRadioChecked = $('input[name="payment"]:checked');
                 let checkInputDelivery = $("#delivery_id").val();
                 let checkInputBilling =  $("#billing_id").val();
-
-                if(getRadioChecked.length != 1 || checkInputDelivery == null || checkInputBilling == null)
+                if(getRadioChecked.length != 1 || checkInputDelivery == "" || checkInputBilling == "")
                 {
                     e.preventDefault(e);
                     $("#errorMessage").text("Selecione todas as informações pertinentes: 'Moradas de Envio', 'Morada de Faturação', 'Método de Envio' e 'Tipo de Pagamento'.").removeClass("hidden");

@@ -49,24 +49,31 @@
 									@endforeach
 								</div>
 							</div>
-							
+								
 							<div class="hidden" id="billing">
 								<h4>Morada de Faturação</h4>
 								<div class="d-flex flex-column">
-								@foreach ($addresses as $address)
-									@if ($address->user_id == auth()->user()->id && $address->type == 1 || $address->type == 3)
-										<div class="mt-15 unselected-address billing" id="billing_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Billing')">
-											<div class="pl-10 pt-10">{{ $address->name }}</div> 
-											<div class="pl-10">{{ $address->address }}</div>
-											<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
-											<div class="pl-10">{{ $address->country }}</div>
-											<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
-										</div>
-									@endif
-								@endforeach
-							</div>
+									@foreach ($addresses as $address)
+										@if ($address->user_id == auth()->user()->id && $address->type == 1 || $address->type == 3)
+											<div class="mt-15 unselected-address billing" id="billing_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Billing')">
+												<div class="pl-10 pt-10">{{ $address->name }}</div> 
+												<div class="pl-10">{{ $address->address }}</div>
+												<div class="pl-10">{{ $address->city }}, {{ $address->postal_code }}</div>
+												<div class="pl-10">{{ $address->country }}</div>
+												<div class="pl-10 pb-10">{{ $address->phone_number }}</div>
+											</div>
+										@endif
+									@endforeach
+								</div>
 							</div>
 							
+							@error('delivery_id')
+								<p class="pt-10 text-danger">{{ $message }}</p>
+							@enderror
+							@error('billing_id')
+								<p class="pt-10 text-danger">{{ $message }}</p>
+							@enderror
+
 							<hr>
 							<h4>Métodos de Envio</h4>
 							<p>Escolha o método de envio para enviar a sua encomenda.</p>
@@ -75,14 +82,12 @@
 									<div class="pl-10 pb-10 pt-10">CTT</div> 
 									<input type="hidden" name="delivery_method" id="delivery_method" value="CTT">
 								</div>
-								
 							</div>
-							<p class="pt-10 hidden" id="errorMessage" style="color:red;"></p>
+							<p class="pt-10 text-danger hidden" id="errorMessage"></p>
 							<h3 class="mt-40">Informação Adicional (Não obrigatório)</h3>
 							<div class="form-group form-group--inline textarea">
 								<label>Notas</label>
 								<textarea class="form-control" rows="5" id="additional" name="additional" placeholder="Notas adicionais para a sua entrega."></textarea>
-								
 							</div>
 						</div>
 					</div>
