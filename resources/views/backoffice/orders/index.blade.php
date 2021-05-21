@@ -27,7 +27,7 @@
                                 $states = array('Falta Pagamento', 'Em Processamento', 'Produtos em Distribuição')   
                             @endphp
                             @foreach ($orders as $order)
-                                <tr>
+                                <tr id="{{ $order->order_number }}">
                                     <td>{{ $order->user->email }}</td>
                                     <td>
                                         <select class="form-control form-control-lg" name="state" id="state">

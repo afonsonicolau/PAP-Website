@@ -22,9 +22,18 @@ class OrdersController extends Controller
         return view('backoffice.orders.index', compact('orders'));
     }
 
-    public function update($state)
+    public function update($id, $state)
     {
-        
+        if($state != "" && $id != "")
+        {
+            Order::where('order_number', $id)->update([
+                'state' => $state,
+            ]);
+
+            return true;
+        }
+
+        return false;
     }
 
     public function show($orderNum)

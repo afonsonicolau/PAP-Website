@@ -219,22 +219,46 @@
 			// When administrator changes state of order, ajax request is made
 			$("#state").on("change", function()
 			{
-				let state = $( "#state option:selected" ).text();
-				/* $.ajax({
-					url: `/backoffice/orders/{order}`, 
-					type: "GET",
-					data: {'_token': '{{ csrf_token() }}'},
-					dataType: "json",
-					success: function (response) {
-						// Empty label
-						$('#reference').empty(); 
+				// Verification with Swal JS
+				Swal.fire({
 
-						let reference = JSON.parse(response);
-						// Set reference according to type choosen
-						$('#reference').val(reference); 
+					title: 'Tem a certeza que quer mudar o estado da encomeda?',
+					text: `O estado escolhido será demonstrado ao utilizador!`,
+					icon: 'warning',
+
+					showCancelButton: true,
+					confirmButtonColor: '#d33',
+					cancelButtonColor: '#3085d6',
+					confirmButtonText: 'Mudar Estado',
+					cancelButtonText: 'Voltar Atrás'
+
+				}).then((result) => {
+					if (result.isConfirmed) {
+						let id = $("#state").closest('tr').prop('id');
+						let state = $("#state option:selected").text();
+
+						$.ajax({
+							url: `/backoffice/orders/${id}/${state}`,
+							type: "PATCH",
+							data: {'_token': '{{ csrf_token() }}'},
+							datatype: "html",
+							success: function () {
+								Swal.fire(
+									'Estado Atualizado',
+									'A ação ocorreu com sucesso e o estado da encomenda foi atualizado!',
+									'success'
+								)
+							},
+							error: function () {
+								Swal.fire(
+									'Não foi possível atualizar o estado da encomenda!',
+									'Tente novamente mais tarde.',
+									'error'
+								)
+							}
+						});					
 					}
-				}); */
-				
+				});
 			});
 
 			// On product type change reference changes as well 

@@ -19,6 +19,7 @@
                                     <th>Referência</th>
                                     <th>Preço</th>
                                     <th>Quantidade</th>
+                                    <th>Sub-total</th>
                                     <th>IVA</th>
                                     <th>Total</th>
                                 </tr>
@@ -28,9 +29,10 @@
                                     <tr>
                                         <td style="border: none;">{{ $item->product->type->type }}</td>
                                         <td style="border: none;">{{ $item->product->collection->collection }}</td>
-                                        <td style="border: none;">{{ $item->product->reference }}</td>
+                                        <td style="border: none;">{{ $item->product->type->reference }}</td>
                                         <td style="border: none;">{{ $item->price }}€</td>
                                         <td style="border: none;"><b>Encomendado:</b> {{ $item->quantity }}</td>
+                                        <td style="border: none;">{{ $item->price * $item->quantity }}€</td>
                                         <td style="border: none;">{{ $item->iva }}%</td>
                                         <td style="border: none;">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</td>
                                     </tr>
