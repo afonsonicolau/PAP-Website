@@ -65,22 +65,21 @@
                             </div>
                         </div>
                     </div>
-                </form>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="ps-profile">
-                        <header>
-                            <h3>O SEU PERFIL</h3>
-                        </header>
-                        <div class="content">
-                            <a class="profile-side-text" href="{{ route('online-shop.profile-personal') }}">Informações da Conta</a> <br>
-                            <a class="profile-side-text" href="{{ route('online-shop.profile-addresses') }}" >As Minhas Moradas</a> <br>
-                            <a class="profile-side-text" href="{{ route('online-shop.profile-orders') }}">As Minhas Encomendas</a> <br>
-                        </div>
+            </form>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 pt-20">
+                <div class="ps-profile">
+                    <header>
+                        <h3>O SEU PERFIL</h3>
+                    </header>
+                    <div class="content">
+                        <a class="profile-side-text" href="{{ route('online-shop.profile-personal') }}">Informações da Conta</a> <br>
+                        <a class="profile-side-text" href="{{ route('online-shop.profile-addresses') }}" >As Minhas Moradas</a> <br>
+                        <a class="profile-side-text" href="{{ route('online-shop.profile-orders') }}">As Minhas Encomendas</a> <br>
                     </div>
-                    <div class="ps-shipping">
-                    <h3>Atenção</h3>
-                    <p>Confira todos os dados antes de efetuar a compra.
-                    </div>
+                </div>
+                <div class="ps-shipping">
+                    <h3>Informação</h3>
+                    <p>Se escolher a definição de morada "Ambas" poderá escolhê-la tanto como envio ou faturação.</p>
                 </div>
             </div>
         </div>

@@ -32,8 +32,8 @@ class OrderController extends Controller
             'total_price' => 'required',
         ],
         [
-            'delivery_id.required' => "Selecione uma morada de envio",
-            'billing_id.required' => "Selecione uma morada de faturação",
+            'delivery_id.required' => "Selecione uma morada de envio.",
+            'billing_id.required' => "Selecione uma morada de faturação.",
         ]);
 
         if($validator->fails())
@@ -47,10 +47,8 @@ class OrderController extends Controller
             $billing = Address::find($request->billing_id);
             $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
             $user = User::find($delivery->user_id);
-
-            $paid = 1;
+            
             $state = "Em Processamento";
-
             if($request->payment_method == 'Multibanco')
             {
                 $paid = 0;

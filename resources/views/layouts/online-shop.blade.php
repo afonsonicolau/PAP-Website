@@ -157,14 +157,14 @@
         <div class="header-services">
             <div class="ps-services owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="7000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="false" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
                 <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Produtos Tradicionais!</strong> A Olfaire dedica-se a 100% a criar produtos tradicionais.</p>
-                <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
-                <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Free delivery</strong>: Get free standard delivery on every order with Sky Store</p>
+                <p class="ps-service"><i class="ps-icon-delivery"></i><strong>Envio Rápido</strong>: A Olfaire tenta o seu máximo para um processo de encomenda rápido!</p>
             </div>
         </div>
         <main class="ps-main">
 
         @yield('content')
-
+            
+        </div>
             <div class="ps-subscribe">
                 <div class="ps-container">
                 <div class="row">
@@ -286,6 +286,16 @@
         <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
         <!-- Custom Script -->
         <script>
+            $("#changepassword").on("change", function(){
+                if(this.checked) {
+                    $("div .info").removeClass("hidden");
+                }
+                else
+                {
+                    $("div .info").addClass("hidden");
+                }
+            });
+
             // Delete item from cart
             function cartDelete(productId, productPrice)
             {

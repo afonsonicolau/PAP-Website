@@ -130,7 +130,7 @@
 		<div class="ps-column"><a class="ps-offer" href="product-listing.html"><img src="/assets/onlineshop/images/banner/home-banner-1.png" alt=""></a></div>
 		<div class="ps-column"><a class="ps-offer" href="product-listing.html"><img src="/assets/onlineshop/images/banner/home-banner-2.png" alt=""></a></div>
 	</div>
-	<div class="ps-section--sale-off ps-section pt-80 pb-40">
+	{{-- <div class="ps-section--sale-off ps-section pt-80 pb-40">
 		<div class="ps-container">
 		<div class="ps-section__header mb-50">
 			<h3 class="ps-section__title" data-mask="Sale off">- Hot Deal Today</h3>
@@ -168,8 +168,8 @@
 			</div>
 		</div>
 		</div>
-	</div>
-	<div class="ps-section ps-section--top-sales ps-owl-root pt-80 pb-80">
+	</div> --}}
+	{{-- <div class="ps-section ps-section--top-sales ps-owl-root pt-80 pb-80">
 		<div class="ps-container">
 		<div class="ps-section__header mb-50">
 			<div class="row">
@@ -318,8 +318,8 @@
 			</div>
 		</div>
 		</div>
-	</div>
-	<div class="ps-home-testimonial bg--parallax pb-80" data-background="/assets/onlineshop/images/background/parallax.jpg">
+	</div> --}}
+	{{-- <div class="ps-home-testimonial bg--parallax pb-80" data-background="/assets/onlineshop/images/background/parallax.jpg">
 		<div class="container">
 		<div class="owl-slider" data-owl-auto="true" data-owl-loop="true" data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1" data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on" data-owl-animate-in="fadeIn" data-owl-animate-out="fadeOut">
 			<div class="ps-testimonial">
@@ -372,7 +372,7 @@
 			</div>
 		</div>
 		</div>
-	</div>
+	</div> --}}
 		{{--<div class="ps-section ps-home-blog pt-80 pb-80">
 			<div class="ps-container">
 				{{-- <div class="ps-section__header mb-50">

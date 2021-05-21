@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label class="label" for="password">Palavra-passe</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password" id="password" data-validate="yes" data-min="5" data-max="144" data-type="password" autocomplete="new-password" placeholder="********">
+                                <input type="password" class="form-control" name="password" id="password" data-validate="yes" data-type="password" autocomplete="new-password" placeholder="********">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>
@@ -56,7 +56,7 @@
                         <div class="form-group confirm">
                             <label class="label" for="password-confirm">Confirmar Palavra-passe</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" name="password_confirmation" id="password-confirm" data-validate="yes" data-min="5" data-max="144" data-type="confirmpassword" autocomplete="new-password" placeholder="********">
+                                <input type="password" class="form-control" name="password_confirmation" id="password-confirm" data-validate="yes" data-type="confirmpassword" autocomplete="new-password" placeholder="********">
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                     </span>

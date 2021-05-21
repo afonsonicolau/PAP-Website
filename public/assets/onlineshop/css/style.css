@@ -4751,6 +4751,9 @@ textarea.form-control {
   .ps-shipping a {
     color: #2AC37D;
     text-decoration: underline; }
+  .ps-shipping p {
+    color: #5b5b5b;
+    font-weight: 500; }
 
 .ps-cart-listing .ps-cart__table thead > tr > th {
   font-family: "Archivo Narrow", sans-serif;
@@ -6545,7 +6548,8 @@ html .bg--parallax {
 }
 
 .profile-side-text {
-  color: black;
+  color: #5b5b5b;
+  font-weight: 500;
 }
 
 .profile-side-text:hover{
@@ -6566,7 +6570,7 @@ html .bg--parallax {
   font-size: 30px;
   font-weight: 700;
   line-height: 0.7em;
-  color: black;
+  color: #5b5b5b;
   text-transform: uppercase; 
 }
 
@@ -6575,7 +6579,7 @@ html .bg--parallax {
   font-family: "Archivo Narrow", sans-serif;
   font-size: 20px;
   line-height: 1.8;
-  color: black;
+  color: #5b5b5b;
   font-weight: bolder;
   text-transform: uppercase; 
 }
@@ -6598,5 +6602,5 @@ html .bg--parallax {
 
 .addresses p {
   color: black;
-  font-size: 15px;
+  font-size: 16px;
 }

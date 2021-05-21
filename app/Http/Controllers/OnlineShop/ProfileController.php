@@ -45,4 +45,9 @@ class ProfileController extends Controller
 
         return view('onlineshop.profile.orders.orders', compact('orders', 'cartItems'));
     }
+
+    public function user_change_info(Request $request)
+    {
+        
+    }
 }
