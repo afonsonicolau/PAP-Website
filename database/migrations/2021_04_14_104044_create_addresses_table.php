@@ -19,7 +19,6 @@ class CreateAddressesTable extends Migration
             $table->string('postal_code');
             $table->string('city');
             $table->string('company')->nullable();
-            $table->boolean('default');
             $table->integer('type');
             $table->boolean('used')->default('0');
             $table->timestamps();

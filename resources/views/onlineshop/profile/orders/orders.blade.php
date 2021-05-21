@@ -9,6 +9,7 @@
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
                             <h3>As Suas Encomendas</h3>
+                            <hr>
                             <br>
                             <div class="form-group">
                                     <div class="col-md-12">

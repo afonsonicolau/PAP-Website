@@ -57,14 +57,6 @@
                                     <option value="3">Ambas</option>
                                 </select>
                             </div>
-                            <div class="form-group form-group--inline">
-                                <label>Morada Padrão?<span class="required-red">*</span></label>
-                                <select class="form-control" name="default" id="default" required>
-                                    <option value="" disabled selected>--Escolha uma opção--</option>
-                                    <option value="0">Sim</option>
-                                    <option value="1">Não</option>
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <div class="ps-checkbox">
                                     <input class="form-control" type="checkbox" id="cb01">

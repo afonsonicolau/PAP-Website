@@ -65,26 +65,11 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group form-group--inline">
-                                <label>Morada Padrão?<span class="required-red">*</span></label>
-                                <select class="form-control" name="default" id="default">
-                                    @if ($address->default == 1)
-                                        <option value="0">Sim</option>
-                                        <option value="{{ $address->default }}" selected>Não</option>
-                                    @else
-                                        <option value="{{ $address->default }}" selected>Sim</option>
-                                        <option value="1">Não</option>
-                                    @endif
-                                </select>
-                            </div>
                             <div class="form-group">
                                 <div class="ps-checkbox">
                                     <button type="submit" class="btn btn-warning">Atualizar Morada</button>
                                 </div>
                             </div>
-                            @if ($errors->any())
-                                <p>{{$errors}}</p>
-                            @endif
                         </div>
                     </div>
                 </form>

@@ -9,10 +9,11 @@
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
                         <div class="ps-checkout__billing">
                             <h3>As Suas Moradas</h3>
+                            <hr>
                             <br>  
-                            <div class="form-group">
-                                <h4 class="col-md-6">MORADA DE ENVIO PADRÃO</h4>
-                                <h4 class="col-md-6">MORADA DE FATURAÇÃO PADRÃO</h4>
+                            <div class="form-group addresses">
+                                <h3 class="col-md-6 pb-20">MORADAS DE ENVIO</h3>
+                                <h3 class="col-md-6 pb-20">MORADAS DE FATURAÇÃO</h3>
                                 <br>
                                 <br>
                                     <div class="col-md-6">
@@ -20,7 +21,7 @@
                                             $count = 0;    
                                         @endphp
                                         @foreach ($addresses as $address)
-                                            @if ($address->user_id == auth()->user()->id && $address->default == 0 && ($address->type == 2 || $address->type == 3))
+                                            @if ($address->user_id == auth()->user()->id && ($address->type == 2 || $address->type == 3))
                                                 @php
                                                     $count++;    
                                                 @endphp
@@ -34,18 +35,19 @@
                                                 @if ($address->used == 0)
                                                     <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
                                                 @endif
+                                                <hr>
                                             @endif
                                         @endforeach
                                         @if ($count == 0)
                                             <p>Não existe uma morada de envio padrão.</p>
                                         @endif
                                     </div>
-                                    <div class="col-md-6"> 
+                                    <div class="col-md-6 addresses"> 
                                         @php
                                             $count = 0;    
                                         @endphp
                                         @foreach ($addresses as $address)
-                                            @if ($address->user_id == auth()->user()->id && $address->default == 0 && ($address->type == 1 || $address->type == 3))
+                                            @if ($address->user_id == auth()->user()->id && ($address->type == 1 || $address->type == 3))
                                                 @php
                                                     $count++;    
                                                 @endphp
@@ -59,43 +61,13 @@
                                                 @if ($address->used == 0)
                                                     <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
                                                 @endif
+                                                <hr>
                                             @endif
                                         @endforeach
                                         @if ($count == 0)
                                             <p>Não existe uma morada de faturação padrão.</p>
                                         @endif
                                     </div>  
-                                    <div class="col-md-12 pt-20">
-                                        <h4>MORADAS ADICIONAIS</h4>
-                                        <hr>
-                                    </div>
-                                    @php
-                                        $count = 0;    
-                                    @endphp
-                                    @foreach ($addresses as $address)
-                                        @if ($address->user_id == auth()->user()->id && $address->default == 1)
-                                        @php
-                                            $count++;    
-                                        @endphp
-                                            <div class="col-md-6 pt-10">
-                                                <p>{{ $address->name }}</p> 
-                                                <p>{{ $address->address }}</p> 
-                                                <p>T: {{ $address->phone_number }}</p> 
-                                                <p>NIF: {{ $address->nif }}</p> 
-                                                <p>{{ $address->country }}</p> 
-                                                <p>{{ $address->postal_code }}</p> 
-                                                <p>{{ $address->city }}</p> 
-                                                @if ($address->used == 0)
-                                                    <a href="{{ route('online-shop.edit-addresses', $address->id) }}" type="button" class="btn btn-warning">Editar Morada</a>
-                                                @endif
-                                            </div>
-                                        @endif
-                                    @endforeach 
-                                    @if ($count == 0)
-                                        <div class="col-md-6">
-                                            <p>Não existem moradas adicionais.</p>
-                                        </div>
-                                    @endif
                                 </div> 
                             </div>  
                             <div class="col-md-12 pt-20"> 

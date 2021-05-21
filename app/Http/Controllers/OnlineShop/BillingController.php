@@ -36,7 +36,6 @@ class BillingController extends Controller
             'país' => 'required',
             'códigopostal' => 'required|regex:/^([0-9]){4}-([0-9]){3}/',
             'cidade' => 'required',
-            'default' => 'required|int',
             'type' => 'required|int',
         ]);
 
@@ -63,7 +62,6 @@ class BillingController extends Controller
                 'postal_code' => $request->códigopostal,
                 'city' => $request->cidade,
                 'company' => $request->empresa,
-                'default' => $request->default,
                 'type' => $request->type,
             ]);
 
