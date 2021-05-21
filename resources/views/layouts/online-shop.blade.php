@@ -114,7 +114,7 @@
                         <button><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
-                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartItems->count() > 0) <span><i id="itemsCount">{{ $cartItems->count() }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
+                        <div class="ps-cart"><a class="ps-cart__toggle" href="#"> @if($cartItems->count() > 0) <span><i id="itemsCount">{{ $cartItems->sum('quantity') }}</i></span> @endif <i class="ps-icon-shopping-cart"></i></a>
                             <div class="ps-cart__listing">
                                 <div class="ps-cart__content">
                                     <!-- Cart item -->
@@ -326,10 +326,18 @@
                                 $(`#cartPriceTotal`).text(total - productPrice + "€");
 
                                 // Change icon number
-                                let count = $("#itemsCount").text();
-                                let countTotal = Number(count);
-                                countTotal--
-                                $("#itemsCount").text(countTotal--);
+                                let count = $("#itemsCount").text(); count = Number(count);
+                                let countTotal = count - totalCartQuantity
+                                if(countTotal > 0)
+                                {
+                                    $("#itemsCount").text(countTotal);
+                                }
+                                else
+                                {
+                                    $("#itemsCount").parent("span").remove();
+                                    $("#itemsCount").remove();
+                                }
+                                
 
                                 // Remove cart items front-end
                                 $(`#cartItem_${productId}`).remove();
@@ -478,7 +486,7 @@
                                 valid = true;
                                 let total = 0;
 
-                                total = (productPrice * cartQuantity).toFixed(2);
+                                total = parseFloat(productPrice * cartQuantity).toFixed(2);
 
                                 $(`#cartItemQuantity_${productId}`).text(cartQuantity);
                                 $(`#cartItemTotal_${productId}`).text(total + "€");
@@ -499,11 +507,10 @@
 
                 if(valid)
                 {
-                    
-                    totalPrice = Math.round(totalPrice * 100) / 10;
                     $(`#productsTotal`).text(totalPrice + "€");
                     $(`#cartPriceTotal`).text(totalPrice + "€");
 
+                    $("#itemsCount").text(totalQuantity);
                     $("#cartQuantityTotal").text(totalQuantity + " produto(s)"); 
                 }
 
