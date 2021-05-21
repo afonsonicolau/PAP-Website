@@ -35,7 +35,7 @@ class CollectionsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'coleção' => 'required|alpha|unique:collections,collection',
+            'colecao' => 'required|alpha|unique:collections,collection',
             'cores' => 'required',
         ]);
 
@@ -76,7 +76,7 @@ class CollectionsController extends Controller
 
             // Create and save to database
             Collection::create([
-                'collection' => $request->coleção,
+                'collection' => $request->colecao,
                 'colors' => $colorsArray,
             ]);
             
@@ -137,7 +137,7 @@ class CollectionsController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'coleção' => 'required|alpha|unique:collections,collection,' . $collection->id,
+                'colecao' => 'required|alpha|unique:collections,collection,' . $collection->id,
                 'cores' => 'required',
             ]);
 
@@ -172,7 +172,7 @@ class CollectionsController extends Controller
 
                 // Create and save to database
                 $collection->update([
-                    'collection' => $request->coleção,
+                    'collection' => $request->colecao,
                     'colors' => $colorsArray,
                 ]);
 

@@ -9,7 +9,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductTypes;
 use App\Models\CartItems;
-
+use Carbon\Carbon;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -65,10 +65,10 @@ class ProductsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tipo' => 'required',
-            'coleção' => 'required',
+            'colecao' => 'required',
             'cor' => 'required',
             'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
-            'preço' => 'required',
+            'preco' => 'required',
             'peso' => 'required',
             'stock' => 'required',
             'descrição' => 'required',
@@ -83,10 +83,16 @@ class ProductsController extends Controller
         }
         else
         {
+            // Variable treatment
             $color = $request->cor; 
             $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
+
+            $collection = Collection::find($request->colecao);
+            $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
+
             $productType = ProductTypes::find($request->tipo);
-            $collection = Collection::find($request->coleção);
+            
+            $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
 
             // For thumbnail
             if($thumbnail = $request->file('miniatura'))
@@ -96,7 +102,7 @@ class ProductsController extends Controller
                 $extension = pathinfo($thumbnailName, PATHINFO_EXTENSION); // Image extension | .jpg, .png, .jpeg, etc...
                 
                 // Create custom name
-                $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
+                $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collectionImageName . "_" . $timeNow . "." . $extension;
                 
                 // Image path to database
                 $imagePath = $request->file('miniatura')->storeAs('thumbnail', $thumbnailName, 'public');
@@ -119,7 +125,7 @@ class ProductsController extends Controller
                     $extension = pathinfo($imageName, PATHINFO_EXTENSION);
 
                     // Create custom name
-                    $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->tipo . "_" . $collection->collection . "." . $extension;
+                    $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->type . "_" . $collectionImageName . "_" . $timeNow . "." . $extension;
 
                     // Image path to database
                     $imagePath = $image->storeAs('products', $imageName, 'public');
@@ -143,10 +149,10 @@ class ProductsController extends Controller
                 // Create and save to database
                 Product::create([
                     'type_id' => $request->tipo,
-                    'collection_id' => $request->coleção,
+                    'collection_id' => $request->colecao,
                     'color' => $request->cor,
                     'size' => $request->tamanho,
-                    'price' => $request->preço,
+                    'price' => $request->preco,
                     'iva' => $request->iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
@@ -221,10 +227,10 @@ class ProductsController extends Controller
         {
             $validator = Validator::make($request->all(), [
                 'tipo' => 'required',
-                'coleção' => 'required',
+                'colecao' => 'required',
                 'cor' => 'required',
                 'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
-                'preço' => 'required',
+                'preco' => 'required',
                 'iva' => 'required',
                 'peso' => 'required',
                 'stock' => 'required',
@@ -240,10 +246,16 @@ class ProductsController extends Controller
             }
             else
             {
+                // Variable treatment
                 $color = $request->cor; 
                 $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
+
+                $collection = Collection::find($request->colecao);
+                $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
+
                 $productType = ProductTypes::find($request->tipo);
-                $collection = Collection::find($request->coleção);
+
+                $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
 
                 // Thumbnail
                 if($thumbnail = $request->file('miniatura'))
@@ -255,7 +267,7 @@ class ProductsController extends Controller
                     $extension = pathinfo($thumbnailName, PATHINFO_EXTENSION); // Image extension | .jpg, .png, .jpeg, etc...
                     
                     // Create custom name
-                    $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
+                    $thumbnailName = "thumbnail_" . $productType->reference . "_" . $productType->type . "_" . $collectionImageName . "_" . $timeNow . "." . $extension;
                     
                     // Image path to database
                     $imagePath = $request->file('miniatura')->storeAs('thumbnail', $thumbnailName, 'public');
@@ -280,7 +292,7 @@ class ProductsController extends Controller
                         $extension = pathinfo($imageName, PATHINFO_EXTENSION);
 
                         // Create custom name
-                        $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->type . "_" . $collection->collection . "." . $extension;
+                        $imageName = "produto_" . $i . "_" . $productType->reference . "_" . $productType->type . "_" . $collectionImageName . "_" . $timeNow . "." . $extension;
 
                         // Image path to database
                         $imagePath = $image->storeAs('products', $imageName, 'public');
@@ -299,10 +311,10 @@ class ProductsController extends Controller
 
                 $product->update([
                     'type_id' => $request->tipo,
-                    'collection_id' => $request->coleção,
+                    'collection_id' => $request->colecao,
                     'color' => $request->cor,
                     'size' => $request->tamanho,
-                    'price' => $request->preço,
+                    'price' => $request->preco,
                     'iva' => $request->iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
@@ -320,7 +332,7 @@ class ProductsController extends Controller
                         $cartItems->where('cart_id', $cart->id);
 
                         $cartItems->update([
-                            'price' => $request->preço,
+                            'price' => $request->preco,
                             'iva' => $request->iva,
                         ]);
                     }

@@ -282,7 +282,7 @@
 			});
 
 			// Everytime a collection changes so does its colors while creating or editing a product
-			$("#coleção").change(function(){
+			$("#colecao").change(function(){
 				let selectedCollection = $(this).children("option:selected").val();
 				
 				$('#cor').find('option').not(':first').remove();
@@ -342,7 +342,7 @@
 			{
 				$(".totalPrice").removeClass("hidden");
 				
-				let price = $("#preço").val();
+				let price = $("#preco").val();
 				let iva = $("#iva").val();
 				let total = (price / ((100 - iva)/100)).toFixed(2);
 				

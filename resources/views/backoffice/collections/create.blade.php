@@ -12,12 +12,12 @@
 					<form class="forms-sample" method="POST" action="{{ route('collections.store') }}" enctype="multipart/form-data">
 						@csrf
 						<div class="form-group">
-							<label for="coleção">Nome da Coleção</label>
-							<input type="text" class="form-control" id="coleção" name="coleção" data-validate="yes" data-min="2" data-max="30" data-type="string" value="{{ old('coleção') }}">
+							<label for="colecao">Nome da Coleção</label>
+							<input type="text" class="form-control" id="colecao" name="colecao" data-validate="yes" data-min="2" data-max="30" data-type="string" value="{{ old('colecao') }}">
 						</div>
 
-						@if ($errors->has('coleção'))
-							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('coleção')}}</p>
+						@if ($errors->has('colecao'))
+							<p class="danger" style="color:red; font-weight: bold;">{{$errors->first('colecao')}}</p>
 						@endif
 
 						<div class="form-group">

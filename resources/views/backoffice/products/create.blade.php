@@ -33,8 +33,8 @@
 						@endif
 
 						<div class="form-group">
-							<label for="coleção">Coleção</label>
-							<select class="form-control form-control-lg" id="coleção" name="coleção" required>
+							<label for="colecao">Coleção</label>
+							<select class="form-control form-control-lg" id="colecao" name="colecao" required>
 								<option value="" selected disabled>--Escolha uma coleção--</option>
 								@foreach ($collections as $collection)
 									@if ($collection->disabled == 0)
@@ -44,8 +44,8 @@
 							</select>
 						</div>
 
-						@if ($errors->has('coleção'))
-							<p class="text-danger">{{$errors->first('coleção')}}</p>
+						@if ($errors->has('colecao'))
+							<p class="text-danger">{{$errors->first('colecao')}}</p>
 						@endif
 
 						<div class="form-group">
@@ -69,12 +69,12 @@
 						@endif
 
 						<div class="form-group">
-							<label for="preço">Preço</label>
-							<input type="number" min="0" class="form-control" id="preço" name="preço" step="0.01" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('preço') }}" onchange="totalPriceIva()">
+							<label for="preco">Preço s/IVA</label>
+							<input type="number" min="0" class="form-control" id="preco" name="preco" step="0.01" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('preco') }}" onchange="totalPriceIva()">
 						</div>
 
-						@if ($errors->has('preço'))
-							<p class="text-danger">{{$errors->first('preço')}}</p>
+						@if ($errors->has('preco'))
+							<p class="text-danger">{{$errors->first('preco')}}</p>
 						@endif
 
 						<div class="form-group">

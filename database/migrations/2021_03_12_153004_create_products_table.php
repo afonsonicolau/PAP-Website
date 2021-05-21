@@ -21,7 +21,7 @@ class CreateProductsTable extends Migration
             $table->float('weight');
             $table->integer('stock');
             $table->string('thumbnail');
-            $table->string('images')->nullable();
+            $table->text('images')->nullable();
             $table->boolean('visible')->default(1);
             $table->boolean('disabled')->default(0);
             $table->text('description');
