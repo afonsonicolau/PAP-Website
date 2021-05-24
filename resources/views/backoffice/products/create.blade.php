@@ -49,10 +49,16 @@
 						@endif
 
 						<div class="form-group">
-							<label for="cor">Cor</label>
-							<select class="form-control form-control-lg" id="cor" name="cor" multiple>
+							<label for="cor">Cores</label>
+							<p style="font-size: 13px;">Utilize o <b>"CTRL"</b> para selecionadar mais cores</p>
+							<select class="form-control form-control-lg" id="cor" name="cor[]" multiple>
 								<option value="" selected disabled>--Escolha uma coleção--</option>
 							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="colors">Cores do Produto</label>
+							<input type="text" class="form-control" id="colors" name="colors" value="" disabled>
 						</div>
 
 						@if ($errors->has('cor'))
@@ -70,7 +76,7 @@
 
 						<div class="form-group">
 							<label for="preco">Preço s/IVA</label>
-							<input type="number" min="0" class="form-control" id="preco" name="preco" step="0.01" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('preco') }}" onchange="totalPriceIva()">
+							<input type="number" min="0" class="form-control" id="preco" name="preco" step="0.01" data-validate="yes" data-min="1" data-max="10" data-type="float" value="{{ old('preco') }}" onchange="totalPriceIva()">
 						</div>
 
 						@if ($errors->has('preco'))
@@ -79,7 +85,7 @@
 
 						<div class="form-group">
 							<label for="iva">IVA</label>
-							<input type="number" min="0" class="form-control" id="iva" name="iva" step="0.1" data-validate="yes" data-min="1" data-max="5" data-type="float" value="{{ old('iva') }}" onchange="totalPriceIva()">
+							<input type="number" min="0" class="form-control" id="iva" name="iva" step="0.1" data-validate="yes" data-min="1" data-max="10" data-type="float" value="{{ old('iva') }}" onchange="totalPriceIva()">
 						</div>
 
 						@if ($errors->has('iva'))

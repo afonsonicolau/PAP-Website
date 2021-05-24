@@ -214,8 +214,15 @@
 		<!-- Validation JS & CSS -->
 		<script src="/assets/js/validate.js"></script>
 		<link rel="stylesheet" href="/assets/css/validate.css">
+		<!-- Multiselect jQuery & CSS -->
+		<script src="/assets/js/multiselect.min.js"></script>
+		<link rel="stylesheet" href="/assets/css/multiselect.css">
         <!-- Scripts -->
         <script>
+			// When user chooses a color in multi-select it's values are shown 
+			$("#cor").on("change", function() {
+				$("#colors").val($(this).val());
+			});
 			// When administrator changes state of order, ajax request is made
 			$("#state").on("change", function()
 			{
@@ -295,7 +302,7 @@
 					data: {'_token': '{{ csrf_token() }}'},
 					dataType: 'json',
 						success: function (response) {
-							$('select[name="cor"]').empty();
+							$('select[id="cor"]').empty();
 							
 							for (let i = 0; i < response.length; i++) {
 								let color = response[i];

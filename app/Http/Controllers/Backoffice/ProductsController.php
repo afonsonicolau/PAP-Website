@@ -84,15 +84,16 @@ class ProductsController extends Controller
         else
         {
             // Variable treatment
-            $color = $request->cor; 
-            $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
-
             $collection = Collection::find($request->colecao);
             $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
 
             $productType = ProductTypes::find($request->tipo);
             
             $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
+
+            // Make colors into an array and then JSON them
+            $colorsArray = explode(",", $request->colors);
+            $colorsArray = json_encode($colorsArray);
 
             // For thumbnail
             if($thumbnail = $request->file('miniatura'))
@@ -150,7 +151,7 @@ class ProductsController extends Controller
                 Product::create([
                     'type_id' => $request->tipo,
                     'collection_id' => $request->colecao,
-                    'color' => $request->cor,
+                    'color' => $colorsArray,
                     'size' => $request->tamanho,
                     'price' => $request->preco,
                     'iva' => $request->iva,
@@ -172,7 +173,16 @@ class ProductsController extends Controller
         $types = ProductTypes::all(); 
         $imageNames = json_decode($product->images);
 
-        return view('backoffice.products.edit', compact('collections', 'product', 'types', 'imageNames'));
+        $colors = json_decode($product->color);
+        $colorsText = "";
+      
+        foreach ($colors as $value) {
+            $colorsText .= $value . ', ';
+        }
+
+        $colorsText = rtrim($colorsText, ", ");
+
+        return view('backoffice.products.edit', compact('collections', 'product', 'types', 'imageNames', 'colorsText'));
     }
 
     public function update(Request $request, $id)
@@ -247,15 +257,20 @@ class ProductsController extends Controller
             else
             {
                 // Variable treatment
-                $color = $request->cor; 
-                $color = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $color);
-
                 $collection = Collection::find($request->colecao);
                 $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
 
                 $productType = ProductTypes::find($request->tipo);
 
                 $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
+
+                // Make colors into an array and then JSON them
+                $colorsArray = $product->colors;
+                if(json_decode($request->colors) != null)
+                {  
+                    $colorsArray = explode(",", $request->colors);
+                    $colorsArray = json_encode($colorsArray);
+                }
 
                 // Thumbnail
                 if($thumbnail = $request->file('miniatura'))

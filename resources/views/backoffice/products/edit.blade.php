@@ -6,8 +6,8 @@
 		<div class="col-md-12 grid-margin stretch-card">
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-title">Criar Produto</h4>
-					<p class="card-description">Este formulário tem como propósito criar um produto para exibir na loja online, seja o produto outlet ou não.</p>
+					<h4 class="card-title">Editar Produto</h4>
+					<p class="card-description">Este formulário tem como propósito editar um produto a exibir na loja online.</p>
 					<form class="forms-sample" method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
 						@csrf
 						@method('PATCH')
@@ -44,7 +44,7 @@
 								@foreach ($collections as $collection)
 									@if ($collection->disabled == 0)
 										@if ($product->collection_id == $collection->id)
-										<option value="{{ $collection->id }}" selected>{{ $collection->collection }}</option>
+											<option value="{{ $collection->id }}" selected>{{ $collection->collection }}</option>
 										@else
 											<option value="{{ $collection->id }}">{{ $collection->collection }}</option>
 										@endif
@@ -58,17 +58,18 @@
 						@endif
 
 						<div class="form-group">
-							<label for="cor">Cor</label>
-							<p>Utilize o "CTRL" para selecionadar mais cores</p>
-							<select class="form-control form-control-lg select" id="cor" name="cor" multiple>
+							<label for="cor">Cores</label>
+							<p style="font-size: 13px;">Utilize o "CTRL" para selecionadar mais cores</p>
+							<select class="form-control form-control-lg select" id="cor" name="cor[]" multiple>
 								@foreach (json_decode($product->collection->colors) as $color)
-									@if ($product->color == $color)
-										<option value="{{ $color }}" selected>{{ $color }}</option>
-									@else
-										<option value="{{ $color }}">{{ $color }}</option>
-									@endif
+									<option value="{{ $color }}">{{ $color }}</option>
 								@endforeach
 							</select>
+						</div>
+
+						<div class="form-group">
+							<label for="colors">Cores do Produto</label>
+							<input type="text" class="form-control" id="colors" name="colors" value="{{ $colorsText }}" disabled>
 						</div>
 
 						@if ($errors->has('cor'))

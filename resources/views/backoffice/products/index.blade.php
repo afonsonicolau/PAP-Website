@@ -32,7 +32,19 @@
                                 <tr>
                                     <td>{{ $product->type->reference }}</td>
                                     <td>{{ $product->type->type }}</td>
-                                    <td>{{ $product->color }}</td>
+                                    <td>
+                                        @php
+                                            $colors = json_decode($product->color);
+                                            $colorsText = "";
+                                        
+                                            foreach ($colors as $value) {
+                                                $colorsText .= $value . ', ';
+                                            }
+
+                                            $colorsText = rtrim($colorsText, ", ");
+                                        @endphp     
+                                        {{ $colorsText }}
+                                    </td>
                                     <td>{{ $product->collection->collection }}</td>
                                     <td>{{ $product->size }}</td>  
                                     <td>{{ $product->price }}€</td>
