@@ -50,7 +50,7 @@
 
 						<div class="form-group">
 							<label for="cor">Cor</label>
-							<select class="form-control form-control-lg" id="cor" name="cor">
+							<select class="form-control form-control-lg" id="cor" name="cor" multiple>
 								<option value="" selected disabled>--Escolha uma coleção--</option>
 							</select>
 						</div>

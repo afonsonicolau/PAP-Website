@@ -9,8 +9,8 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductTypes;
 use App\Models\CartItems;
+
 use Carbon\Carbon;
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;

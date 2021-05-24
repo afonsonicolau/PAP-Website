@@ -59,7 +59,8 @@
 
 						<div class="form-group">
 							<label for="cor">Cor</label>
-							<select class="form-control form-control-lg" id="cor" name="cor">
+							<p>Utilize o "CTRL" para selecionadar mais cores</p>
+							<select class="form-control form-control-lg select" id="cor" name="cor" multiple>
 								@foreach (json_decode($product->collection->colors) as $color)
 									@if ($product->color == $color)
 										<option value="{{ $color }}" selected>{{ $color }}</option>
