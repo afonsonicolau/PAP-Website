@@ -18,25 +18,46 @@
                                         <hr>
                                         <input class="pt-10" type="checkbox" id="changepassword"> Alterar Palavra-passe
 
-                                        <form class="ps-checkout__form" method="POST" action="{{ route('online-shop.profile-changeinfo') }}" enctype="multipart/form-data" style="margin-top: 50px;">
+                                        <form class="ps-checkout__form" method="POST" action="{{ route('online-shop.profile-changeinfo') }}" enctype="multipart/form-data">
                                             @csrf
                                             @method('PATCH')
 
-                                            <div class="form-group pt-30 info hidden">
+                                            @if($errors->has('current-password'))
+                                                <p class="text-danger">{{$errors->first('current-password')}}</p>
+                                            @endif
+                                            @if($errors->has('password'))
+                                                <p class="text-danger">{{$errors->first('password')}}</p>
+                                            @endif
+
+                                            <div class="form-group pt-30 info">
                                                 <label>Palavra-passe Atual<span class="text-danger">*</span></label><br>
-                                                <input type="password" class="form-input" id="old-password" name="old-password"> 
+                                                <input type="password" class="form-input" id="current-password" name="current-password" data-validate="yes" data-min="8" data-type="required" autocomplete="current-password"> 
                                             </div>
-                                            <div class="form-group pt-10 info hidden">
-                                                <label>Nova Palavra-passe<span class="text-danger fw-bolder">*</span></label><br>
-                                                <input type="password" class="form-input" id="password" name="password" data-validate="yes" data-type="password"> 
+                                            <div class="form-group pt-10 info">
+                                                <label>Nova Palavra-passe<span class="text-danger">*</span></label><br>
+                                                <input type="password" class="form-input" id="password" name="password" autocomplete="password" data-validate="yes" data-type="password"> 
                                             </div>
-                                            <div class="form-group pt-10 info hidden">
+                                            <div class="form-group pt-10 info">
                                                 <label>Confirmar Palavra-passe<span class="text-danger">*</span></label><br>
-                                                <input type="password" class="form-input" name="password_confirmation" id="password-confirm" data-validate="yes" data-type="confirmpassword"> 
+                                                <input type="password" class="form-input" id="password_confirmation" name="password_confirmation" name="password_confirmation" autocomplete="password_confirmation" data-validate="yes" data-type="confirmpassword"> 
+                                            </div>
+                                            
+                                            <div class="form-group pt-10 info">
+                                                <button type="submit" class="btn btn-success">Mudar Password</button>
                                             </div>
                                         </form>
+                                        @if(Session::has('error'))
+                                            <div class="alert alert-danger">
+                                                <p>{{ Session::get('error') }}</p>
+                                            </div>
+                                        @endif
+                                        @if (Session::has('success'))
+                                            <div class="alert alert-success">
+                                                <p>{{ Session::get('success') }}</p>
+                                            </div>
+                                        @endif
                                     </div>
-                                </div> 
+                                </div>
                             </div>
                         </div>  
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">

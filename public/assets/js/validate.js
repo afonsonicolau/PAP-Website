@@ -19,7 +19,6 @@ $('form').submit(function () {
     
     $(this).find('input[data-validate="yes"]').each(function(){
         // Remove classes and <p> tags
-        $(this).parent("div").children('p').remove();
         $(this).parents(".form-group").children('p').remove();
         $(".check").children('p').remove();
         $(this).removeClass('form-validate-invalid');
@@ -144,6 +143,15 @@ $('form').submit(function () {
                         $(this).parents(".form-group").append(`<p class="text-danger">As palavras-passe inseridas têm de ser iguais.<p/>`);
                     }
                 }
+                break;
+
+            case 'required':
+                if(dataValue.length < dataMin) 
+                {
+                    validForm = false;
+                    $(this).addClass('form-validate-invalid');
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter ${dataMin} ou mais caracteres.</p>`);
+                }        
                 break;
 
             default:
