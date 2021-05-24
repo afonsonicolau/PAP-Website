@@ -51,24 +51,15 @@ class CollectionsController extends Controller
             $colorsValidation = array();
             foreach($colorsArray as $color)
             {
-                if(!preg_match('~[0-9]+~', $color))
+                if(strpos($color, ' ') == true)
                 {
-                    if(strpos($color, ' ') == true)
-                    {
-                        $colorCleared = str_replace(' ', '', $color);
+                    $colorCleared = str_replace(' ', '', $color);
 
-                        array_push($colorsValidation, $colorCleared);
-                    }
-                    else
-                    {
-                        array_push($colorsValidation, $color);
-                    }
-                } 
+                    array_push($colorsValidation, $colorCleared);
+                }
                 else
                 {
-                    return Redirect::back()->withInput()->withErrors($validator);
-
-                    break;
+                    array_push($colorsValidation, $color);
                 }
             }
 
@@ -153,18 +144,15 @@ class CollectionsController extends Controller
                 $colorsValidation = array();
                 foreach($colorsArray as $color)
                 {
-                    if(!is_numeric($color))
+                    if(strpos($color, ' ') == true)
                     {
-                        if(strpos($color, ' ') == true)
-                        {
-                            $colorCleared = str_replace(' ', '', $color);
+                        $colorCleared = str_replace(' ', '', $color);
 
-                            array_push($colorsValidation, $colorCleared);
-                        }
-                        else
-                        {
-                            array_push($colorsValidation, $color);
-                        }
+                        array_push($colorsValidation, $colorCleared);
+                    }
+                    else
+                    {
+                        array_push($colorsValidation, $color);
                     }
                 }
 
