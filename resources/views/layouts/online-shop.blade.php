@@ -290,8 +290,7 @@
                 if(this.checked) {
                     $("div .info").removeClass("hidden");
                 }
-                else
-                {
+                else{
                     $("div .info").addClass("hidden");
                 }
             });

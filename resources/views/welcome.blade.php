@@ -97,46 +97,44 @@
 
     <!-- ======= Team Section ======= -->
     <section id="team" class="team">
-      <div class="container">
-
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="section-title" data-aos="fade-right">
-              <h2>Equipa</h2>
-              <p>A nossa empresa tem um administrador principal, como apresentado à direita, juntamente com a gerente de comércio Ibérico e conta com 18 empregados. Juntos, conseguimos alcançar qualquer objetivo.</p>
-            </div>
-          </div>
-          <div class="col-lg-8">
+        <div class="container">
             <div class="row">
-
-              <div class="col-lg-6">
-                <div class="member" data-aos="zoom-in" data-aos-delay="100">
-                  <div class="pic"><img src="/assets/mainpage/img/team/team-1.jpg" class="img-fluid" alt=""></div>
-                  <div class="member-info">
-                    <h4>Fernando Nicolau</h4>
-                    <span>Chefe Executivo & Gerente de Exportações</span>
-                    <p>"O difícil faz-se, o impossível demora mais um bocadinho."</p>
-                  </div>
+                <div class="col-lg-4">
+                    <div class="section-title" data-aos="fade-right">
+                        <h2>Equipa</h2>
+                        <p>A nossa empresa tem um administrador principal, como apresentado à direita, juntamente com a gerente de comércio Ibérico e conta com 18 empregados. Juntos, conseguimos alcançar qualquer objetivo.</p>
+                    </div>
                 </div>
-              </div>
-
-              <div class="col-lg-6 mt-4 mt-lg-0">
-                <div class="member" data-aos="zoom-in" data-aos-delay="200">
-                  <div class="pic"><img src="/assets/mainpage/img/team/team-2.jpg" class="img-fluid" alt=""></div>
-                  <div class="member-info">
-                    <h4>Carla Nicolau</h4>
-                    <span>Gerente Comercial Ibérico</span>
-                    <p>"Só não se consegue aquilo que não se quer."</p>
-                  </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="member" data-aos="zoom-in" data-aos-delay="100">
+                                <div class="pic">
+                                    <img src="/assets/mainpage/img/team/team-1.jpg" class="img-fluid" alt="">
+                                </div>
+                                <div class="member-info">
+                                    <h4>Fernando Nicolau</h4>
+                                    <span>Chefe Executivo & Gerente de Exportações</span>
+                                    <p>"O difícil faz-se, o impossível demora mais um bocadinho."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="member" data-aos="zoom-in" data-aos-delay="200">
+                                <div class="pic">
+                                    <img src="/assets/mainpage/img/team/team-2.jpg" class="img-fluid" alt="">
+                                </div>
+                                <div class="member-info">
+                                    <h4>Carla Nicolau</h4>
+                                    <span>Gerente Comercial Ibérico</span>
+                                    <p>"Só não se consegue aquilo que não se quer."</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-
             </div>
-
-          </div>
         </div>
-
-      </div>
     </section>
     <!-- End Team Section -->
 

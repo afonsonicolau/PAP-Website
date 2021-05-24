@@ -24,18 +24,16 @@
 					<div class="form-group">
 						<label class="label">Palavra-passe</label>
 						<div class="input-group">
-							<input type="password" class="form-control" name="password" id="password" autocomplete="current-password" placeholder="***********">
+							<input type="password" class="form-control" name="password" id="password" autocomplete="current-password" data-validate="yes" data-min="8" data-type="required" placeholder="***********">
 							<div class="input-group-append">
 								<span class="input-group-text">
 								</span>
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						@if ($errors->has('email') || $errors->has('password'))
-							<p class="danger" style="color:red; font-weight: bold;">As suas credenciais estão incorretas, tente novamente.</p>
-						@endif
-					</div>  
+					@if ($errors->has('email') || $errors->has('password'))
+						<p class="text-danger">As suas credenciais estão incorretas, tente novamente.</p>
+					@endif
 					<div class="form-group">
 						<button type="submit" class="btn btn-success submit-btn btn-block">Iniciar Sessão</button>
 					</div>

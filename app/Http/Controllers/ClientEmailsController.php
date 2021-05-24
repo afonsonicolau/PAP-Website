@@ -38,6 +38,5 @@ class ClientEmailsController extends Controller
 
             return redirect()->back()->with('success', 'O seu e-mail foi enviado, muito obrigado pelo seu tempo!');   
         }
-        
     }
 }

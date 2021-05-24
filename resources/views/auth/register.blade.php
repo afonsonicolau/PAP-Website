@@ -22,7 +22,7 @@
                         </div>
                         <div class="form-group">
                             @error('username')
-							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('username')}}</p>
+							    <p class="text-danger">{{$errors->first('username')}}</p>
                             @enderror
                         </div>  
                         <!-- Email -->
@@ -38,7 +38,7 @@
                         </div>
                         <div class="form-group">
                             @error('email')
-							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('email')}}</p>
+							    <p class="text-danger">{{$errors->first('email')}}</p>
                             @enderror
                         </div>  
                         <!-- Password -->
@@ -65,7 +65,7 @@
                         </div>
                         <div class="form-group">
                             @error('password')
-							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('password')}}</p>
+							    <p class="text-danger">{{$errors->first('password')}}</p>
                             @enderror
                         </div>  
                         <div class="form-group d-flex justify-content-center">
@@ -80,7 +80,7 @@
                         
                         <div class="form-group">
                             @error('termos')
-							    <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('termos')}}</p>
+							    <p class="danger">{{$errors->first('termos')}}</p>
                             @enderror
                         </div> 
                         <div class="form-group">
