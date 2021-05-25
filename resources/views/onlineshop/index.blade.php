@@ -110,10 +110,23 @@
 												<option value="2">5</option>
 											</select>
 										</div> --}}
-												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
+												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
+													@php
+														$colors = json_decode($product->color);
+														$colorsText = "";
+													
+														foreach ($colors as $value) {
+															$colorsText .= $value . ', ';
+														}
+
+														$colorsText = rtrim($colorsText, ", ");
+
+														$iva = ($product->iva / 100) * ($product->price);
+														$totalPrice = $iva + $product->price;
+													@endphp     
 													<p class="ps-shoe__categories">
-													<a href="#">{{ $product->collection->collection }},	
-													</a><a href="#">{{ $product->color }}</a></p><span class="ps-shoe__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</span>
+													<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }},	<br>
+													</a><a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a></p><span class="ps-shoe__price">{{ round($totalPrice, 2) }}€</span>
 												</div>
 											</div>
 										</div>

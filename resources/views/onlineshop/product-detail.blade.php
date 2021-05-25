@@ -40,55 +40,44 @@
                     <option value="2">5</option>
                 </select><a href="#">(Read all 8 reviews)</a> 
                 </div>--}}
+                @php
+                    $colors = json_decode($product->color);
+                    $colorsText = "";
+                
+                    foreach ($colors as $value) {
+                        $colorsText .= $value . ', ';
+                    }
+
+                    $colorsText = rtrim($colorsText, ", ");
+                @endphp     
+               
                 <h1>{{ $product->type->type }}</h1>
-                <p class="ps-product__category"><a href="#"> {{ $product->collection->collection }}</a>,<a href="#"> {{ $product->color }}</a></p>
+                <p class="ps-product__category">Coleção: {{ $product->collection->collection }}<br>
+                Cores: {{ $colorsText }}</p>
                 <h3 class="ps-product__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</h3>
-                <div class="ps-product__block ps-product__quickview">
-                    <h4>Breve Avaliação</h4>
-                    <p>Não dinâmico</p>
-                </div>
-                {{-- <div class="ps-product__block ps-product__style">
-                    <h4>CHOOSE YOUR STYLE</h4>
-                    <ul>
-                        <li><a href="product-detail.html"><img src="images/shoe/sidebar/1.jpg" alt=""></a></li>
-                        <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
-                        <li><a href="product-detail.html"><img src="images/shoe/sidebar/3.jpg" alt=""></a></li>
-                        <li><a href="product-detail.html"><img src="images/shoe/sidebar/2.jpg" alt=""></a></li>
-                    </ul>
+                <hr>
+                @if($product->stock <= 100)
+                <h4>Stock: <b class="text-success">Em Stock</b></h4>
+                @else
+                    <h4>Stock: <b style="color: #ffc107!important">Por Encomenda</b></h4>
+                @endif
+                {{-- <div class="ps-product__block ps-product__quickview">
+                   
                 </div> --}}
                 <div class="ps-product__block ps-product__size">
-                {{-- <h4>CHOOSE SIZE<a href="#">Size chart</a></h4>
-                <select class="ps-select selectpicker">
-                    <option value="1">Select Size</option>
-                    <option value="2">4</option>
-                    <option value="3">4.5</option>
-                    <option value="3">5</option>
-                    <option value="3">6</option>
-                    <option value="3">6.5</option>
-                    <option value="3">7</option>
-                    <option value="3">7.5</option>
-                    <option value="3">8</option>
-                    <option value="3">8.5</option>
-                    <option value="3">9</option>
-                    <option value="3">9.5</option>
-                    <option value="3">10</option>
-                </select> --}}
-                
-                {{--<br>
-                @if ($errors->has('quantidade'))
-                    <div class="form-group">
-                        <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('quantidade')}}</p>
-                    </div>
-                @endif --}}
-                
                 </div>
+
                 @if (auth()->user()) 
                     <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
 						@csrf
                         <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 7em;" data-validate="yes" data-min="1" data-max="10" data-type="int">
-                            
+                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="3" data-type="int" placeholder="Quantidade">
                         </div>
+                        @if ($errors->has('quantidade'))
+                            <div class="form-group">
+                                <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('quantidade')}}</p>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button>
                         </div>

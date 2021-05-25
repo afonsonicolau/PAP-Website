@@ -37,7 +37,7 @@
 								<h4>Morada de Envio</h4>
 								<div class="d-flex flex-column">
 									@foreach ($addresses as $address)
-										@if ($address->user_id == auth()->user()->id && $address->type == 2 || $address->type == 3)
+										@if ($address->user_id == auth()->user()->id && ($address->type == 2 || $address->type == 3))
 										<div class="mt-15 unselected-address delivery" id="delivery_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Delivery')">
 											<div class="pl-10 pt-10">{{ $address->name }}</div> 
 											<div class="pl-10">{{ $address->address }}</div>
@@ -54,7 +54,7 @@
 								<h4>Morada de Faturação</h4>
 								<div class="d-flex flex-column">
 									@foreach ($addresses as $address)
-										@if ($address->user_id == auth()->user()->id && $address->type == 1 || $address->type == 3)
+										@if ($address->user_id == auth()->user()->id && ($address->type == 1 || $address->type == 3))
 											<div class="mt-15 unselected-address billing" id="billing_{{ $address->id }}" onclick="selectAddress({{ $address->id }}, 'Billing')">
 												<div class="pl-10 pt-10">{{ $address->name }}</div> 
 												<div class="pl-10">{{ $address->address }}</div>
@@ -222,14 +222,6 @@
 								<option value="1">Faturação</option>
 								<option value="2">Envio</option>
 								<option value="3">Ambas</option>
-							</select>
-						</div>
-						<div class="form-group ">
-							<label>Morada Padrão?<span class="required-red">*</span></label>
-							<select class="form-control" name="default" id="default" required>
-								<option value="" disabled selected>--Escolha uma opção--</option>
-								<option value="0">Sim</option>
-								<option value="1">Não</option>
 							</select>
 						</div>
 						<div class="form-group">
