@@ -31,15 +31,12 @@
 										}
 
 										$colorsText = rtrim($colorsText, ", ");
-
-										$iva = ($product->iva / 100) * ($product->price);
-										$totalPrice = $iva + $product->price;
 									@endphp     
 									<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
 									<br>
 									<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
 								</p>
-								<span class="ps-shoe__price">{{ round( $totalPrice, 2) }}€</span>
+								<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
 							</div>
 							</div>
 						</div>

@@ -56,10 +56,10 @@
                 Cores: {{ $colorsText }}</p>
                 <h3 class="ps-product__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</h3>
                 <hr>
-                @if($product->stock <= 100)
+                @if($product->stock >= 100)
                 <h4>Stock: <b class="text-success">Em Stock</b></h4>
                 @else
-                    <h4>Stock: <b style="color: #ffc107!important">Por Encomenda</b></h4>
+                    <h4>Stock: <b style="color:#ffc107!important">Por Encomenda</b></h4>
                 @endif
                 {{-- <div class="ps-product__block ps-product__quickview">
                    
@@ -71,11 +71,11 @@
                     <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
 						@csrf
                         <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="3" data-type="int" placeholder="Quantidade">
+                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" max="99" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="2" data-type="int" placeholder="Quantidade">
                         </div>
                         @if ($errors->has('quantidade'))
                             <div class="form-group">
-                                <p class="danger" style="color:red; font-weight: bold;">{{$errors->first('quantidade')}}</p>
+                                <p class="text-danger">{{$errors->first('quantidade')}}</p>
                             </div>
                         @endif
                         <div class="form-group">
