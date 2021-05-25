@@ -66,7 +66,7 @@ class ProductsController extends Controller
         $validator = Validator::make($request->all(), [
             'tipo' => 'required',
             'colecao' => 'required',
-            'cor' => 'required',
+            'colors' => 'required',
             'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
             'preco' => 'required',
             'peso' => 'required',
@@ -75,6 +75,9 @@ class ProductsController extends Controller
             'miniatura' => 'required|image|mimes:jpeg,jpg,png',
             'imagens' => '',
             'imagens.*' => '|mimes:jpeg,jpg,png',
+        ],
+        [
+            'colors.*' => 'Selecione pelo menos uma cor',
         ]);
 
         if($validator->fails())
@@ -232,13 +235,13 @@ class ProductsController extends Controller
                 'disabled' => 1,
             ]);
         }
-        // Normal update
+        // Normal Update
         else
         {
             $validator = Validator::make($request->all(), [
                 'tipo' => 'required',
                 'colecao' => 'required',
-                'cor' => 'required',
+                'colors' => 'required',
                 'tamanho' => 'required|regex:/^([0-9]){3}x([0-9]){3}/|size:7',
                 'preco' => 'required',
                 'iva' => 'required',
@@ -248,6 +251,9 @@ class ProductsController extends Controller
                 'miniatura' => 'image|mimes:jpeg,jpg,png',
                 'imagens' => '',
                 'imagens.*' => '|mimes:jpeg,jpg,png',
+            ],
+            [
+                'colors.*' => 'Selecione pelo menos uma cor.',
             ]);
             
             if($validator->fails())
@@ -265,12 +271,8 @@ class ProductsController extends Controller
                 $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
 
                 // Make colors into an array and then JSON them
-                $colorsArray = $product->colors;
-                if(json_decode($request->colors) != null)
-                {  
-                    $colorsArray = explode(",", $request->colors);
-                    $colorsArray = json_encode($colorsArray);
-                }
+                $colorsArray = explode(",", $request->colors);
+                $colorsArray = json_encode($colorsArray);
 
                 // Thumbnail
                 if($thumbnail = $request->file('miniatura'))
@@ -327,7 +329,7 @@ class ProductsController extends Controller
                 $product->update([
                     'type_id' => $request->tipo,
                     'collection_id' => $request->colecao,
-                    'color' => $request->cor,
+                    'color' => $colorsArray,
                     'size' => $request->tamanho,
                     'price' => $request->preco,
                     'iva' => $request->iva,

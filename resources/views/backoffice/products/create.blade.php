@@ -58,11 +58,11 @@
 
 						<div class="form-group">
 							<label for="colors">Cores do Produto</label>
-							<input type="text" class="form-control" id="colors" name="colors" value="" disabled>
+							<input type="text" class="form-control" id="colors" name="colors" value="" readonly>
 						</div>
 
-						@if ($errors->has('cor'))
-							<p class="text-danger">{{$errors->first('cor')}}</p>
+						@if ($errors->has('colors'))
+							<p class="text-danger">{{$errors->first('colors')}}</p>
 						@endif
 
 						<div class="form-group">

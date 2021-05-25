@@ -59,7 +59,7 @@
 
 						<div class="form-group">
 							<label for="cor">Cores</label>
-							<p style="font-size: 13px;">Utilize o "CTRL" para selecionadar mais cores</p>
+							<p style="font-size: 13px;">Utilize o <b>"CTRL"</b> para selecionadar mais cores</p>
 							<select class="form-control form-control-lg select" id="cor" name="cor[]" multiple>
 								@foreach (json_decode($product->collection->colors) as $color)
 									<option value="{{ $color }}">{{ $color }}</option>
@@ -69,11 +69,11 @@
 
 						<div class="form-group">
 							<label for="colors">Cores do Produto</label>
-							<input type="text" class="form-control" id="colors" name="colors" value="{{ $colorsText }}" disabled>
+							<input type="text" class="form-control" id="colors" name="colors" value="{{ $colorsText }}" readonly>
 						</div>
 
-						@if ($errors->has('cor'))
-							<p class="text-danger">{{$errors->first('cor')}}</p>
+						@if ($errors->has('colors'))
+							<p class="text-danger">{{$errors->first('colors')}}</p>
 						@endif
 
 						<div class="form-group">
