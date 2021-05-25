@@ -11,7 +11,7 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
 @foreach ($cartItems as $item)
     <div class="col-md-12" style="font-size: 15px;">
         <b>Item:</b> {{ $item->product->type->type }}, {{ $item->product->collection->collection }}<br>
-        <b>REF:</b> {{ $item->product->reference }} <br>
+        <b>REF:</b> {{ $item->product->type->reference }} <br>
         <b>Quantidade:</b> {{ $item->quantity }} <br>
         <b>IVA:</b> {{ $item->iva }}% <br>
         <b>Sub-total:</b> {{ $item->price *  $item->quantity }}€ <br>
