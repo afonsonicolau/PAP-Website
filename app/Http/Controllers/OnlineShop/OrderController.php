@@ -9,7 +9,7 @@ use App\Models\CartItems;
 use App\Models\User;
 use App\Models\Order;
 use App\Mail\OrderEmail;
-
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -47,7 +47,28 @@ class OrderController extends Controller
             $billing = Address::find($request->billing_id);
             $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
             $user = User::find($delivery->user_id);
-            
+            $cartItem = CartItems::where('cart_id', $cart->id);
+
+            foreach($cartItem as $item)
+            {
+                // Gets product and it's stock
+                $product = Product::find($item->product_id);
+                $stock = $product->stock;
+
+                // product stock - item quantity
+                $stock = $stock - $item->quantity;
+
+                if($stock < 0)
+                {
+                    $stock = 0;
+                }
+
+                $product->update([
+                    'stock' => $stock,
+                ]);
+            }
+
+            $paid = 1;
             $state = "Em Processamento";
             if($request->payment_method == 'Multibanco')
             {
