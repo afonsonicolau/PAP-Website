@@ -17,6 +17,10 @@ $('form').submit(function () {
         }
     });
     
+    function isFloat(n){
+        return Number(n) === n && n % 1 !== 0;
+    }
+
     $(this).find('input[data-validate="yes"]').each(function(){
         // Remove classes and <p> tags
         $(this).parents(".form-group").children('p').remove();
@@ -57,27 +61,28 @@ $('form').submit(function () {
                 }
                 else
                 {
-                    if(dataMax == dataMin && (dataValue.length > dataMax || dataValue.length < dataMin))
+                    if(dataMax == dataMin && (dataNumber > dataMax || dataNumber < dataMin))
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve conter ${dataMin} números.</p>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo pode ter até ${dataMax} unidades.</p>`);
                     }
-                    else if(dataValue.length > dataMax || dataValue.length < dataMin) 
+                    else if(dataNumber > dataMax || dataNumber < dataMin) 
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">Este campo pode ter até ${dataMax} unidades.</p>`);
                     }   
                 }
                 break;
 
             case 'float':
-                if(dataValue.length > dataMax || dataValue.length < dataMin) 
+                dataNumber = Number(dataValue);
+                if(dataNumber > dataMax || dataNumber < dataMin) 
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} números.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">Este campo pode ter até ${dataMax} unidades.</p>`);
                 }
                 break;
 
@@ -151,6 +156,15 @@ $('form').submit(function () {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
                     $(this).parents(".form-group").append(`<p class="text-danger">Este campo deve ter ${dataMin} ou mais caracteres.</p>`);
+                }        
+                break;
+
+            case 'select-colors':
+                if(dataValue.length > dataMax || dataValue.length < dataMin) 
+                {
+                    validForm = false;
+                    $(this).addClass('form-validate-invalid');
+                    $(this).parents(".form-group").append(`<p class="text-danger">Selecione uma cor de forma a preencher este campo</p>`);
                 }        
                 break;
 

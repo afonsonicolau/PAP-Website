@@ -49,7 +49,7 @@
                                     <td>{{ $product->size }}</td>  
                                     <td>{{ $product->price }}€</td>
                                     <td>{{ $product->iva }}%</td>
-                                    <td>{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</td>
+                                    <td>{{ round(($product->iva / 100) * ($product->price) + $product->price, 2) }}€</td>
                                     <td>{{ $product->weight }}Kg</td>  
                                     <td>{{ $product->stock }}</td>
                                     <td>

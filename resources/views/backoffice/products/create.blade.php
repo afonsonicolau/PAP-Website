@@ -58,7 +58,7 @@
 
 						<div class="form-group">
 							<label for="colors">Cores do Produto</label>
-							<input type="text" class="form-control" id="colors" name="colors" value="" readonly>
+							<input type="text" class="form-control" id="colors" name="colors" value="" data-validate="yes" data-min="1" data-max="255" data-type="select-colors" readonly>
 						</div>
 
 						@if ($errors->has('colors'))
@@ -76,7 +76,7 @@
 
 						<div class="form-group">
 							<label for="preco">Preço s/IVA</label>
-							<input type="number" min="0" class="form-control" id="preco" name="preco" step="0.01" data-validate="yes" data-min="1" data-max="10" data-type="float" value="{{ old('preco') }}" onchange="totalPriceIva()">
+							<input type="number" min="0" class="form-control" id="preco" name="preco" step="0.01" data-validate="yes" data-min="1" data-max="500" data-type="float" value="{{ old('preco') }}" onchange="totalPriceIva()">
 						</div>
 
 						@if ($errors->has('preco'))
@@ -85,12 +85,8 @@
 
 						<div class="form-group">
 							<label for="iva">IVA</label>
-							<input type="number" min="0" class="form-control" id="iva" name="iva" step="0.1" data-validate="yes" data-min="1" data-max="10" data-type="float" value="{{ old('iva') }}" onchange="totalPriceIva()">
+							<input type="number" class="form-control" id="iva" name="iva" value="23" disabled>
 						</div>
-
-						@if ($errors->has('iva'))
-							<p class="text-danger">{{$errors->first('iva')}}</p>
-						@endif
 
 						<div class="form-group hidden totalPrice">
 							<p id="totalPriceVal"></p>
@@ -98,7 +94,7 @@
 
 						<div class="form-group">
 							<label for="peso">Peso</label>
-							<input type="number" min="0" class="form-control" id="peso" name="peso" step="0.01" data-validate="yes" data-min="1" data-max="8" data-type="float" value="{{ old('peso') }}">
+							<input type="number" min="0" class="form-control" id="peso" name="peso" step="0.01" data-validate="yes" data-min="1" data-max="100" data-type="float" value="{{ old('peso') }}">
 						</div>
 
 						@if ($errors->has('peso'))
@@ -107,7 +103,7 @@
 
 						<div class="form-group">
 							<label for="stock">Stock</label>
-							<input type="number" min="1" class="form-control" id="stock" name="stock" data-validate="yes" data-min="1" data-max="4" data-type="int" value="{{ old('stock') }}">
+							<input type="number" min="1" class="form-control" id="stock" name="stock" data-validate="yes" data-min="1" data-max="1000" data-type="int" value="{{ old('stock') }}">
 						</div>
 
 						@if ($errors->has('stock'))
@@ -143,7 +139,7 @@
 
 						{{-- Imagens  --}}
 						<div class="form-group">
-							<label for="imagens">Imagens Restantes</label>
+							<label for="imagens">Imagens de Detalhe</label>
 							<div>
 								<input type="file" class="imagens" id="imagens[]" name="imagens[]" multiple>
 							</div>

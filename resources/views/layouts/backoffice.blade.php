@@ -348,12 +348,14 @@
 			function totalPriceIva()
 			{
 				$(".totalPrice").removeClass("hidden");
-				
+
 				let price = $("#preco").val();
 				let iva = $("#iva").val();
-				let total = (price / ((100 - iva)/100)).toFixed(2);
+				iva = (iva / 100) * price;
+
+				let total = Number(iva) + Number(price);
 				
-				$("#totalPriceVal").text("Preço total: " + total + " €");
+				$("#totalPriceVal").text("Preço total: " + (total).toFixed(2) + " €");
 			}
 
 			// Function to delete the image front-end and send request to backend

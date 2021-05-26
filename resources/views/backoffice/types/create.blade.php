@@ -13,7 +13,7 @@
 
 						<div class="form-group">
 							<label for="referencia">Referência do Produto</label>
-							<input type="number" class="form-control" id="referencia" name="referencia" min="1" data-validate="yes" data-min="1" data-max="10" data-type="int" value="{{ old('referencia') }}">
+							<input type="number" class="form-control" id="referencia" name="referencia" min="1" data-validate="yes" data-min="1" data-max="50000" data-type="int" value="{{ old('referencia') }}">
 						</div>
 
 						@if ($errors->has('referencia'))
@@ -22,7 +22,7 @@
 
 						<div class="form-group">
 							<label for="tipo">Tipo de Produto</label>
-							<input type="text" class="form-control" id="tipo" name="tipo" data-validate="yes" data-min="2" data-max="30" data-type="string" value="{{ old('tipo') }}">
+							<input type="text" class="form-control" id="tipo" name="tipo" data-validate="yes" data-min="2" data-max="100" data-type="string" value="{{ old('tipo') }}">
 						</div>
 						
 						@if($errors->has('tipo'))
