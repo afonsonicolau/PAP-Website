@@ -34,10 +34,10 @@
 		<div class="ps-container">
 		<div class="ps-section__header mb-50">
 			<h3 class="ps-section__title" data-mask="Destaques">- Produtos em Destaque</h3>
-			<ul class="ps-masonry__filter">
+			{{-- <ul class="ps-masonry__filter">
 				<li class="current"><a href="#" data-filter="*">Todos <sup></sup></a></li>
 				<li><a href="#" data-filter="">Nike <sup></sup></a></li>
-			</ul>
+			</ul> --}}
 		</div>
 		<div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
 			<div class="ps-masonry">
@@ -74,8 +74,11 @@
 										</div> --}}
 												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
 													<p class="ps-shoe__categories">
-													<a href="#">{{ $product->collection->collection }},	
-													</a><a href="#">{{ $product->color }}</a></p><span class="ps-shoe__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</span>
+														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+														<br>
+														<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
+													</p>
+													<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
 												</div>
 											</div>
 										</div>
@@ -84,7 +87,7 @@
 						@endif
 					@endforeach
 					@foreach ($products as $product)
-						@if ($product->standout == 0 && $i < 8)
+						@if ($product->standout == 0 && $product->disabled == 0 && $i < 8)
 							@php
 								$i++
 							@endphp
@@ -93,7 +96,7 @@
 									<div class="grid-item__content-wrapper">
 										<div class="ps-shoe mb-30">
 											<div class="ps-shoe__thumbnail">
-										{{-- <div class="ps-badge"><span>New</span></div> --}}
+										{{-- <div class="ps-badge"><span>Novo</span></div> --}}
 										{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
 												<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
 												<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
@@ -125,8 +128,11 @@
 														$totalPrice = $iva + $product->price;
 													@endphp     
 													<p class="ps-shoe__categories">
-													<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }},	<br>
-													</a><a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a></p><span class="ps-shoe__price">{{ round($totalPrice, 2) }}€</span>
+														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+														<br>
+														<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
+													</p>
+													<span class="ps-shoe__price">{{ round(   , 2) }}€</span>
 												</div>
 											</div>
 										</div>

@@ -74,7 +74,6 @@ class ProfileController extends Controller
             $user->password = Hash::make($request->password);
             $user->save;
         
-
             return redirect()->back()->with('success', 'Palavra-passe mudada com sucesso.');
         }
     }

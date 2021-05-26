@@ -387,31 +387,34 @@
                             let iva = (product.iva / 100) * (product.price);
                             let totalPrice = iva + product.price;
 
-                            let colors = [product.color];
-                            let colorsText = "";
+                            let colors = JSON.parse(product.color);
+                            let colorsText = "Cores: ";
 
                             colors.forEach(color =>{
-                                console.log("Cor: " + color)
+                                colorsText = colorsText.concat(color + ", ");
+                                console.log(colorsText);
                             });
-                        
-                             /* ($colors as $value) {
-                                $colorsText .= $value . ', ';
-                            } */
+
+                            // Slice two last characters
+                            colorsText = colorsText.slice(0, -1)
+                            colorsText = colorsText.slice(0, -1)
 
                             let productColumn = `
                                                 <div class="ps-product__column" id="product_${product.id}">
                                                     <div class="ps-shoe mb-30">
                                                         <div class="ps-shoe__thumbnail">
-                                                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                                                        <img src="/storage/thumbnail/${product.thumbnail}">
-                                                        <a class="ps-shoe__overlay" href="${url}"></a>
+                                                            <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                            <img src="/storage/thumbnail/${product.thumbnail}">
+                                                            <a class="ps-shoe__overlay" href="${url}"></a>
                                                         </div>
                                                         <div class="ps-shoe__content">
                                                             <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
                                                             <p class="ps-shoe__categories">
-                                                                <a href="${url}">${product.collection.collection},	
-                                                                </a><a href="${url}">${colorsText}</a></p><span class="ps-shoe__price">
-                                                                ${totalPrice}€</span>
+                                                                <a href="${url}">${product.collection.collection}</a>
+                                                                <br>
+                                                                <a href="${url}">${colorsText}</a>
+                                                            </p>
+                                                            <span class="ps-shoe__price">${totalPrice}€</span>
                                                         </div>
                                                         </div>
                                                     </div>

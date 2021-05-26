@@ -85,7 +85,7 @@
 
 						<div class="form-group">
 							<label for="iva">IVA</label>
-							<input type="number" class="form-control" id="iva" name="iva" value="23" disabled>
+							<input type="number" class="form-control" id="iva" name="iva" value="23" readonly>
 						</div>
 
 						<div class="form-group hidden totalPrice">
