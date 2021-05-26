@@ -15,7 +15,7 @@
                                 <th>E-mail</th>
                                 <th>Verificação de E-mail</th>
                                 <th>Função</th>
-                                <th>Remover</th>
+                                <th>Desabilitar</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -24,9 +24,9 @@
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
                                     @if ($user->email_verified_at == null)
-                                        <td class="text-danger">Não Verificado</td>
+                                        <td class="text-danger"><b>Não Verificado</b></td>
                                     @else
-                                        <td class="text-success">Verificado</td>
+                                        <td class="text-success"><b>Verificado</b></td>
                                     @endif
                                     <td>
                                         @if (auth()->user()->id == $user->id)

@@ -410,7 +410,7 @@
                                                         <div class="ps-shoe__content">
                                                             <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
                                                             <p class="ps-shoe__categories">
-                                                                <a href="${url}">${product.collection.collection}</a>
+                                                                <a href="${url}">Coleção: ${product.collection.collection}</a>
                                                                 <br>
                                                                 <a href="${url}">${colorsText}</a>
                                                             </p>
