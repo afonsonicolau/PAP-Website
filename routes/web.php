@@ -107,3 +107,6 @@ Route::get('/backoffice/addresses', [App\Http\Controllers\Backoffice\AddressesCo
 Route::get('/backoffice/orders', [App\Http\Controllers\Backoffice\OrdersController::class, 'index'])->name('orders.index');
 Route::patch('/backoffice/orders/{order}/{state}', [App\Http\Controllers\Backoffice\OrdersController::class, 'update'])->name('orders.update');
 Route::get('/backoffice/orders/{order}', [App\Http\Controllers\Backoffice\OrdersController::class, 'show'])->name('orders.show');
+
+// Backoffice - Emails Sent by Users
+Route::get('/backoffice/emails', [App\Http\Controllers\Backoffice\EmailsController::class, 'index'])->name('emails.index');
