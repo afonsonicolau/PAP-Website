@@ -30,7 +30,7 @@
 								<td>{{ round($item->price / ((100 - $item->iva)/100), 2) }}€</td>
 								<td>
 									<div class="form-group--number">
-										<input class="form-control" id="cartQuantity_{{ $item->product_id }}" type="number" min="1" value="{{ $item->quantity }}">
+										<input class="form-control" id="cartQuantity_{{ $item->product_id }}" type="number" min="1" max="99" value="{{ $item->quantity }}">
 									</div>
 								</td>
 								<td><p id="productPriceTotal_{{ $item->product_id }}">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</p></td>

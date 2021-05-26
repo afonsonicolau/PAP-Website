@@ -88,23 +88,6 @@
                             <li class="menu-item"><a href="{{ route('online-shop.index') }}">Ínicio</a></li>
                             
                         <li class="menu-item"><a href="{{ route('online-shop.product-listing')}}">Produtos</a></li>
-                        <li class="menu-item menu-item-has-children dropdown"><a href="#">News</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item menu-item-has-children dropdown"><a href="blog-grid.html">Blog-grid</a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item"><a href="blog-grid.html">Blog Grid 1</a></li>
-                                        <li class="menu-item"><a href="blog-grid-2.html">Blog Grid 2</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item"><a href="blog-list.html">Blog List</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-item menu-item-has-children dropdown"><a href="#">Contact</a>
-                            <ul class="sub-menu">
-                                <li class="menu-item"><a href="contact-us.html">Contact Us #1</a></li>
-                                <li class="menu-item"><a href="contact-us.html">Contact Us #2</a></li>
-                            </ul>
-                        </li>
                     </ul>
                 </div>
                 <div class="navigation__column right">
@@ -400,7 +383,21 @@
 
                             let url = '{{ route("online-shop.product-detail", ":product") }}';
                             url = url.replace(':product', product.id);
-                             
+
+                            let iva = (product.iva / 100) * (product.price);
+                            let totalPrice = iva + product.price;
+
+                            let colors = [product.color];
+                            let colorsText = "";
+
+                            colors.forEach(color =>{
+                                console.log("Cor: " + color)
+                            });
+                        
+                             /* ($colors as $value) {
+                                $colorsText .= $value . ', ';
+                            } */
+
                             let productColumn = `
                                                 <div class="ps-product__column" id="product_${product.id}">
                                                     <div class="ps-shoe mb-30">
@@ -412,9 +409,9 @@
                                                         <div class="ps-shoe__content">
                                                             <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
                                                             <p class="ps-shoe__categories">
-                                                                <a href="#">${product.collection.collection},	
-                                                                </a><a href="#">${product.color}</a></p><span class="ps-shoe__price">
-                                                                ${product.price}€</span>
+                                                                <a href="${url}">${product.collection.collection},	
+                                                                </a><a href="${url}">${colorsText}</a></p><span class="ps-shoe__price">
+                                                                ${totalPrice}€</span>
                                                         </div>
                                                         </div>
                                                     </div>
@@ -484,7 +481,7 @@
                     
                     totalPrice += (productPrice * Number(cartQuantity));
 
-                    if(cartQuantity >= 1)
+                    if(cartQuantity >= 1 && cartQuantity <= 99)
                     {
                         $.ajax({
                             url: `/online-shop/cart/${productId}/${cartQuantity}`,
@@ -516,6 +513,7 @@
 
                 if(valid)
                 {
+                    totalPrice = (totalPrice).toFixed(2);
                     $(`#productsTotal`).text(totalPrice + "€");
                     $(`#cartPriceTotal`).text(totalPrice + "€");
 
