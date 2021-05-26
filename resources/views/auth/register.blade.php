@@ -71,7 +71,7 @@
                         <div class="form-group d-flex justify-content-center">
                             <div class="form-check form-check-flat mt-0">
                                 <label class="form-check-label">
-                                <input type="checkbox" name="termos" id="termos" class="form-check-input" data-validate="yes" data-type="checkbox">Concordo com os Termos e Condições</label>
+                                <input type="checkbox" name="terms" id="terms" class="form-check-input" data-validate="yes" data-type="checkbox">Concordo com os Termos e Condições</label>
                             </div>
                         </div>
                         <div class="check d-flex justify-content-center">
@@ -79,8 +79,8 @@
                         </div>
                         
                         <div class="form-group">
-                            @error('termos')
-							    <p class="danger">{{$errors->first('termos')}}</p>
+                            @error('terms')
+							    <p class="danger">{{$errors->first('terms')}}</p>
                             @enderror
                         </div> 
                         <div class="form-group">

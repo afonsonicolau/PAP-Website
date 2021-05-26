@@ -42,14 +42,14 @@ class RegisterController extends Controller
             'username' => ['required', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', 'regex:/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})/'],
-            'termos' => 'required',
+            'terms' => 'required',
         ],
         [
             'username.*' => 'Insira um nome de utilizador válido.',
             'email.unique' => 'Este endereço de e-mail já se encontra em uso.',
             'email.*' => 'Insira um e-mail válido.',
             'password.*' => 'A palavra-passe deve ter 8 caracteres, uma letra, um número e um caractere especial.',
-            'termos.*' => 'Para continuar assinale o "Concordo com os Termos e Condições".',
+            'terms.*' => 'Para continuar assinale o "Concordo com os Termos e Condições".',
         ]);
     }
 
