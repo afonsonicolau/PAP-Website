@@ -74,108 +74,111 @@
 		<div class="container-fluid page-body-wrapper">
 			<!-- partial:partials/_sidebar.html -->
 			<nav class="sidebar sidebar-offcanvas" id="sidebar">
-			<ul class="nav">
-				<li class="nav-item nav-profile">
-				<a href="#" class="nav-link">
-					<div class="profile-image">
-					<img class="img-xs rounded-circle" src="/assets/images/faces/face8.jpg" alt="profile image">
-					<div class="dot-indicator bg-success"></div>
-					</div>
-					<div class="text-wrapper">
-					<p class="profile-name">{{ Auth::user()->username}}</p>
-					<p class="designation">Administrador</p>
-					</div>
-				</a>
-				</li>
-				<a href="{{ route('home') }}">
-				<li class="nav-item nav-category">Menu Principal</li>
-				</a>
-				<li class="nav-item">
-				<a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="ui-basic">
-					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Utilizadores</span>
-					<i class="menu-arrow"></i>
-				</a>
-				<div class="collapse" id="users">
-					<ul class="nav flex-column sub-menu">
-					<li class="nav-item">
-						<a class="nav-link" href="{{ route('users.client') }}">Listar Clientes</a>
+				<ul class="nav">
+					<li class="nav-item nav-profile">
+					<a href="#" class="nav-link">
+						<div class="profile-image">
+						<img class="img-xs rounded-circle" src="/assets/images/faces/face8.jpg" alt="profile image">
+						<div class="dot-indicator bg-success"></div>
+						</div>
+						<div class="text-wrapper">
+						<p class="profile-name">{{ Auth::user()->username}}</p>
+						<p class="designation">Administrador</p>
+						</div>
+					</a>
 					</li>
+					<a href="{{ route('home') }}">
+					<li class="nav-item nav-category">Menu Principal</li>
+					</a>
 					<li class="nav-item">
-						<a class="nav-link" href="{{ route('users.administrator') }}">Listar Administradores</a>
-					</li>
-					</ul>
-				</div>
-				</li>
-				<li class="nav-item">
-				<a class="nav-link" data-toggle="collapse" href="#products" aria-expanded="false" aria-controls="ui-basic">
-					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Produtos</span>
-					<i class="menu-arrow"></i>
-				</a>
-				<div class="collapse" id="products">
-					<ul class="nav flex-column sub-menu">
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('products.create') }}">Criar Produto</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('products.index') }}">Listar Produtos</a>
-						</li>
-					</ul>
-				</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="collapse" href="#collections" aria-expanded="false" aria-controls="ui-basic">
+					<a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="ui-basic">
 						<i class="menu-icon typcn typcn-coffee"></i>
-						<span class="menu-title">Coleções</span>
+						<span class="menu-title">Utilizadores</span>
 						<i class="menu-arrow"></i>
 					</a>
-					<div class="collapse" id="collections">
+					<div class="collapse" id="users">
 						<ul class="nav flex-column sub-menu">
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('collections.create') }}">Criar Coleção</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('collections.index') }}">Listar Coleções</a>
-						</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('users.client') }}">Listar Clientes</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('users.administrator') }}">Listar Administradores</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('emails.index') }}">E-mails Recebidos</a>
+							</li>
 						</ul>
 					</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="collapse" href="#types" aria-expanded="false" aria-controls="ui-basic">
-					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Tipos de Produto</span>
-					<i class="menu-arrow"></i>
+					</li>
+					<li class="nav-item">
+					<a class="nav-link" data-toggle="collapse" href="#products" aria-expanded="false" aria-controls="ui-basic">
+						<i class="menu-icon typcn typcn-coffee"></i>
+						<span class="menu-title">Produtos</span>
+						<i class="menu-arrow"></i>
 					</a>
-					<div class="collapse" id="types">
-					<ul class="nav flex-column sub-menu">
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('types.create') }}">Criar Tipo de Produto</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('types.index') }}">Listar Tipos</a>
-						</li>
-					</ul>
+					<div class="collapse" id="products">
+						<ul class="nav flex-column sub-menu">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('products.create') }}">Criar Produto</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('products.index') }}">Listar Produtos</a>
+							</li>
+						</ul>
 					</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" data-toggle="collapse" href="#clientes" aria-expanded="false" aria-controls="ui-basic">
-					<i class="menu-icon typcn typcn-coffee"></i>
-					<span class="menu-title">Clientes</span>
-					<i class="menu-arrow"></i>
-					</a>
-					<div class="collapse" id="clientes">
-					<ul class="nav flex-column sub-menu">
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('addresses.index') }}">Listar Moradas</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ route('orders.index') }}">Listar Encomendas</a>
-						</li>
-					</ul>
-					</div>
-				</li>
-			</ul>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#collections" aria-expanded="false" aria-controls="ui-basic">
+							<i class="menu-icon typcn typcn-coffee"></i>
+							<span class="menu-title">Coleções</span>
+							<i class="menu-arrow"></i>
+						</a>
+						<div class="collapse" id="collections">
+							<ul class="nav flex-column sub-menu">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('collections.create') }}">Criar Coleção</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('collections.index') }}">Listar Coleções</a>
+							</li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#types" aria-expanded="false" aria-controls="ui-basic">
+						<i class="menu-icon typcn typcn-coffee"></i>
+						<span class="menu-title">Tipos de Produto</span>
+						<i class="menu-arrow"></i>
+						</a>
+						<div class="collapse" id="types">
+						<ul class="nav flex-column sub-menu">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('types.create') }}">Criar Tipo de Produto</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('types.index') }}">Listar Tipos</a>
+							</li>
+						</ul>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#clientes" aria-expanded="false" aria-controls="ui-basic">
+						<i class="menu-icon typcn typcn-coffee"></i>
+						<span class="menu-title">Clientes</span>
+						<i class="menu-arrow"></i>
+						</a>
+						<div class="collapse" id="clientes">
+						<ul class="nav flex-column sub-menu">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('addresses.index') }}">Listar Moradas</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('orders.index') }}">Listar Encomendas</a>
+							</li>
+						</ul>
+						</div>
+					</li>
+				</ul>
 			</nav>
 			<!-- partial -->
 			<div class="main-panel">
