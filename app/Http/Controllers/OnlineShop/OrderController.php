@@ -47,9 +47,9 @@ class OrderController extends Controller
             $billing = Address::find($request->billing_id);
             $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
             $user = User::find($delivery->user_id);
-            $cartItem = CartItems::where('cart_id', $cart->id);
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
-            foreach($cartItem as $item)
+            foreach($cartItems as $item)
             {
                 // Gets product and it's stock
                 $product = Product::find($item->product_id);
@@ -105,7 +105,6 @@ class OrderController extends Controller
                 
             // Get order to send e-mail to user
             $order = Order::latest()->first();
-            $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
             // Create a new cart for user
             Cart::create([
