@@ -42,7 +42,7 @@ Route::delete('/online-shop/cart/{productId}', [App\Http\Controllers\OnlineShop\
 
 //User Personal
 Route::get('/online-shop/profile/personal', [App\Http\Controllers\OnlineShop\ProfileController::class, 'personal_index'])->name('online-shop.profile-personal');
-Route::patch('/online-shop/profile/personal', [App\Http\Controllers\OnlineShop\ProfileController::class, 'user_change_info'])->name('online-shop.profile-changeinfo');
+Route::patch('/online-shop/profile/personal', [App\Http\Controllers\OnlineShop\ProfileController::class, 'update'])->name('online-shop.profile-changeinfo');
 
 // User Addresses
 Route::get('/online-shop/profile/addresses', [App\Http\Controllers\OnlineShop\ProfileController::class, 'addresses_index'])->name('online-shop.profile-addresses');

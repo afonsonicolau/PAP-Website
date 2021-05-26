@@ -145,7 +145,7 @@ $('form').submit(function () {
                     {
                         validForm = false;
                         $(this).addClass('form-validate-invalid');
-                        $(this).parents(".form-group").append(`<p class="text-danger">As palavras-passe inseridas têm de ser iguais.<p/>`);
+                        $(this).parents(".form-group").append(`<p class="text-danger">As palavras-passe inseridas têm de ser iguais.</p>`);
                     }
                 }
                 break;
