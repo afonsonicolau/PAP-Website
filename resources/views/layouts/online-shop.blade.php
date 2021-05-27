@@ -96,8 +96,8 @@
                 <div class="navigation__column right">
                     <!-- Search product -->
                     <form class="ps-search--header" action="do_action" method="post">
-                        <input class="form-control" type="text" placeholder="Pesquisar produto…">
-                        <button><i class="ps-icon-search"></i></button>
+                        <input class="form-control" type="text" id="searchInput" placeholder="Pesquisar produto…">
+                        <button type="button" onclick="productSearch()"><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
                         <div class="ps-cart"><a class="ps-cart__toggle" href="#">
@@ -633,6 +633,74 @@
         // Change payment method
         function paymentMethod(method) {
             $("#payment_method").val(method);
+        }
+
+        // Product Search
+        function productSearch() {
+            alert("wdqsdwqe");
+            let string = $("#searchInput").text();
+
+            $.ajax({
+                url: `/online-shop/product-listing/${string}`,
+                type: "GET",
+                data: { '_token': '{{ csrf_token() }}' },
+                dataType: "json",
+                success: function(response) {
+                    $('.ps-product__columns').empty();
+
+                    let products = response.data ? response.data : response;
+                    for (let i = 0; i < products.length; i++) {
+                        let product = products[i];
+
+                        let url = '{{ route('online-shop.product-detail', ':product') }}';
+                        url = url.replace(':product', product.id);
+
+                        let iva = (product.iva / 100) * (product.price);
+                        let totalPrice = iva + product.price;
+
+                        let colors = JSON.parse(product.color);
+                        let colorsText = "Cores: ";
+
+                        colors.forEach(color => {
+                            colorsText = colorsText.concat(color + ", ");
+                            console.log(colorsText);
+                        });
+
+                        // Slice two last characters
+                        colorsText = colorsText.slice(0, -1)
+                        colorsText = colorsText.slice(0, -1)
+
+                        let productColumn = `
+                            <div class="ps-product__column" id="product_${product.id}">
+                                <div class="ps-shoe mb-30">
+                                    <div class="ps-shoe__thumbnail">
+                                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                        <img src="/storage/thumbnail/${product.thumbnail}">
+                                        <a class="ps-shoe__overlay" href="${url}"></a>
+                                    </div>
+                                    <div class="ps-shoe__content">
+                                        <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
+                                        <p class="ps-shoe__categories">
+                                            <a href="${url}">Coleção: ${product.collection.collection}</a>
+                                            <br>
+                                            <a href="${url}">${colorsText}</a>
+                                        </p>
+                                        <span class="ps-shoe__price">${totalPrice}€</span>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        $('.ps-product__columns').append(productColumn);
+                    }
+                },
+                error: function() {
+                    $('.ps-product__columns').empty();
+                    let errorTag = "<p class='text-dark'><b>Não existem produtos conforme a sua pesquisa.</b></p>";
+                    $('.ps-product__columns').append(errorTag)
+                },
+            });
         }
 
     </script>

@@ -81,7 +81,7 @@ class ProfileController extends Controller
                 'password' => Hash::make($request->password),
             ]);
         
-            return redirect()->back()->with('success', 'Palavra-passe mudada com sucesso.');
+            return redirect()->back()->with('success', 'Palavra-passe alterada com sucesso.');
         }
     }
 }

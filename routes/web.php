@@ -27,6 +27,7 @@ Route::get('/online-shop/product-listing/product-detail/{product}', [App\Http\Co
 
 // Filters
 Route::get('/online-shop/product-listing/{collection}/{type}/{price}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_filter'])->name('online-shop.filter');
+Route::get('/online-shop/product-listing/{searched}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_search'])->name('online-shop.search');
 
 // User Cart
 Route::get('/online-shop/cart', [App\Http\Controllers\OnlineShop\CartController::class, 'index'])->name('online-shop.cart');

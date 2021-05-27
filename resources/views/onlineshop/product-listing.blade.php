@@ -83,7 +83,7 @@
 				<h3>Preço</h3>
 			</div>
 			<div class="ps-widget__content">
-				<div class="ac-slider" data-default-min="0" data-default-max="{{ $max }}" data-max="{{ $max }}" data-step="1" data-unit="€"></div>
+				<div class="ac-slider" data-default-min="0" data-default-max="{{ ($max * 0.23) + $max}}" data-max="{{ ($max * 0.23) + $max }}" data-step="0.01" data-unit="€"></div>
 				<p class="ac-slider__meta">Preço:<span class="ac-slider__value ac-slider__min"></span>-<span class="ac-slider__value ac-slider__max"></span></p>
 				<a class="ac-slider__filter ps-btn" href="#">Filtrar</a>
 			</div>

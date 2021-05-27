@@ -1568,6 +1568,14 @@ a.text-success:focus, a.text-success:hover {
     color: #2b542c
 }
 
+.text-dark {
+    color: #343a40!important;
+}
+
+a.text-dark:focus, a.text-dark:hover {
+    color: #2b542c;
+}
+
 .text-info {
     color: #31708f
 }

@@ -82,6 +82,11 @@ class ShopController extends Controller
         return response()->json($productsSelected); 
     }
 
+    public function product_search($searchedString)
+    {
+
+    }
+
     public function product_detail_index($id)
     {
         $product = Product::find($id);

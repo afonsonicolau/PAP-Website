@@ -16,10 +16,6 @@ $('form').submit(function () {
             $(this).parent("div").append(`<p class="text-danger">Este campo deve ter entre ${dataMin} a ${dataMax} caracteres.</p>`);
         }
     });
-    
-    function isFloat(n){
-        return Number(n) === n && n % 1 !== 0;
-    }
 
     $(this).find('input[data-validate="yes"]').each(function(){
         // Remove classes and <p> tags
