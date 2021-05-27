@@ -91,6 +91,20 @@
 					<li class="nav-item nav-category">Menu Principal</li>
 					</a>
 					<li class="nav-item">
+						<a class="nav-link" data-toggle="collapse" href="#company" aria-expanded="false" aria-controls="ui-basic">
+						<i class="menu-icon typcn typcn-coffee"></i>
+						<span class="menu-title">Empresa</span>
+						<i class="menu-arrow"></i>
+						</a>
+						<div class="collapse" id="company">
+						<ul class="nav flex-column sub-menu">
+							<li class="nav-item">
+								<a class="nav-link" href="{{ route('company.index') }}">Informações da Empresa</a>
+							</li>
+						</ul>
+						</div>
+					</li>
+					<li class="nav-item">
 					<a class="nav-link" data-toggle="collapse" href="#users" aria-expanded="false" aria-controls="ui-basic">
 						<i class="menu-icon typcn typcn-coffee"></i>
 						<span class="menu-title">Utilizadores</span>
@@ -212,14 +226,11 @@
         <!-- Sweet Alerts JS -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
         <!-- Selectize JS -->
-		<link rel="stylesheet" href="/assets/css/selectize.css">
 		<script src="/assets/js/selectize.min.js"></script>
+		<link rel="stylesheet" href="/assets/css/selectize.css">
 		<!-- Validation JS & CSS -->
 		<script src="/assets/js/validate.js"></script>
 		<link rel="stylesheet" href="/assets/css/validate.css">
-		<!-- Multiselect jQuery & CSS -->
-		<script src="/assets/js/multiselect.min.js"></script>
-		<link rel="stylesheet" href="/assets/css/multiselect.css">
         <!-- Scripts -->
         <script>
 			// When user chooses a color in multi-select it's values are shown 
@@ -347,6 +358,70 @@
 				imagesPreview(this, '.imagesPreview');
 			});
 			
+			// Company Details
+			function changeDetails(type, value, cancel)
+			{
+				if(cancel == 1) {
+					let p = "";
+					if(value.toString().length > 0 && value.toString().length <= 2) {
+						p = `<p><b>${value}%</b> <a type="button" href="#" onclick="changeDetails('${type}', ${value}, 0)"><i class="fas fa-pen"></i></a></p>`;
+					}	
+					else {
+						p = `<p>REF: <b>${value}</b> <a type="button" href="#" onclick="changeDetails('${type}', ${value}, 0)"><i class="fas fa-pen"></i></a></p>`;
+					}
+						
+					$(`div .${type}`).append(p);
+					$(".form-active").remove();
+				}
+				else {
+					let formCheck = $(".form-active").length;
+					if (formCheck > 0) {
+						let input = $(".form-active").find('input[class="form-control"]').get();
+						let valueOld = input[0].value;
+						let typeOld = input[0].id;
+
+						if(valueOld.toString().length > 0 && valueOld.toString().length <= 2) {
+							p = `<p><b>${valueOld}%</b> <a type="button" href="#" onclick="changeDetails('${typeOld}', ${valueOld}, 0)"><i class="fas fa-pen"></i></a></p>`;
+						}	
+						else {
+							p = `<p>REF: <b>${valueOld}</b> <a type="button" href="#" onclick="changeDetails('${typeOld}', ${valueOld}, 0)"><i class="fas fa-pen"></i></a></p>`;
+						}
+
+						$(`div .${typeOld}`).append(p);
+
+						$(".form-active").remove();
+					}
+
+					$(`.${type}`).children('p').remove();
+
+					let dataMax, dataMin;
+					if(value.toString().length > 0 && value.toString().length <= 2) {
+						dataMin = 1; dataMax = 99;
+					}
+					else {
+						dataMin = 10000; dataMax = 99999;
+					}
+
+					let form =  `
+						<form class="forms-sample form-active" method="POST" action="{{ route('company.update') }}" enctype="multipart/form-data">
+							@csrf
+							@method('PATCH')
+
+							<div class="form-group">
+								<input type="number" class="form-control" min="${dataMin}" name="${type}" id="${type}" value="${value}" data-validate="yes" data-min="${dataMin}" data-max="${dataMax}" data-type="int">
+							</div>
+
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary" title="Guardar"><i class="fas fa-save"></i></button>
+								<a type="button" class="btn btn-danger" href="#" onclick="changeDetails('${type}', ${value}, 1)" title="Cancelar"><i class="fas fa-ban"></i></a>
+							</div>
+						</form>
+					`;
+
+					$(`.${type}`).append(form);
+				}
+			};
+
 			// Price + IVA
 			function totalPriceIva()
 			{
@@ -359,7 +434,7 @@
 				let total = Number(iva) + Number(price);
 				
 				$("#totalPriceVal").text("Preço total: " + (total).toFixed(2) + " €");
-			}
+			};
 
 			// Function to delete the image front-end and send request to backend
 			function imageDelete(imageName, inputId, product)

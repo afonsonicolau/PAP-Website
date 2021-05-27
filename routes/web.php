@@ -110,3 +110,7 @@ Route::get('/backoffice/orders/{order}', [App\Http\Controllers\Backoffice\Orders
 
 // Backoffice - Emails Sent by Users
 Route::get('/backoffice/emails', [App\Http\Controllers\Backoffice\EmailsController::class, 'index'])->name('emails.index');
+
+// Backoffice - Company Details
+Route::get('/backoffice/company', [App\Http\Controllers\Backoffice\CompanyController::class, 'index'])->name('company.index');
+Route::patch('/backoffice/company', [App\Http\Controllers\Backoffice\CompanyController::class, 'update'])->name('company.update');
