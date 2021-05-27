@@ -233,6 +233,21 @@
 		<link rel="stylesheet" href="/assets/css/validate.css">
         <!-- Scripts -->
         <script>
+			// Show or not the inputs depending on the check
+			$(document).ready($(function() {
+				hideInputs();
+			}));
+
+			function hideInputs()
+			{
+				if($("#changepassword")[0].checked) {
+					$("div .info").removeClass("hidden");
+				}
+				else{
+					$("div .info").addClass("hidden");
+				}
+			};
+
 			// When user chooses a color in multi-select it's values are shown 
 			$("#cor").on("change", function() {
 				$("#colors").val($(this).val());

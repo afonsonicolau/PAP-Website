@@ -61,8 +61,7 @@ Route::get('/backoffice', [App\Http\Controllers\HomeController::class, 'index'])
 
 // Backoffice - User Profile
 Route::get('/backoffice/profile', [App\Http\Controllers\Backoffice\ProfileController::class, 'index'])->name('backoffice.profile');
-
-Route::patch('/backoffice/users/{user}', [App\Http\Controllers\Backoffice\UsersController::class, 'update'])->name('users.update');
+Route::patch('/backoffice/profile', [App\Http\Controllers\Backoffice\ProfileController::class, 'update'])->name('backoffice.profile-changeinfo');
 
 // Backoffice - Users/Administrator
 Route::get('/backoffice/users/clients', [App\Http\Controllers\Backoffice\UsersController::class, 'client'])->name('users.client');
