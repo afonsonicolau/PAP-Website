@@ -43,7 +43,7 @@
 
                         <div class="form-group hidden info" style="margin-top: 20px;">
                             <label for="current_password">Palavra-passe Atual<span class="text-danger">*</span></label>
-                            <input type="password" class="form-control" id="current_password" name="current_password" data-validate="yes" data-type="password" autocomplete="current-password"> 
+                            <input type="password" class="form-control" id="current_password" name="current_password" autocomplete="current-password"> 
                         </div>
                         <div class="form-group hidden info">
                             <label>Nova Palavra-passe<span class="text-danger">*</span></label>

@@ -28,7 +28,7 @@
 
                                     <div class="form-group pt-10 hidden info">
                                         <label>Palavra-passe Atual<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="current_password" name="current_password" data-validate="yes" data-min="8" data-type="required" autocomplete="current-password" style="width: 40%;">
+                                        <input type="password" class="form-control" id="current_password" name="current_password" autocomplete="current-password" style="width: 40%;">
                                     </div>
                                     <div class="form-group pt-10 hidden info">
                                         <label>Nova Palavra-passe<span class="text-danger">*</span></label>
