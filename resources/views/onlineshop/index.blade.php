@@ -123,9 +123,6 @@
 														}
 
 														$colorsText = rtrim($colorsText, ", ");
-
-														$iva = ($product->iva / 100) * ($product->price);
-														$totalPrice = $iva + $product->price;
 													@endphp     
 													<p class="ps-shoe__categories">
 														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	

@@ -67,14 +67,6 @@
                                 <a href="{{ route('login') }}">Iniciar Sessão</a>
                                 <a href="{{ route('register') }}">Registar-me</a>
                             @endif
-
-                            {{-- <div class="btn-group ps-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">USD<i class="fa fa-angle-down"></i></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#"><img src="/assets/onlineshop/images/flag/usa.svg" alt=""> USD</a></li>
-                                    <li><a href="#"><img src="/assets/onlineshop/images/flag/singapore.svg" alt=""> SGD</a></li>
-                                    <li><a href="#"><img src="/assets/onlineshop/images/flag/japan.svg" alt=""> JPN</a></li>
-                                </ul>
-                                </div> --}}
                         </div>
                     </div>
                 </div>
@@ -95,15 +87,13 @@
                 </div>
                 <div class="navigation__column right">
                     <!-- Search product -->
-                    <form class="ps-search--header" action="do_action" method="post">
+                    <form class="ps-search--header" onclick="productSearch()">
                         <input class="form-control" type="text" id="searchInput" placeholder="Pesquisar produto…">
-                        <button type="button" onclick="productSearch()"><i class="ps-icon-search"></i></button>
+                        <button type="button" id="searchProduct" onclick="productSearch()"><i class="ps-icon-search"></i></button>
                     </form>
                     @if (auth()->user())
                         <div class="ps-cart"><a class="ps-cart__toggle" href="#">
-                                @if ($cartItems->count() > 0) <span><i
-                                            id="itemsCount">{{ $cartItems->sum('quantity') }}</i></span> @endif <i
-                                        class="ps-icon-shopping-cart"></i>
+                                @if ($cartItems->count() > 0) <span><i id="itemsCount">{{ $cartItems->sum('quantity') }}</i></span> @endif <i class="ps-icon-shopping-cart"></i>
                             </a>
                             <div class="ps-cart__listing">
                                 <div class="ps-cart__content">
@@ -116,17 +106,10 @@
                                     @if ($cartItems != '')
                                         @foreach ($cartItems as $item)
                                             <div class="ps-cart-item" id="cartItem_{{ $item->product_id }}">
-                                                <div class="ps-cart-item__thumbnail"><a
-                                                        href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img
-                                                        src="/storage/thumbnail/{{ $item->product->thumbnail }}"
-                                                        alt=""></div>
-                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title"
-                                                        href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
-                                                    <p class="pr-70"><span>Quantidade:<i
-                                                                id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span class="mr-20">Total:<i
-                                                                id="cartItemTotal_{{ $item->product_id }}">
-                                                                {{ round($item->price / ((100 - $item->iva) / 100), 2) * $item->quantity }}€</i></span>
+                                                <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
+                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
+                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
+                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round($item->price / ((100 - $item->iva) / 100), 2) * $item->quantity }}€</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -139,14 +122,11 @@
                                 </div>
                                 <!-- Cart total -->
                                 <div class="ps-cart__total">
-                                    <p>Quantidade total:<span id="cartQuantityTotal">{{ $totalQuantity }}
-                                            produto(s)</span></p>
+                                    <p>Quantidade total:<span id="cartQuantityTotal">{{ $totalQuantity }} produto(s)</span></p>
                                     <p>Preço total:<span id="cartPriceTotal">{{ $total }}€</span></p>
                                 </div>
                                 @if ($totalQuantity > 0)
-                                    <div class="ps-cart__footer"><a class="ps-btn"
-                                            href="{{ route('online-shop.cart', auth()->user()->id) }}">Editar
-                                            Carrinho<i class="ps-icon-arrow-left"></i></a></div>
+                                    <div class="ps-cart__footer"><a class="ps-btn" href="{{ route('online-shop.cart', auth()->user()->id) }}">Editar Carrinho<i class="ps-icon-arrow-left"></i></a></div>
                                 @endif
                             </div>
                         </div>
@@ -307,6 +287,17 @@
     <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
     <!-- Custom Script -->
     <script>
+        $(document).ready(function() {
+            $("#searchInput").keyup(function(event) {
+                event.stopImmediatePropagation();
+                if (event.which == 13) {
+                    event.preventDefault();
+                    $("#searchProduct").trigger("click");
+                    return false;
+                }
+            });
+        });
+
         // Show or not the inputs depending on the check
         $(document).ready($(function() {
             hideInputs();
@@ -407,10 +398,7 @@
         function productsFilter(collectionId, typeId, priceRange) {
             $.ajax({
                 type: "GET",
-
-                data: {
-                    '_token': '{{ csrf_token() }}'
-                },
+                data: { '_token': '{{ csrf_token() }}' },
                 dataType: "json",
                 url: `/online-shop/product-listing/${collectionId}/${typeId}/${priceRange}`,
                 success: function(response) {
@@ -431,7 +419,6 @@
 
                         colors.forEach(color => {
                             colorsText = colorsText.concat(color + ", ");
-                            console.log(colorsText);
                         });
 
                         // Slice two last characters
@@ -637,8 +624,11 @@
 
         // Product Search
         function productSearch() {
-            alert("wdqsdwqe");
-            let string = $("#searchInput").text();
+            let string = $("#searchInput").val();
+
+            if (string == "") {
+                string = "null"
+            }
 
             $.ajax({
                 url: `/online-shop/product-listing/${string}`,
@@ -663,7 +653,6 @@
 
                         colors.forEach(color => {
                             colorsText = colorsText.concat(color + ", ");
-                            console.log(colorsText);
                         });
 
                         // Slice two last characters
@@ -697,6 +686,7 @@
                 },
                 error: function() {
                     $('.ps-product__columns').empty();
+
                     let errorTag = "<p class='text-dark'><b>Não existem produtos conforme a sua pesquisa.</b></p>";
                     $('.ps-product__columns').append(errorTag)
                 },

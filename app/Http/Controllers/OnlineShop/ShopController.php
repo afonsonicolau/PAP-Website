@@ -64,27 +64,61 @@ class ShopController extends Controller
         $price = explode("-", $priceRange);
         $collectionId = trim($collection, 'collection_');
         $typeId = trim($type, 'type_');
-        $productsSelected = Product::where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
 
+        $productsSelected = new Product;
+        
         if ($collectionId > 0 && $typeId > 0)
         {
-            $productsSelected = Product::where('collection_id', $collectionId)->where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+            $productsSelected = $productsSelected->where('collection_id', $collectionId)->where('type_id', $typeId);
         }
         elseif ($typeId > 0)
         {
-            $productsSelected = Product::where('type_id', $typeId)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+            $productsSelected = $productsSelected->where('type_id', $typeId);
         }
         elseif ($collectionId > 0 )
         {
-            $productsSelected = Product::where('collection_id', $collectionId)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+            $productsSelected = $productsSelected->where('collection_id', $collectionId);
         }
         
+        $productsSelected = $productsSelected->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+
         return response()->json($productsSelected); 
     }
 
     public function product_search($searchedString)
     {
+        $productsSearched = new Product;
+        $collections = Collection::all();
+        $types = ProductTypes::all();
 
+        if($searchedString != "null") {
+            $collectionsLike = ""; $typesLike = "";
+
+            foreach ($collections as $collection) {
+                $collectionsLike = $collection->where('collection', 'LIKE', "%{$searchedString}%")->get();
+            }
+            foreach ($types as $type) {
+                $typesLike = $type->where('type', 'LIKE', "%{$searchedString}%")->get();
+            }
+
+            if($collectionsLike->first() != "") {
+                foreach ($collectionsLike as $collection) {
+                    $productsSearched = $productsSearched->where('collection_id', $collection->id);
+                }
+            }
+            elseif($typesLike->first() != "") {
+                foreach ($typesLike as $type) {
+                    $productsSearched = $productsSearched->where('type_id', $type->id);
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        
+        $productsSearched = $productsSearched->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+
+        return response()->json($productsSearched); 
     }
 
     public function product_detail_index($id)
