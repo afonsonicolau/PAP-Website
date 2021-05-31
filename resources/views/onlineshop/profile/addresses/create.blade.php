@@ -21,7 +21,7 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Telemóvel<span class="required-red">*</span></label>
-                                <input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ old('telemóvel') }}" data-validate="yes" data-min="9" data-max="9" data-type="int">
+                                <input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ old('telemóvel') }}" data-validate="yes" data-type="phone">
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>NIF</label>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="ps-shipping">
                     <h3>Informação</h3>
-                    <p>Se escolher a definição de morada "Ambas" poderá escolhê-la tanto como envio ou faturação.</p>
+                    <p>Se escolher a definição de morada "Ambas" poderá escolhê-la tanto como envio ou faturação na efetuação de uma compra.</p>
                 </div>
             </div>
         </div>

@@ -114,8 +114,17 @@ $('form').submit(function () {
                 }
                 break;
 
+            case 'phone':
+                if(dataValue.length != 9) 
+                {
+                    validForm = false;
+                    $(this).addClass('form-validate-invalid');
+                    $(this).parents(".form-group").append(`<p class="text-danger">Número de telemóvel inválido.</p>`);
+                }        
+                break;
+
             case 'checkbox':
-                let checkedbox = $('#termos:checkbox:checked').length;
+                let checkedbox = $('#terms:checkbox:checked').length;
                 if(checkedbox == 0)
                 {
                     validForm = false;
@@ -129,7 +138,7 @@ $('form').submit(function () {
                 {
                     validForm = false;
                     $(this).addClass('form-validate-invalid');
-                    $(this).parents(".form-group").append(`<p class="text-danger">A palavra-passe deve ter 8 caracteres, uma letra, um número e um caractere especial.</p>`);
+                    $(this).parents(".form-group").append(`<p class="text-danger">A palavra-passe deve ter 8 caracteres, uma letra, um número e um símbolo (Ex: # % &).</p>`);
                 }       
                 break;
 

@@ -71,7 +71,7 @@
                     <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
 						@csrf
                         <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" max="99" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="2" data-type="int" placeholder="Quantidade">
+                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" max="99" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="99" data-type="int" placeholder="Quantidade">
                         </div>
                         @if ($errors->has('quantidade'))
                             <div class="form-group">

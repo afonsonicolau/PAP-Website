@@ -23,7 +23,7 @@
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>Telemóvel<span class="required-red">*</span></label>
-                                <input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ $address->phone_number }}" data-validate="yes" data-min="9" data-max="9" data-type="int">
+                                <input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ $address->phone_number }}" data-validate="yes" data-type="phone">
                             </div>
                             <div class="form-group form-group--inline">
                                 <label>NIF<span class="required-red">*</span></label>
@@ -85,8 +85,8 @@
                         </div>
                     </div>
                     <div class="ps-shipping">
-                    <h3>Atenção</h3>
-                    <p>Confira todos os dados antes de efetuar a compra.
+                    <h3>Informação</h3>
+                    <p>Se escolher a definição de morada "Ambas" poderá escolhê-la tanto como envio ou faturação na efetuação de uma compra.</p>
                     </div>
                 </div>
             </div>
