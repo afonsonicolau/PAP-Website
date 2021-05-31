@@ -58,14 +58,16 @@ class CartController extends Controller
         else
         {
             $quantity = $request->quantidade;
-            $product = $productId;
-
+            
             $cart = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
             $cartCheck = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->latest()->first();
 
             if ($cartCheck != null && $cartCheck->exists()) 
             {
-                $cartCheck->increment('quantity', $quantity);
+                $quantity = $cartCheck->quantity + $quantity;
+                $cartCheck->update([
+                    'quantity' => $quantity,
+                ]);
             }
             else
             {

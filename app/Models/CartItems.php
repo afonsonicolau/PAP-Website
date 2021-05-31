@@ -11,6 +11,7 @@ class CartItems extends Model
 
     // Tells Laravel it doesn't need it's security data related
     protected $guarded = [];
+    protected $primaryKey = 'cart_id';
     
     public function cart()
     {
