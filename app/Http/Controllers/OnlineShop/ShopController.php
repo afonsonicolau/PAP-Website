@@ -80,7 +80,11 @@ class ShopController extends Controller
             $productsSelected = $productsSelected->where('collection_id', $collectionId);
         }
         
-        $productsSelected = $productsSelected->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+        $productsSelected = $productsSelected->where('disabled', 0)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+
+        if($productsSelected->first() == "") {
+            return false;
+        }
 
         return response()->json($productsSelected); 
     }
@@ -88,8 +92,8 @@ class ShopController extends Controller
     public function product_search($searchedString)
     {
         $productsSearched = new Product;
-        $collections = Collection::all();
-        $types = ProductTypes::all();
+        $collections = Collection::where('disabled', 0)->get();
+        $types = ProductTypes::where('disabled', 0)->get();
 
         if($searchedString != "null") {
             $collectionsLike = ""; $typesLike = "";
@@ -106,17 +110,19 @@ class ShopController extends Controller
                     $productsSearched = $productsSearched->where('collection_id', $collection->id);
                 }
             }
-            elseif($typesLike->first() != "") {
+            
+            if($typesLike->first() != "") {
                 foreach ($typesLike as $type) {
-                    $productsSearched = $productsSearched->where('type_id', $type->id);
+                    $productsSearched = $productsSearched->where('type_id', $type->id)->get();
                 }
-            }
-            else {
-                return false;
             }
         }
         
-        $productsSearched = $productsSearched->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+        $productsSearched = $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+
+        if($productsSearched->first() == "") {
+            return false;
+        }
 
         return response()->json($productsSearched); 
     }
