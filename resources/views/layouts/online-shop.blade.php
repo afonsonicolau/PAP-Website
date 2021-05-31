@@ -87,9 +87,9 @@
                 </div>
                 <div class="navigation__column right">
                     <!-- Search product -->
-                    <form class="ps-search--header" onclick="productSearch()">
+                    <form class="ps-search--header" id="searchForm" onclick="productSearch()">
                         <input class="form-control" type="text" id="searchInput" placeholder="Pesquisar produto…">
-                        <button type="button" id="searchProduct" onclick="productSearch()"><i class="ps-icon-search"></i></button>
+                        <button type="button" id="searchProduct" onclick="productSearch()"><i class="fas fa-search btn btn-success" style="border-radius: 40px;"></i></button>
                     </form>
                     @if (auth()->user())
                         <div class="ps-cart"><a class="ps-cart__toggle" href="#">
@@ -109,12 +109,12 @@
                                                 <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
                                                 <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
                                                     <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round($item->price / ((100 - $item->iva) / 100), 2) * $item->quantity }}€</i></span>
+                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
                                                     </p>
                                                 </div>
                                             </div>
                                             @php
-                                                $total += round($item->price / ((100 - $item->iva) / 100), 2) * $item->quantity;
+                                                $total += round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
                                                 $totalQuantity += $item->quantity;
                                             @endphp
                                         @endforeach
@@ -287,15 +287,15 @@
     <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
     <!-- Custom Script -->
     <script>
-        $(document).ready(function() {
-            $("#searchInput").keyup(function(event) {
-                event.stopImmediatePropagation();
-                if (event.which == 13) {
-                    event.preventDefault();
-                    $("#searchProduct").trigger("click");
-                    return false;
-                }
-            });
+        // On "Enter" key press, productSearch() is called and refresh page in stopped.
+        $("#searchInput").keyup(function(event) {
+            if (event.which == 13) {
+                $("#searchForm").submit();
+            }
+        });
+        $("#searchForm").on("submit", function(e) {
+            e.preventDefault();
+            productSearch();
         });
 
         // Show or not the inputs depending on the check

@@ -188,7 +188,7 @@
 						</div>
 						<div class="form-group ">
 							<label>Telemóvel<span class="required-red">*</span></label>
-							<input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ old('telemóvel') }}" data-validate="yes" data-min="9" data-max="9" data-type="int">
+							<input id="telemóvel" name="telemóvel" class="form-control" type="text" placeholder="Número de telemóvel" value="{{ old('telemóvel') }}" data-validate="yes" data-min="9" data-max="9" data-type="phone">
 						</div>
 						<div class="form-group ">
 							<label>NIF</label>

@@ -54,10 +54,10 @@
                 <h1>{{ $product->type->type }}</h1>
                 <p class="ps-product__category">Coleção: {{ $product->collection->collection }}<br>
                 Cores: {{ $colorsText }}</p>
-                <h3 class="ps-product__price">{{ round($product->price / ((100 - $product->iva)/100), 2) }}€</h3>
+                <h3 class="ps-product__price">{{round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</h3>
                 <hr>
                 @if($product->stock >= 100)
-                <h4>Stock: <b class="text-success">Em Stock</b></h4>
+                    <h4>Stock: <b class="text-success">Em Stock</b></h4>
                 @else
                     <h4>Stock: <b style="color:#ffc107!important">Por Encomenda</b></h4>
                 @endif
