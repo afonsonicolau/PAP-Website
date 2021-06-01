@@ -512,14 +512,13 @@
                 totalPrice += (productPrice * cartQuantity );
 
                 if (cartQuantity >= 1) {
-                    console.log(`/online-shop/cart/${productId}/${cartQuantity}`);
-                    console.log(cartQuantity);
                     $.ajax({
                         url: `/online-shop/cart/${productId}/${cartQuantity}`,
                         type: "PATCH",
                         data: { '_token': '{{ csrf_token() }}' },
                         dataType: "json",
-                        success: function() {
+                        success: function(response) {
+                            console.log(JSON.stringify(response));
                             valid = true;
                             let total = 0;
 
@@ -528,6 +527,14 @@
                             $(`#cartItemQuantity_${productId}`).text(cartQuantity);
                             $(`#cartItemTotal_${productId}`).text(total + "€");
                             $(`#productPriceTotal_${productId}`).text(total + "€");
+
+                            // Update total values
+                            totalPrice = parseFloat(totalPrice).toFixed(2);
+                            $(`#productsTotal`).text(totalPrice + "€");
+                            $(`#cartPriceTotal`).text(totalPrice + "€");
+
+                            $("#itemsCount").text(totalQuantity);
+                            $("#cartQuantityTotal").text(totalQuantity + " produto(s)");
                         },
                         error: function() {
                             valid = false;
@@ -542,13 +549,8 @@
             });
 
             if (valid == true) {
-                // Update total values
-                totalPrice = (totalPrice).toFixed(2);
-                $(`#productsTotal`).text(totalPrice + "€");
-                $(`#cartPriceTotal`).text(totalPrice + "€");
-
-                $("#itemsCount").text(totalQuantity);
-                $("#cartQuantityTotal").text(totalQuantity + " produto(s)");
+               
+                
             }
 
             $("#cartQuantityButton").attr('style', 'color: white !important');

@@ -115,13 +115,13 @@ class CartController extends Controller
         if($quantity >= 1 && is_numeric($quantity)) {
             $product = Product::find($productId);
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-            $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
-
+            
             if ($quantity <= $product->stock) {
-                $cartItem->quantity = $quantity;
-                $cartItem->save();
-    
-                return true;
+                CartItems::where('cart_id', $cart->id)->where('product_id', $product->id)->update([
+                    'quantity' => $quantity,
+                ]);
+
+                return response()->json(CartItems::where('cart_id', $cart->id)->where('product_id', $product->id)->first());
             }
             else {
                 return false;
