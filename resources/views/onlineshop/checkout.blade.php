@@ -1,8 +1,8 @@
 @extends('layouts.online-shop')
 
 @section('content')
-
-	<div class="ps-checkout pt-80 pb-80">
+<a href="{{ route('online-shop.cart') }}" style="display:flex; margin-left: 50px; margin-top: 10px; font-size: 40px;"><i class="fas fa-arrow-circle-left"></i></a>
+	<div class="ps-checkout pb-80">
 		<div class="ps-container">
 			<form class="ps-checkout__form" method="POST" action="{{ route('online-shop.create-order') }}" enctype="multipart/form-data">
 				@csrf
@@ -12,6 +12,14 @@
 							
 							<h3>Detalhes de Envio</h3>
 							<hr>
+							@if (Session::has('error'))
+								<div class="col-md-12">
+									<div class="alert alert-danger text-center" role="alert">
+										{{ Session::get('error') }} <br>
+										Para editar o carrinho clique <u><a href="{{ route('online-shop.cart') }}">aqui</a></u>  
+									</div>
+								</div>
+							@endif
 							<input type="checkbox" name="deliveryBilling" id="deliveryBilling"> Morada de Faturação e de Envio diferentes
 							<br><br>
 							<p style="color:black">Se não tiver uma morada registada clique <a href="#" data-toggle="modal" data-target=".bd-example-modal-lg" style="text-decoration: underline; color:green;">aqui</a> para criar uma. Caso já tenham uma, simplesmente selecione-a.</p>

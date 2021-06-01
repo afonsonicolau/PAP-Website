@@ -66,7 +66,6 @@ class CartController extends Controller
             $quantity = $request->quantidade;
             
             $cart = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
-            
             $cartCheck = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->latest()->first();
 
             if ($cartCheck != null && $cartCheck->exists()) {
@@ -76,6 +75,9 @@ class CartController extends Controller
                     $cartCheck->update([
                         'quantity' => $quantity,
                     ]);
+                } 
+                else {
+                    return redirect()->back()->with('error', 'A quantidade que escolheu juntamente com a quantidade no carrinho excede o stock atual.');
                 }
             }
             else
@@ -98,8 +100,6 @@ class CartController extends Controller
                         'iva' => $product->iva,
                     ]);
                 }
-                
-                
             }
             
             return redirect(route('online-shop.product-listing'));
@@ -108,19 +108,26 @@ class CartController extends Controller
 
     public function update($productId, $quantity)
     {
-        if($quantity >= 1 && is_numeric($quantity))
-        {
+        $product = "";
+        $cart = "";
+        $cartItem = "";
+
+        if($quantity >= 1 && is_numeric($quantity)) {
+            $product = Product::find($productId);
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-            $cart = CartItems::where('cart_id', $cart->id)->where('product_id', $productId);
+            $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
 
-            $cart->update([
-                'quantity' => $quantity
-            ]);
-
-            return true;
+            if ($quantity <= $product->stock) {
+                $cartItem->quantity = $quantity;
+                $cartItem->save();
+    
+                return true;
+            }
+            else {
+                return false;
+            }            
         }
-        else
-        {
+        else {
             return false;
         }
     }
@@ -128,12 +135,12 @@ class CartController extends Controller
     public function destroy($productId)
     {
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-        $cartItems = CartItems::where('cart_id', $cart->id)->where('product_id', $productId);
+        $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->get();
 
-        $cartItems->delete();
+        $cartItem->delete();
 
-        $cartItems = CartItems::where('cart_id', $cart->id)->count();
+        $cartItem = CartItems::where('cart_id', $cart->id)->count();
 
-        return response()->json($cartItems); 
+        return response()->json($cartItem); 
     }
 }

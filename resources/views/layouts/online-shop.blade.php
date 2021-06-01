@@ -109,7 +109,7 @@
                                                 <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
                                                 <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
                                                     <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span class="mr-20">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
+                                                        <br><span class="mr-20" style="display: flex;">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -299,9 +299,9 @@
         });
 
         // Show or not the inputs depending on the check
-        $(document).ready($(function() {
+        /* $(document).ready($(function() {
             hideInputs();
-        }));
+        })); */
 
         function hideInputs() {
             if ($("#changepassword")[0].checked) {
@@ -491,12 +491,13 @@
 
             let totalPrice = 0;
             let totalQuantity = 0;
-            let valid = true;
+            let valid = false;
 
             $.each(productIds, function(key, value) {
                 // Variables treatment
                 let result = value.split(' => ');
                 let productId = result[0];
+                productId = Number(productId);
                 let productPrice = result[1];
                 productPrice = Number(productPrice);
 
@@ -505,17 +506,18 @@
 
                 // Get product cart quantity
                 let cartQuantity = $("#cartQuantity_" + productId).val();
-                totalQuantity += Number(cartQuantity);
+                cartQuantity = Number(cartQuantity)
+                totalQuantity += cartQuantity;
 
-                totalPrice += (productPrice * Number(cartQuantity));
+                totalPrice += (productPrice * cartQuantity );
 
-                if (cartQuantity >= 1 && cartQuantity <= 99) {
+                if (cartQuantity >= 1) {
+                    console.log(`/online-shop/cart/${productId}/${cartQuantity}`);
+                    console.log(cartQuantity);
                     $.ajax({
                         url: `/online-shop/cart/${productId}/${cartQuantity}`,
                         type: "PATCH",
-                        data: {
-                            '_token': '{{ csrf_token() }}'
-                        },
+                        data: { '_token': '{{ csrf_token() }}' },
                         dataType: "json",
                         success: function() {
                             valid = true;
@@ -532,13 +534,15 @@
                             $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                         },
                     });
-                } else {
+                } 
+                else {
                     valid = false;
                     $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                 }
             });
 
-            if (valid) {
+            if (valid == true) {
+                // Update total values
                 totalPrice = (totalPrice).toFixed(2);
                 $(`#productsTotal`).text(totalPrice + "€");
                 $(`#cartPriceTotal`).text(totalPrice + "€");

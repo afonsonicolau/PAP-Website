@@ -52,8 +52,8 @@
                 @endphp     
                
                 <h1>{{ $product->type->type }}</h1>
-                <p class="ps-product__category">Coleção: {{ $product->collection->collection }}<br>
-                Cores: {{ $colorsText }}</p>
+                <p class="ps-product__category"><b>Coleção:</b> {{ $product->collection->collection }}<br>
+                <b>Cores:</b> {{ $colorsText }}</p>
                 <h3 class="ps-product__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</h3>
                 <hr>
                 @if($product->stock >= 100)
@@ -71,13 +71,14 @@
                     <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
 						@csrf
                         <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" max="{{ $product->stock }}" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="{{ $product->stock }}" data-type="int" placeholder="Quantidade">
-                        </div>
-                        @if ($errors->has('quantidade'))
-                            <div class="form-group">
+                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="{{ $product->stock }}" data-type="int" placeholder="Quantidade">
+                            @if ($errors->has('quantidade'))
                                 <p class="text-danger">{{$errors->first('quantidade')}}</p>
-                            </div>
-                        @endif
+                            @endif
+                            @if (Session::has('error'))
+                                <p class="text-danger">{{ Session::get('error') }}</p>
+                            @endif
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button>
                         </div>

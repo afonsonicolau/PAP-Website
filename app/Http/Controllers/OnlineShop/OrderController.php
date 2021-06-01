@@ -56,7 +56,10 @@ class OrderController extends Controller
                 $stock = $product->stock;
 
                 // product stock - item quantity
-                $stock = $stock - $item->quantity;
+                if ($item->quantity > $stock)
+                {
+                    return redirect()->back()->with('error', 'A quantidade do produto ' . $item->product->type->type . ' de coleção ' . $item->product->collection->collection . ' tem uma quantidade inválida de ' . $item->quantity . ' unidades.');
+                }
 
                 if($stock < 0)
                 {
