@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\OnlineShop;
 
+use App\Http\Controllers\Backoffice\ProductsController;
 use App\Http\Controllers\Controller;
 
 use App\Models\Cart;
@@ -47,8 +48,13 @@ class CartController extends Controller
 
     public function store(Request $request, $productId, $userId)
     {
+        $product = Product::find($productId);
+
         $validator = Validator::make($request->all(), [
-            'quantidade' => 'required|numeric|gt:0|max:99',
+            'quantidade' => 'required|numeric|gt:0|max:' . $product->stock,
+        ],
+        [
+            'quantidade.*' => 'A quantidade deverá estar entre 1 a :max unidades'
         ]);
 
         if($validator->fails())
@@ -60,35 +66,40 @@ class CartController extends Controller
             $quantity = $request->quantidade;
             
             $cart = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
+            
             $cartCheck = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->latest()->first();
 
-            if ($cartCheck != null && $cartCheck->exists()) 
-            {
+            if ($cartCheck != null && $cartCheck->exists()) {
                 $quantity = $cartCheck->quantity + $quantity;
-                $cartCheck->update([
-                    'quantity' => $quantity,
-                ]);
+
+                if($quantity < $product->stock) {
+                    $cartCheck->update([
+                        'quantity' => $quantity,
+                    ]);
+                }
             }
             else
             {
-                $product = Product::find($productId);
-                
-                if($cart == null)
-                {
-                    Cart::create([
-                        'user_id' => $userId,
+                if($quantity < $product->stock) {
+                    if($cart == null)
+                    {
+                        Cart::create([
+                            'user_id' => $userId,
+                        ]);
+                    }
+                    
+                    $cart = Cart::where('user_id', $userId)->latest()->first();
+                    
+                    CartItems::create([
+                        'product_id' => $productId,
+                        'cart_id' => $cart->id,
+                        'quantity' => $quantity,
+                        'price' => $product->price,
+                        'iva' => $product->iva,
                     ]);
                 }
                 
-                $cart = Cart::where('user_id', $userId)->latest()->first();
                 
-                CartItems::create([
-                    'product_id' => $productId,
-                    'cart_id' => $cart->id,
-                    'quantity' => $quantity,
-                    'price' => $product->price,
-                    'iva' => $product->iva,
-                ]);
             }
             
             return redirect(route('online-shop.product-listing'));

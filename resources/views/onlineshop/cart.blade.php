@@ -27,19 +27,19 @@
 							<tr id="cart_{{ $item->product_id }}">
 								<td><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" height=100 width=100 alt=""></td>
 								<td>{{ $item->product->type->type }}</td>
-								<td>{{ round($item->price / ((100 - $item->iva)/100), 2) }}€</td>
+								<td>{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) }}€</td>
 								<td>
 									<div class="form-group--number">
-										<input class="form-control" id="cartQuantity_{{ $item->product_id }}" type="number" min="1" max="99" value="{{ $item->quantity }}">
+										<input class="form-control" id="cartQuantity_{{ $item->product_id }}" type="number" min="1" max="{{ $item->product->stock }}" value="{{ $item->quantity }}">
 									</div>
 								</td>
-								<td><p id="productPriceTotal_{{ $item->product_id }}">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</p></td>
+								<td><p id="productPriceTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</p></td>
 								<td>
-									<div class="ps-remove" onclick="cartDelete({{ $item->product_id }}, {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }})"></div>
+									<div class="ps-remove" onclick="cartDelete({{ $item->product_id }}, {{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }})"></div>
 								</td>
 								@php
-									array_push($productIds, $item->product_id . ' => ' . round($item->price / ((100 - $item->iva)/100), 2));
-									$total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
+									array_push($productIds, $item->product_id . ' => ' . round( (($item->iva / 100) * ($item->price)) + $item->price, 2));
+									$total += round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
 								@endphp
 							</tr>
 						@endforeach
