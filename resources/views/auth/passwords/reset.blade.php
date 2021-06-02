@@ -1,65 +1,70 @@
-@extends('layouts.app')
+@extends('layouts.login-register')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
 
-                <div class="card-body">
+    <!-- Change background image here "auth-bg-1" -->
+    <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+        <div class="row w-100">
+            <div class="col-lg-4 mx-auto">
+                <h2 class="auth-title">Redefinição da Palavra-passe</h2>
+                <div class="auto-form-wrapper"> 
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                        <!-- E-mail -->
+                        <div class="form-group">
+                            <label class="label">E-mail</label>
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="email" id="email" data-validate="yes" data-min="5" data-max="144" data-type="email" autocomplete="email" placeholder="exemplo@exemplo.com" value="{{ old('email') }}" autofocus>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
                                     </span>
-                                @enderror
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+                        <div class="form-group">
+                            @error('email')
+							    <p class="text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label class="label">Palavra-passe</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password" id="password" data-validate="yes" data-type="password" autocomplete="new-password" placeholder="********">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
                                     </span>
-                                @enderror
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <label class="label">Nova Palavra-passe</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" data-validate="yes" data-type="confirmpassword" autocomplete="new-password" placeholder="********">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                    </span>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
+                        <div class="form-group">
+                            @error('password')
+							    <p class="text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success submit-btn btn-block">Redefinir Palavra-passe</button>
+                        </div>
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 @endsection

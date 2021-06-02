@@ -42,7 +42,7 @@
 							<label class="form-check-label">
 							<input type="checkbox" class="form-check-input" name="remember" id="remember">Lembrar-me</label>
 						</div>
-						<a href="#" class="text-small forgot-password text-black">Esqueci a minha palavra-passe</a>
+						<a href="{{ route('password.request') }}" class="text-small forgot-password text-black">Esqueci a minha palavra-passe</a>
 					</div>
 					<div class="text-block text-center my-3">
 						<span class="text-black text-small">Ainda não criou uma conta?</span>

@@ -15,7 +15,7 @@ return [
 
     'password' => 'A senha e a confirmação devem combinar e possuir pelo menos seis caracteres.',
     'reset' => 'Sua senha foi redefinida!',
-    'sent' => 'Enviamos seu link de redefinição de senha por e-mail!',
+    'sent' => 'Enviamos um link de redefinição de senha para o seu e-mail!',
     'token' => 'Este token de redefinição de senha é inválido.',
     'user' => "Não encontramos um usuário com esse endereço de e-mail.",
 
