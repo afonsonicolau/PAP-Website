@@ -52,8 +52,8 @@ class CustomResetPasswordNotification extends Notification
             ->greeting('Esqueceu-se da sua palavra-passe?')
             ->line('Você está a receber este e-mail porque nós recebemos um pedido de mudança de palavra-passe para a sua conta.')
             ->action('Mudar Palavra-passe', $url)
-            ->line(Lang::get('Este pedido vai expirar em :count minutos, caso o tenha feito, mude a sua palavra-passe dentro do tempo referido', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
-            ->line('Se não fez qualquer pedido para mudar a palavra-passe, por favor, ignore este e-mail')
+            ->line(Lang::get('Este pedido vai expirar em :count minutos, caso o tenha feito, mude a sua palavra-passe dentro do tempo referido.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
+            ->line('Se não fez qualquer pedido para mudar a palavra-passe, por favor, ignore este e-mail.')
             ->salutation(new HtmlString("Com os melhores cumprimentos, <br>{$salutation}"));
     }
 

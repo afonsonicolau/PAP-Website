@@ -10,6 +10,9 @@
                 <div class="auto-form-wrapper"> 
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
+                        
+                        <input type="hidden" name="token" value="{{ $token }}">
+
                         <!-- E-mail -->
                         <div class="form-group">
                             <label class="label">E-mail</label>

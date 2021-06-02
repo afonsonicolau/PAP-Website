@@ -9,10 +9,10 @@
         <div class="auto-form-wrapper"> 
 			<div class="form-group">
 				<form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
-					@csrf
-				Antes de proceder, por favor, verifique o seu e-mail e clique no link de verificação.
-				<br>
-				Se não recebeu nenhum e-mail clique <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="font-size: 16px">aqui</button> para receber outro.
+				@csrf
+					Antes de proceder, por favor, verifique o seu e-mail e clique no link de verificação.
+					<br>
+					Se não recebeu nenhum e-mail clique <button type="submit" class="btn btn-link p-0 m-0 align-baseline" style="font-size: 16px">aqui</button> para receber outro.
 				</form>
 			</div>
 			@if (session('resent'))
