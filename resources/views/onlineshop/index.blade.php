@@ -72,6 +72,16 @@
 												<option value="2">5</option>
 											</select>
 										</div> --}}
+												@php
+													$colors = json_decode($product->color);
+													$colorsText = "";
+												
+													foreach ($colors as $value) {
+														$colorsText .= $value . ', ';
+													}
+
+													$colorsText = rtrim($colorsText, ", ");
+												@endphp  
 												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
 													<p class="ps-shoe__categories">
 														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
@@ -135,7 +145,6 @@
 										</div>
 									</div>
 								</div>
-							
 							@endif
 						@endforeach
 				</div>

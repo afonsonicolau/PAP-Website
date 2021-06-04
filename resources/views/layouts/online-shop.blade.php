@@ -428,6 +428,7 @@
 
                         let iva = (product.iva / 100) * (product.price);
                         let totalPrice = iva + product.price;
+                        totalPrice = totalPrice.toFixed(2);
 
                         let colors = JSON.parse(product.color);
                         let colorsText = "Cores: ";
@@ -440,23 +441,19 @@
                         colorsText = colorsText.slice(0, -1)
                         colorsText = colorsText.slice(0, -1)
 
-                        /* let productDate = Date.parse(product.created_at);
-                        let currentdate = Date.now();
-                        alert(currentdate);
-                        let dateNow = currentdate.getDate() + "-" + (currentdate.getMonth() + 1)  + "-"  + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
-
-                        let diffTime = dateNow.getTime() - productDate.getTime(); //Math.abs(Date.parse(dateNow) - productDate) / 36e5;
-                        let diffDays = diffTime / (1000 * 3600 * 24); //Math.ceil(diffTime / (1000 * 60 * 60 * 24));  */
-
-                        /*let badge = "";
-                        /* if(diffDays < 8) {
-                            badge = '<div class="ps-badge"><span>Novo</span></div>';
-                        }*/
+                        // Subtract created_at from now timestamp
+                        let timePassedMs = Date.now() - Date.parse(product.created_at);
+                       
+                        let badge = "";
+                        if((timePassedMs / 1000) < 604800) {
+                            badge = '<div class="ps-badge"><span>Novo</span></div>'
+                        }
  
                         let productColumn = `
                                             <div class="ps-product__column" id="product_${product.id}">
                                                 <div class="ps-shoe mb-30">
                                                     <div class="ps-shoe__thumbnail">
+                                                        ${badge}
                                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                                         <img src="/storage/thumbnail/${product.thumbnail}">
                                                         <a class="ps-shoe__overlay" href="${url}"></a>
