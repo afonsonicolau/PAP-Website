@@ -41,7 +41,7 @@ class ProductSeeder extends Seeder
         foreach (range(1, 100) as $index) {
             DB::table('collections')->insert([
                 'collection' => $faker->unique()->name,
-                'colors' => $faker->randomElement($array = array ('a','b','c')), // needs to change
+                'colors' => '["' . $faker->randomElement($array = array('Vermelho','Azul','Castanho')) . '"]', // needs to change
                 'created_at' => now()
             ]);
         }
@@ -51,14 +51,32 @@ class ProductSeeder extends Seeder
             DB::table('products')->insert([
                 'collection_id' => $faker->numberBetween($min = 1, $max = 50),
                 'standout' => $faker->numberBetween($min = 0, $max = 1),
-                'color' => $faker->randomElement($array = array ('a','b','c')),
+                'color' => '["' . $faker->randomElement($array = array('Vermelho','Azul','Castanho')) . '"]',
                 'type_id' => $faker->numberBetween($min = 1, $max = 50),
                 'size' => '123x123',
                 'price' => $faker->numberBetween($min = 10, $max = 50),
                 'iva' => 23,
                 'weight' => $faker->numberBetween($min = 1, $max = 50),
                 'stock' => $faker->numberBetween($min = 1, $max = 50),
-                'thumbnail' => $faker->randomElement($array = array ('thumbnail_34_7_asdsdsad.jpg','thumbnail_3123_1_sadasd.jpg','thumbnail_34_1_Amen.jpg')),
+                'thumbnail' => $faker->randomElement($array = array('thumbnail_34_7_asdsdsad.jpg','thumbnail_3123_1_sadasd.jpg','thumbnail_34_1_Amen.jpg')),
+                'description' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
+                'created_at' => now()
+            ]);
+        }
+
+        // Products
+        foreach (range(1, 1) as $index) {
+            DB::table('products')->insert([
+                'collection_id' => $faker->numberBetween($min = 1, $max = 50),
+                'standout' => $faker->numberBetween($min = 0, $max = 1),
+                'color' => '["' . $faker->randomElement($array = array('Vermelho','Azul','Castanho')) . '"]',
+                'type_id' => $faker->numberBetween($min = 1, $max = 50),
+                'size' => '123x123',
+                'price' => $faker->numberBetween($min = 10, $max = 50),
+                'iva' => 23,
+                'weight' => $faker->numberBetween($min = 1, $max = 50),
+                'stock' => $faker->numberBetween($min = 1, $max = 50),
+                'thumbnail' => $faker->randomElement($array = array('thumbnail_34_7_asdsdsad.jpg','thumbnail_3123_1_sadasd.jpg','thumbnail_34_1_Amen.jpg')),
                 'description' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
                 'created_at' => now()
             ]);
