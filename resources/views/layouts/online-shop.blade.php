@@ -287,6 +287,21 @@
     <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
     <!-- Custom Script -->
     <script>
+        $(".pagination a").on("click", function(event) {
+            event.preventDefault();
+            let page = $(this).attr('href').split('page=')[1];
+            fetch_data(page);
+        });
+
+        function fetch_data(page) {
+            $.ajax({
+                url: "",
+                success: function(data) {
+                    $("#table_data").html(data);
+                }
+            })
+        }
+
         // On "Enter" key press, productSearch() is called and refresh page in stopped.
         $("#searchInput").keyup(function(event) {
             if (event.which == 13) {
@@ -299,9 +314,9 @@
         });
 
         // Show or not the inputs depending on the check
-        /* $(document).ready($(function() {
+        $(document).ready($(function() {
             hideInputs();
-        })); */
+        }));
 
         function hideInputs() {
             if ($("#changepassword")[0].checked) {
@@ -425,26 +440,42 @@
                         colorsText = colorsText.slice(0, -1)
                         colorsText = colorsText.slice(0, -1)
 
+                        /* let productDate = Date.parse(product.created_at);
+                        let currentdate = Date.now();
+                        alert(currentdate);
+                        let dateNow = currentdate.getDate() + "-" + (currentdate.getMonth() + 1)  + "-"  + currentdate.getFullYear() + " " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds();
+
+                        let diffTime = dateNow.getTime() - productDate.getTime(); //Math.abs(Date.parse(dateNow) - productDate) / 36e5;
+                        let diffDays = diffTime / (1000 * 3600 * 24); //Math.ceil(diffTime / (1000 * 60 * 60 * 24));  */
+
+                        /*let badge = "";
+                        /* if(diffDays < 8) {
+                            badge = '<div class="ps-badge"><span>Novo</span></div>';
+                        }*/
+ 
                         let productColumn = `
-                                                <div class="ps-product__column" id="product_${product.id}">
-                                                    <div class="ps-shoe mb-30">
-                                                        <div class="ps-shoe__thumbnail">
-                                                            <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                                                            <img src="/storage/thumbnail/${product.thumbnail}">
-                                                            <a class="ps-shoe__overlay" href="${url}"></a>
+                                            <div class="ps-product__column" id="product_${product.id}">
+                                                <div class="ps-shoe mb-30">
+                                                    <div class="ps-shoe__thumbnail">
+                                                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                                        <img src="/storage/thumbnail/${product.thumbnail}">
+                                                        <a class="ps-shoe__overlay" href="${url}"></a>
+                                                    </div>
+                                                    <div class="ps-shoe__content">
+                                                        <div class="ps-shoe__variants">
+                                                            Stock: ${product.stock} unidade(s)
                                                         </div>
-                                                        <div class="ps-shoe__content">
-                                                            <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
-                                                            <p class="ps-shoe__categories">
-                                                                <a href="${url}">Coleção: ${product.collection.collection}</a>
-                                                                <br>
-                                                                <a href="${url}">${colorsText}</a>
-                                                            </p>
-                                                            <span class="ps-shoe__price">${totalPrice}€</span>
-                                                        </div>
-                                                        </div>
+                                                        <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
+                                                        <p class="ps-shoe__categories">
+                                                            <a href="${url}">Coleção: ${product.collection.collection}</a>
+                                                            <br>
+                                                            <a href="${url}">${colorsText}</a>
+                                                        </p>
+                                                        <span class="ps-shoe__price">${totalPrice}€</span>
+                                                    </div>
                                                     </div>
                                                 </div>
+                                            </div>
                             `;
 
                         $('.ps-product__columns').append(productColumn);
@@ -468,6 +499,7 @@
         });
 
         $(".ac-slider__filter").on("click", function() {
+            $(this).css("color", "white");
             getPriceRange();
         });
 

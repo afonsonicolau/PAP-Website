@@ -9,8 +9,8 @@ use App\Models\Collection;
 use App\Models\ProductTypes;
 use App\Models\Cart;
 use App\Models\CartItems;
+use App\Models\CompanyDetails;
 
-use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -55,32 +55,34 @@ class ShopController extends Controller
 
         $productList = Product::where('disabled', 0)->where('visible', 1)->latest()->paginate($this->paginateNumber);
         $max = Product::max('price');
+        $dateNow = date('Y-m-d');
 
-        return view('onlineshop.product-listing', compact('cart', 'cartItems', 'max', 'productList', 'collectionsDistinct', 'typesDistinct'));
+        return view('onlineshop.product-listing', compact('cart', 'cartItems', 'max', 'productList', 'collectionsDistinct', 'typesDistinct', 'dateNow'));
     }
 
     public function product_filter($collection, $type, $priceRange)
     {
+        $iva = CompanyDetails::first()->iva;
+        $iva = ($iva / 100) + 1;
         $price = explode("-", $priceRange);
+        $priceMin = round($price[0] / ($iva), 2);
+        $priceMax = round($price[1] / ($iva), 2);
         $collectionId = trim($collection, 'collection_');
         $typeId = trim($type, 'type_');
 
         $productsSelected = new Product;
         
-        if ($collectionId > 0 && $typeId > 0)
-        {
+        if ($collectionId > 0 && $typeId > 0) {
             $productsSelected = $productsSelected->where('collection_id', $collectionId)->where('type_id', $typeId);
         }
-        elseif ($typeId > 0)
-        {
+        elseif ($typeId > 0) {
             $productsSelected = $productsSelected->where('type_id', $typeId);
         }
-        elseif ($collectionId > 0 )
-        {
+        elseif ($collectionId > 0 ) {
             $productsSelected = $productsSelected->where('collection_id', $collectionId);
         }
         
-        $productsSelected = $productsSelected->where('disabled', 0)->where('price', '>=', $price[0])->where('price', '<=', $price[1])->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
+        $productsSelected = $productsSelected->where('disabled', 0)->where('price', '>=', $priceMin)->where('price', '<=', $priceMax)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
 
         if($productsSelected->first() == "") {
             return false;
@@ -110,7 +112,6 @@ class ShopController extends Controller
                     $productsSearched = $productsSearched->where('collection_id', $collection->id);
                 }
             }
-            
             if($typesLike->first() != "") {
                 foreach ($typesLike as $type) {
                     $productsSearched = $productsSearched->where('type_id', $type->id)->get();

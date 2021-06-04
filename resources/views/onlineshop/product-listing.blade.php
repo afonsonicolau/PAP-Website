@@ -10,34 +10,45 @@
 					<div class="ps-product__column" id="product_{{ $product->id }}">
 						<div class="ps-shoe mb-30">
 							<div class="ps-shoe__thumbnail">
-							{{-- <div class="ps-badge"><span>New</span></div> --}}
+							@php
+								$dateProduct = date_format($product->created_at, 'Y-m-d');
+								$dateNow = date('Y-m-d');
+								$diff = abs(strtotime($dateProduct) - strtotime($dateNow));
+								$years = floor($diff / (365 * 60 * 60 * 24));
+								$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+								$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+							@endphp
+							@if ($days < 8)
+								<div class="ps-badge"><span>Novo</span></div>
+							@endif
+							
 							{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
 								<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
 								<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
 								<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
 							</div>
 							<div class="ps-shoe__content">
-							<div class="ps-shoe__variants">
-								Stock: Em stock
-							</div>
-							<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
-								<p class="ps-shoe__categories">
-									@php
-										$colors = json_decode($product->color);
-										$colorsText = "";
-									
-										foreach ($colors as $value) {
-											$colorsText .= $value . ', ';
-										}
+								<div class="ps-shoe__variants">
+									Stock: {{ $product->stock }} unidade(s)
+								</div>
+								<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
+									<p class="ps-shoe__categories">
+										@php
+											$colors = json_decode($product->color);
+											$colorsText = "";
+										
+											foreach ($colors as $value) {
+												$colorsText .= $value . ', ';
+											}
 
-										$colorsText = rtrim($colorsText, ", ");
-									@endphp     
-									<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
-									<br>
-									<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
-								</p>
-								<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
-							</div>
+											$colorsText = rtrim($colorsText, ", ");
+										@endphp     
+										<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+										<br>
+										<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
+									</p>
+									<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
+								</div>
 							</div>
 						</div>
 					</div>
