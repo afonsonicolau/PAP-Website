@@ -87,7 +87,7 @@
                 </div>
                 <div class="navigation__column right">
                     <!-- Search product -->
-                    <form class="ps-search--header" id="searchForm" onclick="productSearch()">
+                    <form class="ps-search--header" id="searchForm">
                         <input class="form-control" type="text" id="searchInput" placeholder="Pesquisar produto…">
                         <button type="button" id="searchProduct" onclick="productSearch()"><i class="fas fa-search btn btn-success" style="border-radius: 40px;"></i></button>
                     </form>
@@ -287,6 +287,51 @@
     <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
     <!-- Custom Script -->
     <script>
+        // Limit collections and types
+        let limit = 0;
+        function limitCollections(numCollections) {
+            $(`.collection_filter`).show();
+
+            for (let i = 11 + limit; i < numCollections + 10 + limit; i++) {
+                $(`.collectionH_${i}`).hide();
+            }
+        }
+
+        $(document).ready($(function() {
+            let numCollections = ($(".collection_filter").length) - 1;
+            let numTypes = $(".types").length;
+
+            if(numCollections > 10) {
+                limitCollections(numCollections);
+            }
+        }));
+
+        $(".showmoreCollections").on("click", function(event){
+            event.preventDefault();
+             
+            let state = "more";
+            let numCollections = ($(".collection_filter").length) - 1;
+
+            if(state == "minus") {
+                limit = limit - 10;
+            }
+            else if(state == "more") {
+                limit = limit + 10;
+            }
+
+            if(numCollections <= limit + 10) {
+                $(".showmoreCollections").text('Ver menos');
+                state = "minus";
+            }
+            else if(limit == 0)  {
+                $(".showmoreCollections").text('Ver mais');
+                state = "more";
+            }
+
+            limitCollections(numCollections);
+        });
+
+        // Ajax Pagination
         $(".pagination a").on("click", function(event) {
             event.preventDefault();
             let page = $(this).attr('href').split('page=')[1];
@@ -547,7 +592,6 @@
                         data: { '_token': '{{ csrf_token() }}' },
                         dataType: "json",
                         success: function(response) {
-                            console.log(JSON.stringify(response));
                             valid = true;
                             let total = 0;
 
@@ -576,11 +620,6 @@
                     $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                 }
             });
-
-            if (valid == true) {
-               
-                
-            }
 
             $("#cartQuantityButton").attr('style', 'color: white !important');
 
@@ -664,7 +703,7 @@
             if (string == "") {
                 string = "null"
             }
-
+            
             $.ajax({
                 url: `/online-shop/product-listing/${string}`,
                 type: "GET",
@@ -672,54 +711,71 @@
                 dataType: "json",
                 success: function(response) {
                     $('.ps-product__columns').empty();
+                    let products = "";
 
-                    let products = response.data ? response.data : response;
-                    for (let i = 0; i < products.length; i++) {
-                        let product = products[i];
+                    for (let j = 0; j < response.length; j++) {
+                        products = response[j].data ? response[j].data : response[j];
 
-                        let url = '{{ route('online-shop.product-detail', ':product') }}';
-                        url = url.replace(':product', product.id);
+                        for (let i = 0; i < products.length; i++) {
+                            let product = products[i];
 
-                        let iva = (product.iva / 100) * (product.price);
-                        let totalPrice = iva + product.price;
+                            let url = '{{ route('online-shop.product-detail', ':product') }}';
+                            url = url.replace(':product', product.id);
 
-                        let colors = JSON.parse(product.color);
-                        let colorsText = "Cores: ";
+                            let iva = (product.iva / 100) * (product.price);
+                            let totalPrice = iva + product.price;
+                            totalPrice = totalPrice.toFixed(2);
 
-                        colors.forEach(color => {
-                            colorsText = colorsText.concat(color + ", ");
-                        });
+                            let colors = JSON.parse(product.color);
+                            let colorsText = "Cores: ";
 
-                        // Slice two last characters
-                        colorsText = colorsText.slice(0, -1)
-                        colorsText = colorsText.slice(0, -1)
+                            colors.forEach(color => {
+                                colorsText = colorsText.concat(color + ", ");
+                            });
 
-                        let productColumn = `
-                            <div class="ps-product__column" id="product_${product.id}">
-                                <div class="ps-shoe mb-30">
-                                    <div class="ps-shoe__thumbnail">
-                                        <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-                                        <img src="/storage/thumbnail/${product.thumbnail}">
-                                        <a class="ps-shoe__overlay" href="${url}"></a>
-                                    </div>
-                                    <div class="ps-shoe__content">
-                                        <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
-                                        <p class="ps-shoe__categories">
-                                            <a href="${url}">Coleção: ${product.collection.collection}</a>
-                                            <br>
-                                            <a href="${url}">${colorsText}</a>
-                                        </p>
-                                        <span class="ps-shoe__price">${totalPrice}€</span>
-                                    </div>
+                            // Slice two last characters
+                            colorsText = colorsText.slice(0, -1)
+                            colorsText = colorsText.slice(0, -1)
+
+                            // Subtract created_at from now timestamp
+                            let timePassedMs = Date.now() - Date.parse(product.created_at);
+                        
+                            let badge = "";
+                            if((timePassedMs / 1000) < 604800) {
+                                badge = '<div class="ps-badge"><span>Novo</span></div>'
+                            }
+
+                            let productColumn = `
+                                <div class="ps-product__column" id="product_${product.id}">
+                                    <div class="ps-shoe mb-30">
+                                        <div class="ps-shoe__thumbnail">
+                                            ${badge}
+                                            <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+                                            <img src="/storage/thumbnail/${product.thumbnail}">
+                                            <a class="ps-shoe__overlay" href="${url}"></a>
+                                        </div>
+                                        <div class="ps-shoe__content">
+                                            <div class="ps-shoe__variants">
+                                                Stock: ${product.stock} unidade(s)
+                                            </div>
+                                            <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
+                                            <p class="ps-shoe__categories">
+                                                <a href="${url}">Coleção: ${product.collection.collection}</a>
+                                                <br>
+                                                <a href="${url}">${colorsText}</a>
+                                            </p>
+                                            <span class="ps-shoe__price">${totalPrice}€</span>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
+                            `;
 
-                        $('.ps-product__columns').append(productColumn);
+                            $('.ps-product__columns').append(productColumn);
+                        }   
                     }
                 },
-                error: function() {
+                error: function(response) {
                     $('.ps-product__columns').empty();
 
                     let errorTag = "<p class='text-dark'><b>Não existem produtos conforme a sua pesquisa.</b></p>";

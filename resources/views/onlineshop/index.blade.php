@@ -42,36 +42,93 @@
 		<div class="masonry-wrapper" data-col-md="4" data-col-sm="2" data-col-xs="1" data-gap="30" data-radio="100%">
 			<div class="ps-masonry">
 				<div class="grid-sizer"></div>
-					@php
-						$i = 0;
-					@endphp
-					@foreach ($products as $product)
-						@if ($product->standout == 1 && $i < 8)
-							@php
-								$i++
-							@endphp
-							
-								<div class="grid-item kids">
-									<div class="grid-item__content-wrapper">
-										<div class="ps-shoe mb-30">
-											<div class="ps-shoe__thumbnail">
-										{{-- <div class="ps-badge"><span>New</span></div> --}}
-										{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
-												<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-												<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
-												<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
+				@php
+					$i = 0;
+				@endphp
+				@foreach ($products as $product)
+					@if ($product->standout == 1 && $i < 8)
+						@php
+							$i++
+						@endphp
+						<div class="grid-item kids">
+							<div class="grid-item__content-wrapper">
+								<div class="ps-shoe mb-30">
+									<div class="ps-shoe__thumbnail">
+									@php
+										$dateProduct = date_format($product->created_at, 'Y-m-d');
+										$dateNow = date('Y-m-d');
+										$diff = abs(strtotime($dateProduct) - strtotime($dateNow));
+										$years = floor($diff / (365 * 60 * 60 * 24));
+										$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+										$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+									@endphp
+									@if ($days < 8)
+										<div class="ps-badge"><span>Novo</span></div>
+									@endif
+								{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
+										<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+										<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
+										<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
+									</div>
+									<div class="ps-shoe__content">
+										<div class="ps-shoe__variants">
+											Stock: {{ $product->stock }} unidade(s)
+										</div>
+										@php
+											$colors = json_decode($product->color);
+											$colorsText = "";
+										
+											foreach ($colors as $value) {
+												$colorsText .= $value . ', ';
+											}
+
+											$colorsText = rtrim($colorsText, ", ");
+										@endphp  
+										<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
+											<p class="ps-shoe__categories">
+												<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+												<br>
+												<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
+											</p>
+											<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					@endif
+				@endforeach
+				@foreach ($products as $product)
+					@if ($product->standout == 0 && $product->disabled == 0 && $i < 8)
+						@php
+							$i++
+						@endphp
+						<div class="grid-sizer"></div>
+							<div class="grid-item kids">
+								<div class="grid-item__content-wrapper">
+									<div class="ps-shoe mb-30">
+										<div class="ps-shoe__thumbnail">
+										@php
+											$dateProduct = date_format($product->created_at, 'Y-m-d');
+											$dateNow = date('Y-m-d');
+											$diff = abs(strtotime($dateProduct) - strtotime($dateNow));
+											$years = floor($diff / (365 * 60 * 60 * 24));
+											$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+											$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+										@endphp
+										@if ($days < 8)
+											<div class="ps-badge"><span>Novo</span></div>
+										@endif
+									{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
+											<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+											<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
+											<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
+										</div>
+										<div class="ps-shoe__content">
+											<div class="ps-shoe__variants">
+												Stock: {{ $product->stock }} unidade(s)
 											</div>
-											<div class="ps-shoe__content">
-										{{-- <div class="ps-shoe__variants">
-											
-											<select class="ps-rating ps-shoe__rating">
-												<option value="1">1</option>
-												<option value="1">2</option>
-												<option value="1">3</option>
-												<option value="1">4</option>
-												<option value="2">5</option>
-											</select>
-										</div> --}}
+											<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
 												@php
 													$colors = json_decode($product->color);
 													$colorsText = "";
@@ -81,72 +138,20 @@
 													}
 
 													$colorsText = rtrim($colorsText, ", ");
-												@endphp  
-												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
-													<p class="ps-shoe__categories">
-														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
-														<br>
-														<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
-													</p>
-													<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
-												</div>
+												@endphp     
+												<p class="ps-shoe__categories">
+													<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+													<br>
+													<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
+												</p>
+												<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
 											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 						@endif
 					@endforeach
-					@foreach ($products as $product)
-						@if ($product->standout == 0 && $product->disabled == 0 && $i < 8)
-							@php
-								$i++
-							@endphp
-							<div class="grid-sizer"></div>
-								<div class="grid-item kids">
-									<div class="grid-item__content-wrapper">
-										<div class="ps-shoe mb-30">
-											<div class="ps-shoe__thumbnail">
-										{{-- <div class="ps-badge"><span>Novo</span></div> --}}
-										{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
-												<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
-												<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
-												<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
-											</div>
-											<div class="ps-shoe__content">
-										{{-- <div class="ps-shoe__variants">
-											
-											<select class="ps-rating ps-shoe__rating">
-												<option value="1">1</option>
-												<option value="1">2</option>
-												<option value="1">3</option>
-												<option value="1">4</option>
-												<option value="2">5</option>
-											</select>
-										</div> --}}
-												<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
-													@php
-														$colors = json_decode($product->color);
-														$colorsText = "";
-													
-														foreach ($colors as $value) {
-															$colorsText .= $value . ', ';
-														}
-
-														$colorsText = rtrim($colorsText, ", ");
-													@endphp     
-													<p class="ps-shoe__categories">
-														<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
-														<br>
-														<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
-													</p>
-													<span class="ps-shoe__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							@endif
-						@endforeach
 				</div>
 			</div>
 		</div>

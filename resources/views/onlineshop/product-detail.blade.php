@@ -64,8 +64,7 @@
                 {{-- <div class="ps-product__block ps-product__quickview">
                    
                 </div> --}}
-                <div class="ps-product__block ps-product__size">
-                </div>
+                <div class="ps-product__block ps-product__size"></div>
 
                 @if (auth()->user()) 
                     <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">

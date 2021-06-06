@@ -82,10 +82,18 @@
 			<div class="ps-widget__content">
 				<ul class="ps-list--checked">
 					<li class="collection_filter current" id="collection_none"><a  href="#">Todas as Coleções</a></li>
+					@php 
+						$i = 0;
+					@endphp
 					@foreach($collectionsDistinct as $collection)
-						<li class="collection_filter" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
+						@php 
+							$i++;
+						@endphp
+						<li class="collection_filter collectionH_{{ $i }}" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
 					@endforeach
 				</ul>
+				<a href="" class="showmoreCollections" style="text-align: center;">Ver mais</a>
+				<p ></p>
 			</div>
      	</aside>
       	<aside class="ps-widget--sidebar ps-widget--filter">
@@ -108,7 +116,7 @@
 				<ul class="ps-list--checked">
 					<li class="type_filter current" id="type_none"><a href="#">Todos os Tipos de Produtos</a></li>
 					@foreach($typesDistinct as $type)
-						<li class="type_filter" id="type_{{ $type->type->id }}"><a href="#">{{ $type->type->type }}</a></li>
+						<li class="type_filter types" id="type_{{ $type->type->id }}"><a href="#">{{ $type->type->type }}</a></li>
 					@endforeach
 				</ul>
 			</div>

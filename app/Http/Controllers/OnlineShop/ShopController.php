@@ -93,6 +93,7 @@ class ShopController extends Controller
 
     public function product_search($searchedString)
     {
+        $searchResult = array();
         $productsSearched = new Product;
         $collections = Collection::where('disabled', 0)->get();
         $types = ProductTypes::where('disabled', 0)->get();
@@ -106,26 +107,35 @@ class ShopController extends Controller
             foreach ($types as $type) {
                 $typesLike = $type->where('type', 'LIKE', "%{$searchedString}%")->get();
             }
-
+            
             if($collectionsLike->first() != "") {
                 foreach ($collectionsLike as $collection) {
-                    $productsSearched = $productsSearched->where('collection_id', $collection->id);
+                    $checkCollection = $productsSearched->where('collection_id', $collection->id)->first();
+                    if ($checkCollection) {
+                        array_push($searchResult, $productsSearched->where('collection_id', $collection->id)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+                    }
                 }
             }
             if($typesLike->first() != "") {
                 foreach ($typesLike as $type) {
-                    $productsSearched = $productsSearched->where('type_id', $type->id)->get();
+                    $checkType = $productsSearched->where('type_id', $type->id)->first();
+                    if($checkType) {
+                        array_push($searchResult, $productsSearched->where('type_id', $type->id)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+                    }
                 }
             }
-        }
-        
-        $productsSearched = $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
 
-        if($productsSearched->first() == "") {
-            return false;
+            if(empty($searchResult)) {
+                return false;
+            }
+        }
+        else {
+            return response()->json($productsSearched = $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
         }
 
-        return response()->json($productsSearched); 
+        if(!empty($searchResult)) {
+            return response()->json($searchResult); 
+        }
     }
 
     public function product_detail_index($id)
