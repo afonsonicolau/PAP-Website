@@ -289,6 +289,7 @@
     <script>
         // Limit collections and types
         let limit = 0;
+        let state = "more";
         function limitCollections(numCollections) {
             $(`.collection_filter`).show();
 
@@ -308,8 +309,7 @@
 
         $(".showmoreCollections").on("click", function(event){
             event.preventDefault();
-             
-            let state = "more";
+        
             let numCollections = ($(".collection_filter").length) - 1;
 
             if(state == "minus") {
