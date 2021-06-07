@@ -130,7 +130,9 @@ class ShopController extends Controller
             }
         }
         else {
-            return response()->json($productsSearched = $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+            array_push($searchResult, $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+            
+            return response()->json($searchResult);
         }
 
         if(!empty($searchResult)) {
