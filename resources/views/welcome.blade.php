@@ -19,9 +19,9 @@
                 <div class="row content">
                     <div class="col-lg-6" data-aos="fade-right" data-aos-delay="100">
                         <h2>Sobre nós</h2>
-                        <h3>foto avô</h3>
+                        <img src="/storage/uploads/grandfather2.jpeg" width="350" style="border: solid 3px black;">
                     </div>
-                    <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left" data-aos-delay="200">
+                    <div class="col-lg-6 pt-4 pt-lg-0" data-aos="fade-left" data-aos-delay="200" style="margin-top: 10%;">
                         <p>
                             Proseguindo uma tradição familiar, iniciada nos anos 40, Álvaro José fundou a sua própria
                             empresa em 1970 produzindo faiança tradicional das Caldas da Rainha, criando a marca OLFAIRE.
