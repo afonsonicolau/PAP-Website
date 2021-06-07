@@ -151,96 +151,92 @@
 
         @yield('content')
 
-    </main>
-    </div>
-    <div class="ps-subscribe">
-        <div class="ps-container">
-            <div class="row">
-                <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 ">
-                    <p><strong>Olfaire Mendes&Nicolau</strong></p>
-                </div>
-                <div class="col-lg-5 col-md-7 col-sm-12 col-xs-12 ">
-                </div>
-                <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">
-                    <p>dedicados à faiança e cerâmica desde 1952...</p>
-                </div>
-            </div>
+
         </div>
-    </div>
-    <div class="ps-footer bg--cover" data-background="">
-        <div class="ps-footer__content">
+        <div class="ps-subscribe">
             <div class="ps-container">
                 <div class="row">
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
-                        <aside class="ps-widget--footer ps-widget--info">
-                            <header><a class="ps-logo" href="index.html"><img
-                                        src="/assets/onlineshop/images/logo-white.png" alt=""></a>
-                                <h3 class="ps-widget__title">Endereço da Empresa</h3>
-                            </header>
-                            <footer>
-                                <p><strong>Estrada Nacional 8,</strong> </p>
-                                <p><strong>Tornada, 2500-315</strong></p>
-                                <p><strong>Portugal</strong></p>
-                                <p>E-mail: olfaire@gmail.com</p>
-                                <p>Telefone: +351 262 881 213</p>
-                            </footer>
-                        </aside>
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12 ">
+                        <p><strong>Olfaire Mendes&Nicolau</strong></p>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                    <div class="col-lg-5 col-md-7 col-sm-12 col-xs-12 ">
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
-                        <aside class="ps-widget--footer ps-widget--link">
-                            <header>
-                                <h3 class="ps-widget__title">Find Our store</h3>
-                            </header>
-                            <footer>
-                                <ul class="ps-list--link">
-                                    <li><a href="#">Coupon Code</a></li>
-                                    <li><a href="#">SignUp For Email</a></li>
-                                    <li><a href="#">Site Feedback</a></li>
-                                    <li><a href="#">Careers</a></li>
-                                </ul>
-                            </footer>
-                        </aside>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
-                        <aside class="ps-widget--footer ps-widget--link">
-                            <header>
-                                <h3 class="ps-widget__title">Apoio ao Cliente</h3>
-                            </header>
-                            <footer>
-                                <ul class="ps-list--line">
-                                    <li><a href="#">Encomendas e Envio</a></li>
-                                    <li><a href="#">Opções de Pagamento</a></li>
-                                </ul>
-                            </footer>
-                        </aside>
+                    <div class="col-lg-4 col-md-5 col-sm-12 col-xs-12 ">
+                        <p>dedicados à faiança e cerâmica desde 1952...</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="ps-footer__copyright">
-            <div class="ps-container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <p>&copy; <a href="#">Copyright</a> <strong><span>Olfaire Mendes&Nicolau</span></strong>. All
-                            Rights Reserved. </p>
-                        <p>Design by <a href="#"> Alena Studio</a></p>
+        <div class="ps-footer bg--cover" data-background="">
+            <div class="ps-footer__content">
+                <div class="ps-container">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                            <aside class="ps-widget--footer ps-widget--info">
+                                <header><a class="ps-logo" href="index.html"><img src="/assets/onlineshop/images/logo-white.png" alt=""></a>
+                                    <h3 class="ps-widget__title">Endereço da Empresa</h3>
+                                </header>
+                                <footer>
+                                    <p><strong>Estrada Nacional 8,</strong> </p>
+                                    <p><strong>Tornada, 2500-315</strong></p>
+                                    <p><strong>Portugal</strong></p>
+                                    <p>E-mail: olfaire@gmail.com</p>
+                                    <p>Telefone: +351 262 881 213</p>
+                                </footer>
+                            </aside>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                            <aside class="ps-widget--footer ps-widget--link">
+                                <header>
+                                    <h3 class="ps-widget__title">Find Our store</h3>
+                                </header>
+                                <footer>
+                                    <ul class="ps-list--link">
+                                        <li><a href="#">Coupon Code</a></li>
+                                        <li><a href="#">SignUp For Email</a></li>
+                                        <li><a href="#">Site Feedback</a></li>
+                                        <li><a href="#">Careers</a></li>
+                                    </ul>
+                                </footer>
+                            </aside>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 ">
+                            <aside class="ps-widget--footer ps-widget--link">
+                                <header>
+                                    <h3 class="ps-widget__title">Apoio ao Cliente</h3>
+                                </header>
+                                <footer>
+                                    <ul class="ps-list--line">
+                                        <li><a href="#">Encomendas e Envio</a></li>
+                                        <li><a href="#">Opções de Pagamento</a></li>
+                                    </ul>
+                                </footer>
+                            </aside>
+                        </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
-                        <ul class="ps-social">
-                            <li><a target="_blank" href="https://www.facebook.com/Olfaire-522861334579028"><i
-                                        class="fa fa-facebook"></i></a></li>
-                            <li><a target="_blank" href="https://www.instagram.com/olfaire_oficial/"><i
-                                        class="fa fa-instagram"></i></a></li>
-                        </ul>
+                </div>
+            </div>
+            <div class="ps-footer__copyright">
+                <div class="ps-container">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <p>&copy; <a href="#">Copyright</a> <strong><span>Olfaire Mendes&Nicolau</span></strong>. All Rights Reserved.</p>
+                            <p>Design by <a href="#"> Alena Studio</a></p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 ">
+                            <ul class="ps-social">
+                                <li><a target="_blank" href="https://www.facebook.com/Olfaire-522861334579028"><i class="fa fa-facebook"></i></a></li>
+                                <li><a target="_blank" href="https://www.instagram.com/olfaire_oficial/"><i class="fa fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </main>
 
     <!-- JS Library-->
@@ -257,23 +253,15 @@
     <script type="text/javascript" src="/assets/onlineshop/elevatezoom/jquery.elevatezoom.js"></script>
     <script type="text/javascript" src="/assets/onlineshop/Magnific-Popup/dist/jquery.magnific-popup.min.js"></script>
     <script type="text/javascript" src="/assets/onlineshop/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB">
-    </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAx39JFH5nhxze1ZydH-Kl8xXM3OK4fvcg&amp;region=GB"></script>
     <script type="text/javascript" src="/assets/onlineshop/revolution/js/jquery.themepunch.tools.min.js"></script>
     <script type="text/javascript" src="/assets/onlineshop/revolution/js/jquery.themepunch.revolution.min.js"></script>
-    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.video.min.js">
-    </script>
-    <script type="text/javascript"
-        src="/assets/onlineshop/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
-    <script type="text/javascript"
-        src="/assets/onlineshop/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
-    <script type="text/javascript"
-        src="/assets/onlineshop/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
-    <script type="text/javascript"
-        src="/assets/onlineshop/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
-    <script type="text/javascript"
-        src="/assets/onlineshop/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+    <script type="text/javascript" src="/assets/onlineshop/revolution/js/extensions/revolution.extension.actions.min.js"></script>
     <!-- Custom JS scripts-->
     <script type="text/javascript" src="/assets/onlineshop/js/main.js"></script>
     <!-- Ajax -->
@@ -288,22 +276,35 @@
     <!-- Custom Script -->
     <script>
         // Limit collections and types
-        let limit = 0;
-        let state = "more";
+        let limiterCollections = 0; let limiterTypes = 0;
+        let collectionsState = "more"; let typesState = "more";
+
         function limitCollections(numCollections) {
             $(`.collection_filter`).show();
 
-            for (let i = 11 + limit; i < numCollections + 10 + limit; i++) {
+            for (let i = 11 + limiterCollections; i < numCollections + 10 + limiterCollections; i++) {
                 $(`.collectionH_${i}`).hide();
+            }
+        }
+
+        function limitTypes(numTypes) {
+            $(`.type_filter`).show();
+
+            for (let i = 11 + limiterTypes; i < numTypes + 10 + limiterTypes; i++) {
+                $(`.typeH_${i}`).hide();
             }
         }
 
         $(document).ready($(function() {
             let numCollections = ($(".collection_filter").length) - 1;
-            let numTypes = $(".types").length;
+            let numTypes = ($(".type_filter").length) - 1;
 
             if(numCollections > 10) {
                 limitCollections(numCollections);
+            }
+
+            if(numTypes > 10) {
+                limitTypes(numTypes);
             }
         }));
 
@@ -312,26 +313,50 @@
         
             let numCollections = ($(".collection_filter").length) - 1;
 
-            if(state == "minus") {
-                limit = limit - 10;
+            if(collectionsState == "minus") {
+                limiterCollections = limiterCollections - 10;
             }
-            else if(state == "more") {
-                limit = limit + 10;
+            else if(collectionsState == "more") {
+                limiterCollections = limiterCollections + 10;
             }
 
-            if(numCollections <= limit + 10) {
+            if(numCollections <= limiterCollections + 10) {
                 $(".showmoreCollections").text('Ver menos');
-                state = "minus";
+                collectionsState = "minus";
             }
-            else if(limit == 0)  {
+            else if(limiterCollections == 0)  {
                 $(".showmoreCollections").text('Ver mais');
-                state = "more";
+                collectionsState = "more";
             }
 
             limitCollections(numCollections);
         });
 
-        // Ajax Pagination
+        $(".showmoreTypes").on("click", function(event){
+            event.preventDefault();
+        
+            let numTypes = ($(".collection_filter").length) - 1;
+
+            if(typesState == "minus") {
+                limiterTypes = limiterTypes - 10;
+            }
+            else if(typesState == "more") {
+                limiterTypes = limiterTypes + 10;
+            }
+
+            if(numTypes <= limiterTypes + 10) {
+                $(".showmoreTypes").text('Ver menos');
+                typesState = "minus";
+            }
+            else if(limiterTypes == 0)  {
+                $(".showmoreTypes").text('Ver mais');
+                typesState = "more";
+            }
+
+            limitTypes(numTypes);
+        });
+
+        /* // Ajax Pagination
         $(".pagination a").on("click", function(event) {
             event.preventDefault();
             let page = $(this).attr('href').split('page=')[1];
@@ -345,7 +370,7 @@
                     $("#table_data").html(data);
                 }
             })
-        }
+        } */
 
         // On "Enter" key press, productSearch() is called and refresh page in stopped.
         $("#searchInput").keyup(function(event) {

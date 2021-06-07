@@ -17,7 +17,7 @@ class ShopController extends Controller
 {
     public function __construct()
     {
-        $this->paginateNumber = 20;
+        $this->paginateNumber = 50;
     }
 
     public function index()
