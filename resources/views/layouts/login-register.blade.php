@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.addons.css">
     <link rel="stylesheet" href="/assets/css/shared/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+    <!-- Favicon -->
+    <link href="/storage/uploads/favicon.png" rel="icon">
   </head>
   <body>
 

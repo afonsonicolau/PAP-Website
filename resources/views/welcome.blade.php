@@ -111,7 +111,7 @@
                             <div class="col-lg-6">
                                 <div class="member" data-aos="zoom-in" data-aos-delay="100">
                                     <div class="pic">
-                                        <img src="/assets/mainpage/img/team/team-1.jpg" class="img-fluid" alt="">
+                                        <img src="/storage/uploads/pai1_r.jfif" class="img-fluid" alt="">
                                     </div>
                                     <div class="member-info">
                                         <h4>Fernando Nicolau</h4>

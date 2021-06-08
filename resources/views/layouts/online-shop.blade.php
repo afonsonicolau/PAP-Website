@@ -18,12 +18,9 @@
     <title>Olfaire - Loja Online</title>
 
     <!-- Icons -->
-    <link href="apple-touch-icon.png" rel="apple-touch-icon">
-    <link href="favicon.png" rel="icon">
+    <link href="/storage/uploads/favicon.png" rel="icon">
     <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow:300,400,700%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="/assets/onlineshop/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/assets/onlineshop/ps-icon/style.css">
     <!-- CSS Library -->
@@ -76,7 +73,7 @@
             <div class="container-fluid">
                 <div class="navigation__column left">
                     <div class="header__logo"><a class="ps-logo" href="{{ route('welcome') }}">
-                            <img src="/assets/onlineshop/images/logo.png" alt=""></a>
+                        <img src="/storage/uploads/banner.png" alt=""></a>
                     </div>
                 </div>
                 <div class="navigation__column center">
@@ -102,7 +99,6 @@
                                         $total = 0;
                                         $totalQuantity = 0;
                                     @endphp
-
                                     @if ($cartItems != '')
                                         @foreach ($cartItems as $item)
                                             <div class="ps-cart-item" id="cartItem_{{ $item->product_id }}">
@@ -275,6 +271,34 @@
     <script src="https://kit.fontawesome.com/303362d7a7.js" crossorigin="anonymous"></script>
     <!-- Custom Script -->
     <script>
+        // Outlet products
+        function outletProducts(outlet) {
+            $.ajax({
+                url: `/online-shop/cart/${productId}`,
+                type: "GET",
+                data: { '_token': '{{ csrf_token() }}' },
+                datatype: "html",
+                success: function(response) {
+
+                }
+            });
+        }
+
+        $(".outlet-products").on("click", function(event){
+            event.preventDefault();
+        
+            let html = $(".outlet-products").text();
+            
+            if(html == "Só Produtos Outlets") {
+                $(".outlet-products").text("Só Produtos Não Outlet");
+                outletProducts(1);
+            }
+            else if(html == "Só Produtos Não Outlet") {
+                $(".outlet-products").text("Só Produtos Outlets");
+                outletProducts(0);
+            }
+        });
+
         // Limit collections and types
         let limiterCollections = 0; let limiterTypes = 0;
         let collectionsState = "more"; let typesState = "more";
@@ -518,12 +542,18 @@
                         if((timePassedMs / 1000) < 604800) {
                             badge = '<div class="ps-badge"><span>Novo</span></div>'
                         }
- 
+                        
+                        let outletBadge = "";
+                        if(product.outlet == 1) {
+                            outletBadge = '<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>'
+                        }
+                        
                         let productColumn = `
                                             <div class="ps-product__column" id="product_${product.id}">
                                                 <div class="ps-shoe mb-30">
                                                     <div class="ps-shoe__thumbnail">
                                                         ${badge}
+                                                        ${outletBadge}
                                                         <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                                         <img src="/storage/thumbnail/${product.thumbnail}">
                                                         <a class="ps-shoe__overlay" href="${url}"></a>
@@ -770,11 +800,17 @@
                                 badge = '<div class="ps-badge"><span>Novo</span></div>'
                             }
 
+                            let outletBadge = "";
+                            if(product.outlet == 1) {
+                                outletBadge = '<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>'
+                            }
+
                             let productColumn = `
                                 <div class="ps-product__column" id="product_${product.id}">
                                     <div class="ps-shoe mb-30">
                                         <div class="ps-shoe__thumbnail">
                                             ${badge}
+                                            ${outletBadge}
                                             <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
                                             <img src="/storage/thumbnail/${product.thumbnail}">
                                             <a class="ps-shoe__overlay" href="${url}"></a>

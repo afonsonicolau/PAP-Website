@@ -10,19 +10,21 @@
 					<div class="ps-product__column" id="product_{{ $product->id }}">
 						<div class="ps-shoe mb-30">
 							<div class="ps-shoe__thumbnail">
-							@php
-								$dateProduct = date_format($product->created_at, 'Y-m-d');
-								$dateNow = date('Y-m-d');
-								$diff = abs(strtotime($dateProduct) - strtotime($dateNow));
-								$years = floor($diff / (365 * 60 * 60 * 24));
-								$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-								$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
-							@endphp
-							@if ($days < 8)
-								<div class="ps-badge"><span>Novo</span></div>
-							@endif
-							
-							{{-- <div class="ps-badge ps-badge--sale ps-badge--2nd"><span>-35%</span></div> --}}
+								@php
+									$dateProduct = date_format($product->created_at, 'Y-m-d');
+									$dateNow = date('Y-m-d');
+									$diff = abs(strtotime($dateProduct) - strtotime($dateNow));
+									$years = floor($diff / (365 * 60 * 60 * 24));
+									$months = floor(($diff - $years * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+									$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
+								@endphp
+								@if ($days < 8)
+									<div class="ps-badge"><span>Novo</span></div>
+								@endif
+								
+								@if ($product->outlet == 1)
+									<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>
+								@endif
 								<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
 								<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
 								<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
@@ -75,7 +77,7 @@
 		</div>
 		<div class="ps-sidebar" data-mh="product-listing">
 			<aside class="ps-widget--sidebar ps-widget--category">
-				<!-- Collection -->
+				<!-- Collections -->
 				<div class="ps-widget__header">
 					<h3>Coleção</h3>
 				</div>
@@ -106,9 +108,16 @@
 					<a class="ac-slider__filter ps-btn" href="#">Filtrar</a>
 				</div>
 			</aside>
+			<aside class="ps-widget--sidebar ps-widget--filter">
+				<!-- Price Range -->
+				<div class="ps-widget__header">
+					<h3>Outlet</h3>
+				</div>
+				<a class="ac-slider__filter ps-btn outlet-products" href="#" >Só Produtos Outlets</a>
+			</aside>
 			<aside class="ps-widget--sidebar ps-widget--category" >
 				<div class="ps-widget__header">
-					<!-- Tipo -->
+					<!-- Types -->
 					<h3>Os Nossos Tipos</h3>
 				</div>
 				<div class="ps-widget__content">
@@ -127,7 +136,7 @@
 					<a href="" class="showmoreTypes" style="text-align: center; margin-bottom: 50px;">Ver mais</a>
 				</div>
 			</aside>
-			{{-- <div class="ps-sticky desktop">
+			<div class="ps-sticky desktop">
 				<aside class="ps-widget--sidebar">
 				<div class="ps-widget__header">
 					<h3>Cores</h3>
@@ -147,7 +156,7 @@
 						</ul>
 					</div>
 				</aside>
-			</div> --}}
+			</div>
 		</div>
   	</div>
 

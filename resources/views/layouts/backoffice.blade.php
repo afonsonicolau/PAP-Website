@@ -5,22 +5,18 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<title>Olfaire - Backoffice</title>
-		<!-- plugins:css -->
+		<!-- CSS Plugins -->
 		<link rel="stylesheet" href="/assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
 		<link rel="stylesheet" href="/assets/vendors/iconfonts/ionicons/dist/css/ionicons.css">
 		<link rel="stylesheet" href="/assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
 		<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.base.css">
-		<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.addons.css">
-		<!-- endinject -->
-		<!-- plugin css for this page -->
-		<!-- End plugin css for this page -->
-		<!-- inject:css -->
-		<link rel="stylesheet" href="/assets/css/shared/style.css">
-		<!-- endinject -->
+		<link rel="stylesheet" href="/assets/vendors/css/vendor.bundle.addons.css"> 
+		<!-- CSS -->
+		<link rel="stylesheet" href="/assets/css/shared/style.css"> 
 		<!-- Layout styles -->
 		<link rel="stylesheet" href="/assets/css/demo_1/style.css">
-		<!-- End Layout styles -->
-		<link rel="shortcut icon" href="/assets/images/favicon.ico" />
+		<!-- Favicons -->
+		<link href="/storage/uploads/favicon.png" rel="icon">
 	</head>
   	<body>
 		<div class="container-scroller">
@@ -50,9 +46,7 @@
 					</div>
 					<a class="dropdown-item" href="{{ route('welcome') }}">Página Principal</a>
 					<a class="dropdown-item" href="{{ route('backoffice.profile') }}">Perfil</a>
-					<a class="dropdown-item" href="{{ route('logout') }}"
-												onclick="event.preventDefault();
-												document.getElementById('logout-form').submit();">Terminar Sessão
+					<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Terminar Sessão
 					<i class="dropdown-item-icon ti-power-off"></i>
 					</a>
 					<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

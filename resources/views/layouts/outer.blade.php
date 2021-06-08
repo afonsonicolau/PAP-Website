@@ -10,8 +10,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="/assets/mainpage/img/favicon.png" rel="icon">
-  <link href="/assets/mainpage/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="/storage/uploads/favicon.png" rel="icon">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <!-- Vendor CSS Files -->
@@ -24,15 +23,7 @@
   <link href="/assets/mainpage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <!-- Template Main CSS File -->
   <link href="/assets/mainpage/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Bethany - v4.0.1
-  * Template URL: https://bootstrapmade.com/bethany-free-onepage-bootstrap-theme/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
-
 <body>
         <!-- ======= Header ======= -->
         <header id="header" class="fixed-top d-flex align-items-center">
