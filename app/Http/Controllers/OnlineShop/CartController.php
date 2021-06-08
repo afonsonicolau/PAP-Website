@@ -71,7 +71,7 @@ class CartController extends Controller
             if ($cartCheck != null && $cartCheck->exists()) {
                 $quantity = $cartCheck->quantity + $quantity;
 
-                if($quantity < $product->stock) {
+                if($quantity <= $product->stock) {
                     $cartCheck->update([
                         'quantity' => $quantity,
                     ]);
@@ -82,7 +82,7 @@ class CartController extends Controller
             }
             else
             {
-                if($quantity < $product->stock) {
+                if($quantity <= $product->stock) {
                     if($cart == null)
                     {
                         Cart::create([
