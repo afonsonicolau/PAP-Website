@@ -5,8 +5,9 @@
   <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
     <div class="row w-100">
       <div class="col-lg-4 mx-auto">
-        <h2 class="auth-title">Confirmação do seu E-mail</h2>
+        
         <div class="auto-form-wrapper"> 
+			<h2 class="auth-title">Confirmação do seu E-mail</h2>
 			<div class="form-group">
 				<form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
 				@csrf

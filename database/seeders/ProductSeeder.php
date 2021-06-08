@@ -51,6 +51,7 @@ class ProductSeeder extends Seeder
             DB::table('products')->insert([
                 'collection_id' => $faker->numberBetween($min = 1, $max = 50),
                 'standout' => $faker->numberBetween($min = 0, $max = 1),
+                'outlet' => $faker->numberBetween($min = 0, $max = 1),
                 'color' => '["' . $faker->randomElement($array = array('Vermelho','Azul','Castanho')) . '"]',
                 'type_id' => $faker->numberBetween($min = 1, $max = 50),
                 'size' => '123x123',
@@ -58,10 +59,19 @@ class ProductSeeder extends Seeder
                 'iva' => 23,
                 'weight' => $faker->numberBetween($min = 1, $max = 50),
                 'stock' => $faker->numberBetween($min = 1, $max = 50),
-                'thumbnail' => $faker->randomElement($array = array('abobora1.jpeg', 'jarraoutlet.jpeg', 'jarro banana.jpeg', 'jarroabobora.jpeg', 'pratoverde.jpeg', 'saladeiraverde.jpeg', 'thumbnail_7_Ex enim._Verão.jpg', 'thumbnail_34_1_Amen.jpg', 'thumbnail_34_3_asdsada.jpg', 'thumbnail_34_4_Azul.jpg', 'tijela1.jpeg')),
+                'thumbnail' => $faker->randomElement($array = array('produto_1_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'produto_2_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'produto_3_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'produto_4_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'produto_5_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'produto_6_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg', 'thumbnail_7_Ex enim._Verão.jpg', 'thumbnail_34_1_Amen.jpg', 'thumbnail_34_3_asdsada.jpg', 'thumbnail_34_4_Azul.jpg', 'produto_7_459_omnis_Lisette Powlowski_2021-06-08_21-16-06.jpeg')),
                 'description' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
                 'created_at' => now()
             ]);
         }
+
+        // Company Details
+        DB::table('company_details')->insert([
+            'atm_reference' => $faker->numberBetween($min = 10000, $max = 99999),
+            'paypal_reference' => $faker->numberBetween($min = 10000, $max = 99999),
+            'debitcard_reference' => $faker->numberBetween($min = 10000, $max = 99999),
+            'iva' => 23,
+            'created_at' => now()
+        ]);
     }
 }
