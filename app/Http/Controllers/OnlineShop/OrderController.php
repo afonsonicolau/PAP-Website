@@ -48,15 +48,16 @@ class OrderController extends Controller
             $cart = Cart::where('user_id', $delivery->user_id)->latest()->first();
             $user = User::find($delivery->user_id);
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
+            $totalPrice = 0;
 
             foreach($cartItems as $item)
             {
                 // Gets product and it's stock
                 $product = Product::find($item->product_id);
-                $stock = $product->stock;
+                $stock = $product->stock - $item->quantity;
 
                 // product stock - item quantity
-                if ($item->quantity > $stock)
+                if ($item->quantity > $product->stock)
                 {
                     return redirect()->back()->with('error', 'A quantidade do produto ' . $item->product->type->type . ' de coleção ' . $item->product->collection->collection . ' tem uma quantidade inválida de ' . $item->quantity . ' unidades.');
                 }
@@ -69,6 +70,8 @@ class OrderController extends Controller
                 $product->update([
                     'stock' => $stock,
                 ]);
+
+                $totalPrice += round((($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
             }
 
             $paid = 1;
@@ -88,7 +91,7 @@ class OrderController extends Controller
                 'date_bought' => date('Y-m-d'),
                 'payment_method' => $request->payment_method,
                 'delivery_method' => $request->delivery_method,
-                'total_price' => $request->total_price,
+                'total_price' => $totalPrice,
                 'paid' => $paid,
                 'state' => $state,
             ]);

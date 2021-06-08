@@ -121,10 +121,10 @@
 													<tr>
 														<td><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" height=100 width=100 alt=""></td>
 														<td><div class="pt-45">{{ $item->product->type->type }} x{{ $item->quantity }}</td>
-														<td><div class="pt-45">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</div></td>
+														<td><div class="pt-45">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</div></td>
 													</tr>	
 													@php
-														$total += round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity;
+														$total += round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
 													@endphp
 											@endforeach
 											

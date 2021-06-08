@@ -8,18 +8,28 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
 <br>
 <p style="font-size: 17px;"><b>Produtos Encomendados</b></p>
 <hr>
+@php
+    $totalQuantity = 0;   
+@endphp
 @foreach ($cartItems as $item)
+    @php
+        $totalQuantity =+ $item->quantity;   
+    @endphp
     <div class="col-md-12" style="font-size: 15px;">
         <b>Item:</b> {{ $item->product->type->type }}, {{ $item->product->collection->collection }}<br>
         <b>REF:</b> {{ $item->product->type->reference }} <br>
+        <b>Preço s/IVA:</b> {{ $item->price }} <br>
         <b>Quantidade:</b> {{ $item->quantity }} <br>
         <b>IVA:</b> {{ $item->iva }}% <br>
         <b>Sub-total:</b> {{ $item->price *  $item->quantity }}€ <br>
-        <b>Total c/IVA:</b> {{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€
+        <b>Total c/IVA:</b> {{ round((($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€
     </div>
     <hr>
 @endforeach
 
+<p><b>Total da Encomenda:</b>  {{ $order->total_price }}€
+    <br> 
+    <b>Quantidade Total:</b> {{ $totalQuantity }} produto(s)</p>
 <br>
 Muito obrigado,<br>
 {{ config('app.name') }}
