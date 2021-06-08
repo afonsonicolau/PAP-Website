@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\ProductTypes;
 use App\Models\CartItems;
+use App\Models\CompanyDetails;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,6 +28,7 @@ class ProductsController extends Controller
     
     public function index()
     {
+        dd(CompanyDetails::first()->iva);
         $products = Product::where('disabled', 0)->latest()->paginate(20);
         $standoutCount = Product::where('standout', 1)->count();
         
@@ -63,6 +65,7 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'tipo' => 'required',
             'colecao' => 'required',

@@ -108,13 +108,13 @@
 					<a class="ac-slider__filter ps-btn" href="#">Filtrar</a>
 				</div>
 			</aside>
-			<aside class="ps-widget--sidebar ps-widget--filter">
+			{{-- <aside class="ps-widget--sidebar ps-widget--filter">
 				<!-- Price Range -->
 				<div class="ps-widget__header">
 					<h3>Outlet</h3>
 				</div>
 				<a class="ac-slider__filter ps-btn outlet-products" href="#" >Só Produtos Outlets</a>
-			</aside>
+			</aside> --}}
 			<aside class="ps-widget--sidebar ps-widget--category" >
 				<div class="ps-widget__header">
 					<!-- Types -->
@@ -136,7 +136,7 @@
 					<a href="" class="showmoreTypes" style="text-align: center; margin-bottom: 50px;">Ver mais</a>
 				</div>
 			</aside>
-			<div class="ps-sticky desktop">
+			{{-- <div class="ps-sticky desktop">
 				<aside class="ps-widget--sidebar">
 				<div class="ps-widget__header">
 					<h3>Cores</h3>
@@ -156,7 +156,7 @@
 						</ul>
 					</div>
 				</aside>
-			</div>
+			</div> --}}
 		</div>
   	</div>
 

@@ -169,7 +169,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 ">
                             <aside class="ps-widget--footer ps-widget--info">
-                                <header><a class="ps-logo" href="index.html"><img src="/assets/onlineshop/images/logo-white.png" alt=""></a>
+                                <header><a class="ps-logo" href="{{ route('welcome') }}"><img src="/storage/uploads/banner.png" alt=""></a>
                                     <h3 class="ps-widget__title">Endereço da Empresa</h3>
                                 </header>
                                 <footer>
@@ -399,12 +399,22 @@
         // On "Enter" key press, productSearch() is called and refresh page in stopped.
         $("#searchInput").keyup(function(event) {
             if (event.which == 13) {
+                $(".type_filter").removeClass("current");
+                $(".collection_filter").removeClass("current");
+                $("#collection_none").addClass("current");
+                $("#type_none").addClass("current");
+
                 $("#searchForm").submit();
             }
         });
+
         $("#searchForm").on("submit", function(e) {
             e.preventDefault();
-            productSearch();
+
+            let length = ($("#searchInput").val()).length
+            if(length >= 2) {
+                productSearch();
+            }
         });
 
         // Show or not the inputs depending on the check
@@ -601,6 +611,7 @@
         });
 
         function getPriceRange() {
+            $("#searchInput").val("");
             let min = $(".ac-slider__min")[0].innerHTML;
             min = min.replace("€", "");
             let max = $(".ac-slider__max")[0].innerHTML;
