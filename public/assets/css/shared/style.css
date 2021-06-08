@@ -486,8 +486,9 @@ h6, .h6 {
   line-height: 1.2; }
 
 .auth-title{
-  color: white;
+  color: #36393F;
   font-weight: bolder;
+  margin-bottom: 30px;
 }
 
 hr {
@@ -9763,10 +9764,15 @@ ul {
 .auth {
   min-height: 100vh; }
   .auth.auth-bg-1 {
-    background: url("../../images/auth/login_1.jpg");
-    background-size: cover; }
+    background: url("/storage/uploads/fabrica1.jpeg") center center;
+    background-size: cover; 
+  }
+  .auth.auth-bg-2 {
+    background: url("/storage/uploads/monstruario3.jpeg") center center;
+    background-size: cover; 
+  }
   .auth.register-bg-1 {
-    background: url("../../images/auth/register.jpg") center center no-repeat;
+    background: url("/storage/uploads/monstruario2.jpeg") center center;
     background-size: cover; }
   .auth.theme-one .auto-form-wrapper {
     background: white;

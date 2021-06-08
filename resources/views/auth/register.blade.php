@@ -2,11 +2,11 @@
 
 @section('content')
     <!-- Change background image here -->  
-    <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+    <div class="content-wrapper d-flex align-items-center auth register-bg-1 theme-one">
         <div class="row w-100">
             <div class="col-lg-4 mx-auto">
-                <h2 class="auth-title">Registar a minha conta</h2>
                 <div class="auto-form-wrapper">
+                    <h2 class="auth-title">Registar a minha conta</h2>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <!-- Username -->

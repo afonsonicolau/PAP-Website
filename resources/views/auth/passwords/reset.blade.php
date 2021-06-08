@@ -3,11 +3,11 @@
 @section('content')
 
     <!-- Change background image here "auth-bg-1" -->
-    <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+    <div class="content-wrapper d-flex align-items-center auth auth-bg-2 theme-one">
         <div class="row w-100">
             <div class="col-lg-4 mx-auto">
-                <h2 class="auth-title">Redefinição da Palavra-passe</h2>
                 <div class="auto-form-wrapper"> 
+                    <h2 class="auth-title">Redefinição da Palavra-passe</h2>
                     <form method="POST" action="{{ route('password.update') }}">
                         @csrf
                         

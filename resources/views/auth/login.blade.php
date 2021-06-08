@@ -5,8 +5,8 @@
   	<div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
     	<div class="row w-100">
       		<div class="col-lg-4 mx-auto">
-        	<h2 class="auth-title">Inicio de Sessão</h2>
         	<div class="auto-form-wrapper"> 
+				<h2 class="auth-title">Inicio de Sessão</h2>
           		<form method="POST" action="{{ route('login') }}">
 					@csrf
 					<!-- E-mail -->
