@@ -40,7 +40,15 @@
                                             {{ $address->company }}
                                         @endif
                                     </td>
-                                    <td>{{ $address->type }}</td>
+                                    <td>
+                                        @if($address->type == 1)
+                                            Faturação	
+                                        @elseif($address->type == 2)
+                                            Envio
+                                        @elseif($address->type == 3)
+                                            Ambas
+                                        @endif
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

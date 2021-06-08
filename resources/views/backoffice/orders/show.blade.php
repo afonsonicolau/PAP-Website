@@ -25,7 +25,13 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalQuantity = 0;   
+                                @endphp
                                 @foreach ($cartItems as $item)
+                                    @php
+                                        $totalQuantity =+ $item->quantity;   
+                                    @endphp
                                     <tr>
                                         <td style="border: none;">{{ $item->product->type->type }}</td>
                                         <td style="border: none;">{{ $item->product->collection->collection }}</td>
@@ -39,6 +45,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-2"><b>Total da Encomenda:</b>  {{ $order->total_price }}€ </div>
+                            <div class="col-md-2"><b>Quantidade Total:</b> {{ $totalQuantity }} produto(s)</div>
+                        </div>
                         <hr>
                     </div>
                     <div class="row">
