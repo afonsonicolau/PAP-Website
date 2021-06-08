@@ -30,10 +30,10 @@
                                 <tr id="{{ $order->order_number }}">
                                     <td>{{ $order->user->email }}</td>
                                     <td>
-                                        <select class="form-control form-control-lg" name="state" id="state">
+                                        <select class="form-control form-control-lg state_{{ $order->order_number }}" name="state" id="state" onchange="stateChange({{ $order->order_number }})">
                                             @foreach ($states as $state)
                                                 @if($state == $order->state)
-                                                    <option value="{{ $order->state }}" selected disabled>{{ $order->state }}</option>  
+                                                    <option value="{{ $order->state }}" selected>{{ $order->state }}</option>  
                                                 @else
                                                     <option value="{{ $state }}">{{ $state }}</option> 
                                                 @endif

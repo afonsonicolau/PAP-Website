@@ -234,11 +234,13 @@
 
 			function hideInputs()
 			{
-				if($("#changepassword")[0].checked) {
-					$("div .info").removeClass("hidden");
-				}
-				else{
-					$("div .info").addClass("hidden");
+				if($("#changepassword").length) {
+					if($("#changepassword")[0].checked) {
+						$("div .info").removeClass("hidden");
+					}
+					else{
+						$("div .info").addClass("hidden");
+					}
 				}
 			};
 
@@ -247,8 +249,8 @@
 				$("#colors").val($(this).val());
 			});
 			// When administrator changes state of order, ajax request is made
-			$("#state").on("change", function()
-			{
+			function stateChange(orderId) {
+				console.log("Sadsadsad");
 				// Verification with Swal JS
 				Swal.fire({
 
@@ -264,8 +266,8 @@
 
 				}).then((result) => {
 					if (result.isConfirmed) {
-						let id = $("#state").closest('tr').prop('id');
-						let state = $("#state option:selected").text();
+						let id = $(`.state_${orderId}`).closest('tr').prop('id');
+						let state = $(`.state_${orderId} option:selected`).text();
 
 						$.ajax({
 							url: `/backoffice/orders/${id}/${state}`,
@@ -289,6 +291,10 @@
 						});					
 					}
 				});
+			}
+			$("#state").on("change", function()
+			{
+				
 			});
 
 			// On product type change reference changes as well 
