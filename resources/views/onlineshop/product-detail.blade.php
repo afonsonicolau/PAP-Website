@@ -54,7 +54,7 @@
                 <h1>{{ $product->type->type }}</h1>
                 <p class="ps-product__category"><b>Coleção:</b> {{ $product->collection->collection }}<br>
                 <b>Cores:</b> {{ $colorsText }}</p>
-                <h3 class="ps-product__price">{{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</h3>
+                <h3 class="ps-product__price">Preço: {{ round( (($product->iva / 100) * ($product->price)) + $product->price, 2) }}€</h3>
                 <hr>
                 @if($product->stock >= 100)
                     <h4>Stock: <b class="text-success">{{ $product->stock }} unidades</b></h4>
@@ -177,7 +177,7 @@
         </div>
         </div>
     </div>
-    <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
+    {{-- <div class="ps-section ps-section--top-sales ps-owl-root pt-40 pb-80">
         <div class="ps-container">
             <div class="ps-section__header mb-50">
                 <div class="row">
@@ -262,6 +262,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 @endsection

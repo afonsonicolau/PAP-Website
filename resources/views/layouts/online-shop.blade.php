@@ -105,7 +105,7 @@
                                                 <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
                                                 <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
                                                     <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span class="mr-20" style="display: flex;">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
+                                                        <br><span style="display: flex; margin-left: 9px;">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -423,10 +423,13 @@
         }));
 
         function hideInputs() {
-            if ($("#changepassword")[0].checked) {
-                $("div .info").removeClass("hidden");
-            } else {
-                $("div .info").addClass("hidden");
+            if($("#changepassword").length) {
+                if($("#changepassword")[0].checked) {
+                    $("div .info").removeClass("hidden");
+                }
+                else{
+                    $("div .info").addClass("hidden");
+                }
             }
         };
 
@@ -465,22 +468,24 @@
                             let quantity = parseInt(cartQuantity);
 
                             // Change front-end values
-                            $("#cartQuantityTotal").text(totalCartQuantity - quantity +
-                                " produto(s)");
-                            $(`#productsTotal`).text(total - productPrice + "€");
-                            $(`#cartPriceTotal`).text(total - productPrice + "€");
+                            let totalPrice = total - (productPrice * cartQuantity);
+                            totalPrice = totalPrice.toFixed(2);
+
+                            $("#cartQuantityTotal").text(totalCartQuantity - quantity + " produto(s)");
+                            $(`#productsTotal`).text(totalPrice + "€");
+                            $(`#cartPriceTotal`).text(totalPrice + "€");
 
                             // Change icon number
                             let count = $("#itemsCount").text();
                             count = Number(count);
-                            let countTotal = count - totalCartQuantity
+                            let countTotal = count - quantity
+
                             if (countTotal > 0) {
                                 $("#itemsCount").text(countTotal);
                             } else {
                                 $("#itemsCount").parent("span").remove();
                                 $("#itemsCount").remove();
                             }
-
 
                             // Remove cart items front-end
                             $(`#cartItem_${productId}`).remove();
@@ -495,8 +500,8 @@
 
                             if (response <= 0) {
                                 setTimeout(function() {
-                                    // Reload page
-                                    location.reload(true)
+                                    // Reload page after 2 seconds
+                                    location.reload();
                                 }, 2000);
                             }
 

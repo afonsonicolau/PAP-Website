@@ -135,12 +135,10 @@ class CartController extends Controller
     public function destroy($productId)
     {
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-        $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->get();
+        $cartItem = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->delete();
 
-        $cartItem->delete();
+        $cartItemCount = CartItems::where('cart_id', $cart->id)->count();
 
-        $cartItem = CartItems::where('cart_id', $cart->id)->count();
-
-        return response()->json($cartItem); 
+        return response()->json($cartItemCount); 
     }
 }

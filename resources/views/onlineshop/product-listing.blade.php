@@ -25,7 +25,7 @@
 								@if ($product->outlet == 1)
 									<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>
 								@endif
-								<a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a>
+								<!-- <a class="ps-shoe__favorite" href="#"><i class="ps-icon-heart"></i></a> -->
 								<img src="/storage/thumbnail/{{ $product->thumbnail }}" alt=""> <!-- Thumbnail -->
 								<a class="ps-shoe__overlay" href="{{ route('online-shop.product-detail', $product->id) }}"></a>
 							</div>
