@@ -248,9 +248,9 @@
 			$("#cor").on("change", function() {
 				$("#colors").val($(this).val());
 			});
+			
 			// When administrator changes state of order, ajax request is made
 			function stateChange(orderId) {
-				console.log("Sadsadsad");
 				// Verification with Swal JS
 				Swal.fire({
 

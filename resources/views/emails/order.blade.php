@@ -13,7 +13,7 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
 @endphp
 @foreach ($cartItems as $item)
     @php
-        $totalQuantity =+ $item->quantity;   
+        $totalQuantity += $item->quantity;   
     @endphp
     <div class="col-md-12" style="font-size: 15px;">
         <b>Item:</b> {{ $item->product->type->type }}, {{ $item->product->collection->collection }}<br>

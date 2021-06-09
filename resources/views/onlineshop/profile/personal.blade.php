@@ -62,7 +62,7 @@
 
                                     @if (Session::has('success'))
                                         <div class="pt-20">
-                                            <p class="text-danger">{{ Session::get('success') }}</p>
+                                            <p class="text-success">{{ Session::get('success') }}</p>
                                         </div>
                                     @endif
                                 </form>

@@ -30,7 +30,7 @@
                                 @endphp
                                 @foreach ($cartItems as $item)
                                     @php
-                                        $totalQuantity =+ $item->quantity;   
+                                        $totalQuantity += $item->quantity;   
                                     @endphp
                                     <tr>
                                         <td style="border: none;">{{ $item->product->type->type }}</td>

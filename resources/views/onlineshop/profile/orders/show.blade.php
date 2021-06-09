@@ -19,15 +19,21 @@
                                             <th>Referência</th>
                                             <th>Tipo</th>
                                             <th>Coleção</th>
-                                            <th>Preço</th>
+                                            <th>Preço s/IVA</th>
                                             <th>Quantidade</th>
-                                            <th>Subtotal</th>
+                                            <th>Subtotal s/IVA</th>
                                             <th>IVA</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($cartItems as $item)
+                                        @php
+                                            $totalQuantity = 0;   
+                                        @endphp
+                                        @foreach ($cartOrder as $item)
+                                            @php
+                                                $totalQuantity += $item->quantity;   
+                                            @endphp
                                             <tr>
                                                 <td style="border: none;">{{ $item->product->type->reference }}</td>
                                                 <td style="border: none;">{{ $item->product->type->type }}</td>
@@ -36,11 +42,16 @@
                                                 <td style="border: none;"><b>Encomendado:</b> {{ $item->quantity }}</td>
                                                 <td style="border: none;">{{ $item->price * $item->quantity }}€</td>
                                                 <td style="border: none;">{{ $item->iva }}%</td>
-                                                <td style="border: none;">{{ round($item->price / ((100 - $item->iva)/100), 2) * $item->quantity }}€</td>
+                                                <td style="border: none;">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4"><b>Total da Encomenda:</b>  {{ $order->total_price }}€ </div>
+                                    <div class="col-md-4"><b>Quantidade Total:</b> {{ $totalQuantity }} produto(s)</div>
+                                </div>
                                 <hr>
                             </div>
                             </div> 

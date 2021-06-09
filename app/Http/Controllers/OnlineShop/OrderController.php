@@ -160,10 +160,13 @@ class OrderController extends Controller
         
         if(auth()->user()->id == $order->user_id)
         {
-            $cartItems = CartItems::where('cart_id', $order->cart_id)->get();
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
+
+            $cartOrder = CartItems::where('cart_id', $order->cart_id)->get();
             $addresses = Address::all();
 
-            return view('onlineshop.profile.orders.show', compact('cartItems', 'order', 'addresses'));
+            return view('onlineshop.profile.orders.show', compact('cartOrder', 'cartItems', 'order', 'addresses'));
         }
         else
         {

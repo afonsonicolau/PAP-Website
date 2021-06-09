@@ -636,7 +636,6 @@
 
             let totalPrice = 0;
             let totalQuantity = 0;
-            let valid = false;
 
             $.each(productIds, function(key, value) {
                 // Variables treatment
@@ -663,7 +662,6 @@
                         data: { '_token': '{{ csrf_token() }}' },
                         dataType: "json",
                         success: function(response) {
-                            valid = true;
                             let total = 0;
 
                             total = parseFloat(productPrice * cartQuantity).toFixed(2);
@@ -671,7 +669,7 @@
                             $(`#cartItemQuantity_${productId}`).text(cartQuantity);
                             $(`#cartItemTotal_${productId}`).text(total + "€");
                             $(`#productPriceTotal_${productId}`).text(total + "€");
-
+                            
                             // Update total values
                             totalPrice = parseFloat(totalPrice).toFixed(2);
                             $(`#productsTotal`).text(totalPrice + "€");
@@ -681,13 +679,11 @@
                             $("#cartQuantityTotal").text(totalQuantity + " produto(s)");
                         },
                         error: function() {
-                            valid = false;
                             $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                         },
                     });
                 } 
                 else {
-                    valid = false;
                     $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                 }
             });
