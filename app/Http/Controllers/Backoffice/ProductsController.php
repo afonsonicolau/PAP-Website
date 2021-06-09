@@ -38,8 +38,9 @@ class ProductsController extends Controller
     {
         $collections = Collection::all();
         $types = ProductTypes::all();
+        $iva = CompanyDetails::first()->iva;
 
-        return view('backoffice.products.create', compact('collections', 'types'));
+        return view('backoffice.products.create', compact('collections', 'types', 'iva'));
     }
 
     public function getInfo($collectionId, $typeId)
@@ -175,6 +176,7 @@ class ProductsController extends Controller
         $product = Product::find($id);
         $collections = Collection::all();
         $types = ProductTypes::all(); 
+        $iva = CompanyDetails::first()->iva;
         $imageNames = json_decode($product->images);
 
         $colors = json_decode($product->color);
@@ -186,7 +188,7 @@ class ProductsController extends Controller
 
         $colorsText = rtrim($colorsText, ", ");
 
-        return view('backoffice.products.edit', compact('collections', 'product', 'types', 'imageNames', 'colorsText'));
+        return view('backoffice.products.edit', compact('collections', 'product', 'types', 'imageNames', 'colorsText', 'iva'));
     }
 
     public function update(Request $request, $id)
@@ -235,6 +237,8 @@ class ProductsController extends Controller
             $product->update([
                 'disabled' => 1,
             ]);
+
+            return redirect(route('products.index'));
         }
         // Normal Update
         else
@@ -298,6 +302,10 @@ class ProductsController extends Controller
                 }
                 
                 $savedImages = json_decode($product->images);
+
+                if($savedImages == null) {
+                    $savedImages = [];
+                } 
 
                 // For images
                 if($request->hasFile('imagens'))

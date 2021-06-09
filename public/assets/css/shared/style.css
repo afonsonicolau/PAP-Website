@@ -9828,7 +9828,8 @@ ul {
         border-right: none; }
       .auth.theme-one .auth-footer li a {
         font-size: 13px;
-        color: rgba(255, 255, 255, 0.4); }
+        color: #c1c5ca;
+        font-weight: bolder; }
     @media (max-width: 576px) {
       .auth.theme-one .auth-footer {
         justify-content: center; } }

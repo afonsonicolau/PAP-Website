@@ -96,7 +96,7 @@
 
 						<div class="form-group">
 							<label for="iva">IVA</label>
-							<input type="number" class="form-control" id="iva" name="iva" value="23" readonly>
+							<input type="number" class="form-control" id="iva" name="iva" value="{{ $iva }}" readonly>
 						</div>
 
 						<div class="form-group totalPrice">
@@ -163,16 +163,18 @@
 						{{-- Images Preview --}}
 						<div class="form-group">
 							<div class="imagePreview imagesPreview">
-								@foreach ($imageNames as $name)
-									@if (Storage::exists('public/products/' . $name))
-										<span class="pic" id="{{ $loop->index }}">
-											<a href="javascript:void(0)" onclick="imageDelete('{{ $name }}', '{{ $loop->index }}', {{ $product->id }})">
-												<i class="fas fa-times-circle close text-danger" style="position: absolute;"></i>
-											</a>
-											<img src="/storage/products/{{ $name }}" height="200">
-										</span>
-									@endif
-								@endforeach
+								@if ($imageNames != null)
+									@foreach ($imageNames as $name)
+										@if (Storage::exists('public/products/' . $name))
+											<span class="pic" id="{{ $loop->index }}">
+												<a href="javascript:void(0)" onclick="imageDelete('{{ $name }}', '{{ $loop->index }}', {{ $product->id }})">
+													<i class="fas fa-times-circle close text-danger" style="position: absolute;"></i>
+												</a>
+												<img src="/storage/products/{{ $name }}" height="200">
+											</span>
+										@endif
+									@endforeach
+								@endif
 							</div>
 						</div>
 					

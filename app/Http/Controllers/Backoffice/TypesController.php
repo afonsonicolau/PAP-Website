@@ -94,8 +94,8 @@ class TypesController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'referencia' => 'required|int|unique:product_types,reference',
-                'tipo' => 'required|unique:product_types,type',
+                'referencia' => 'required|int|unique:product_types,reference,' . $type->id,
+                'tipo' => 'required|unique:product_types,type,' . $type->id,
             ]);
 
             if($validator->fails())
