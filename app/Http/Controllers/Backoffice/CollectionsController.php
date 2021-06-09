@@ -35,7 +35,7 @@ class CollectionsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'colecao' => 'required|alpha|unique:collections,collection',
+            'colecao' => 'required|unique:collections,collection',
             'cores' => 'required',
         ]);
 
@@ -128,7 +128,7 @@ class CollectionsController extends Controller
         else
         {
             $validator = Validator::make($request->all(), [
-                'colecao' => 'required|alpha|unique:collections,collection,' . $collection->id,
+                'colecao' => 'required|unique:collections,collection,' . $collection->id,
                 'cores' => 'required',
             ]);
 

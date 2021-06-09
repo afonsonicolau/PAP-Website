@@ -28,7 +28,6 @@ class ProductsController extends Controller
     
     public function index()
     {
-        dd(CompanyDetails::first()->iva);
         $products = Product::where('disabled', 0)->latest()->paginate(20);
         $standoutCount = Product::where('standout', 1)->count();
         
@@ -65,7 +64,6 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
-        
         $validator = Validator::make($request->all(), [
             'tipo' => 'required',
             'colecao' => 'required',
@@ -83,15 +81,15 @@ class ProductsController extends Controller
             'colors.*' => 'Selecione pelo menos uma cor',
         ]);
 
-        if($validator->fails())
-        {
+        if($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
-        else
-        {
+        else {
             // Variable treatment
             $collection = Collection::find($request->colecao);
             $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
+
+            $iva = CompanyDetails::first()->iva;
 
             $productType = ProductTypes::find($request->tipo);
             
@@ -160,7 +158,7 @@ class ProductsController extends Controller
                     'color' => $colorsArray,
                     'size' => $request->tamanho,
                     'price' => $request->preco,
-                    'iva' => $request->iva,
+                    'iva' => $iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
                     'description' => $request->descrição,
@@ -269,6 +267,8 @@ class ProductsController extends Controller
                 $collection = Collection::find($request->colecao);
                 $collectionImageName = preg_replace(array("/(á|à|ã|â|ä)/","/(Á|À|Ã|Â|Ä)/","/(é|è|ê|ë)/","/(É|È|Ê|Ë)/","/(í|ì|î|ï)/","/(Í|Ì|Î|Ï)/","/(ó|ò|õ|ô|ö)/","/(Ó|Ò|Õ|Ô|Ö)/","/(ú|ù|û|ü)/","/(Ú|Ù|Û|Ü)/","/(ñ)/","/(Ñ)/"),explode(" ","a A e E i I o O u U n N"), $collection->collection);
 
+                $iva = CompanyDetails::first()->iva;
+
                 $productType = ProductTypes::find($request->tipo);
 
                 $timeNow = Carbon::now()->format('Y-m-d_H-i-m');
@@ -335,7 +335,7 @@ class ProductsController extends Controller
                     'color' => $colorsArray,
                     'size' => $request->tamanho,
                     'price' => $request->preco,
-                    'iva' => $request->iva,
+                    'iva' => $iva,
                     'weight' => $request->peso,
                     'stock' => $request->stock,
                     'description' => $request->descrição,
@@ -353,7 +353,6 @@ class ProductsController extends Controller
 
                         $cartItems->update([
                             'price' => $request->preco,
-                            'iva' => $request->iva,
                         ]);
                     }
                 }

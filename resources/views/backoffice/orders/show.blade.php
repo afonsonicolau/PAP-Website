@@ -17,9 +17,9 @@
                                     <th>Tipo do Item</th>
                                     <th>Coleção do Item</th>
                                     <th>Referência</th>
-                                    <th>Preço</th>
+                                    <th>Preço s/IVA</th>
                                     <th>Quantidade</th>
-                                    <th>Sub-total</th>
+                                    <th>Sub-total s/IVA</th>
                                     <th>IVA</th>
                                     <th>Total</th>
                                 </tr>

@@ -8,13 +8,13 @@
 				<div class="card-body">
 					<h4 class="card-title">Editar Tipo de Produto</h4>
 					<p class="card-description">Este formulário tem como propósito criar um tipo de produto para ser utilizado na criação de produtos.</p>
-					<form class="forms-sample" method="POST" action="{{ route('types.update', $types->id) }}" enctype="multipart/form-data">
+					<form class="forms-sample" method="POST" action="{{ route('types.update', [$types->id, 0]) }}" enctype="multipart/form-data">
 						@csrf
 						@method('PATCH')
 
 						<div class="form-group">
 							<label for="referencia">Referência do Produto</label>
-							<input type="number" class="form-control" id="referencia" name="referencia" min="1" data-validate="yes" data-min="1" data-max="50000" data-type="int" value="{{ old('referencia') }}">
+							<input type="number" class="form-control" id="referencia" name="referencia" min="1" data-validate="yes" data-min="1" data-max="50000" data-type="int" value="{{ old('referencia') ?? $types->reference }}">
 						</div>
 
 						@if ($errors->has('referencia'))

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Models\CompanyDetails;
+use App\Models\Product;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -33,6 +34,12 @@ class CompanyController extends Controller
                 $data->update([
                     'iva' => $iva,
                 ]);
+
+                foreach(Product::all() as $product) {
+                    $product->update([
+                        'iva' => $iva,
+                    ]);
+                }
             }
             else {
                 return redirect()->back()->with('error', 'Insira um IVA válido.');
