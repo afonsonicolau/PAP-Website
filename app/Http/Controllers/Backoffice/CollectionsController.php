@@ -21,7 +21,7 @@ class CollectionsController extends Controller
 
     public function index()
     {
-        $collections = Collection::latest()->paginate(10);
+        $collections = Collection::latest()->paginate(20);
         $products = Product::all();
 
         return view('backoffice.collections.index', compact('collections', 'products'));

@@ -11,6 +11,7 @@ use App\Models\ProductTypes;
 use App\Models\CartItems;
 use App\Models\CompanyDetails;
 
+use Illuminate\Pagination\Paginator;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +22,7 @@ use Image;
 
 class ProductsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware(['auth', 'admin']);
@@ -29,8 +31,14 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::where('disabled', 0)->latest()->paginate(20);
+        $currentPage = $products->currentPage();
+
+        Paginator::currentPageResolver(function () use ($currentPage) {
+            return $currentPage;
+        });
+
         $standoutCount = Product::where('standout', 1)->count();
-        
+ 
         return view('backoffice.products.index', compact('products', 'standoutCount'));
     }
 
@@ -181,7 +189,7 @@ class ProductsController extends Controller
 
         $colors = json_decode($product->color);
         $colorsText = "";
-      
+
         foreach ($colors as $value) {
             $colorsText .= $value . ', ';
         }
@@ -194,21 +202,32 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
         $product = Product::find($id);
-        $cartItems = CartItems::where('product_id', $id);
+        $cartItems = array();
+
+        foreach (CartItems::where('product_id', $id)->get() as $item) {
+            $cart = Cart::find($item->cart_id);
+
+            if ($cart->bought == 0) {
+                array_push($cartItems, CartItems::where('cart_id', $cart->id)->where('product_id', $id)->get());
+            }
+        }
 
         // Standout
-        if($request->has('standout'))
-        {
+        if($request->has('standout')) {
             $standoutCount = Product::where('standout', 1)->count();
 
-            if($standoutCount < 9)
-            {
+            if($request->standout == 1 && $standoutCount < 9) {
                 $product->update([
-                    'standout' => $request->standout,
+                    'standout' => 1,
+                ]);
+            }
+            elseif ($request->standout == 0) {
+                $product->update([
+                    'standout' => 0,
                 ]);
             }
 
-            return redirect(route('products.index'));
+            return redirect()->back();
         }
         // Outlet
         else if($request->has('outlet'))
@@ -217,7 +236,7 @@ class ProductsController extends Controller
                 'outlet' => $request->outlet,
             ]);
 
-            return redirect(route('products.index'));
+            return redirect()->back();
         }
         // Visible
         else if ($request->has('visible'))
@@ -227,9 +246,13 @@ class ProductsController extends Controller
                 'standout' => 0,
             ]);
 
-            $cartItems->delete();
+            foreach ($cartItems as $items) {
+                foreach($items as $item) {
+                    $item->delete();
+                }
+            }
 
-            return redirect(route('products.index'));
+            return redirect()->back();
         }
         // Disable
         else if($request->has('disable'))
@@ -238,7 +261,13 @@ class ProductsController extends Controller
                 'disabled' => 1,
             ]);
 
-            return redirect(route('products.index'));
+            foreach ($cartItems as $items) {
+                foreach($items as $item) {
+                    $item->delete();
+                }
+            }
+
+            return redirect()->back();
         }
         // Normal Update
         else
@@ -351,15 +380,9 @@ class ProductsController extends Controller
                     'images' => $imageNames,
                 ]);
 
-                foreach($cartItems as $item)
-                {
-                    $cart = Cart::find($item->cart_id);
-
-                    if($cart != null && $cart->bought == 0)
-                    {
-                        $cartItems->where('cart_id', $cart->id);
-
-                        $cartItems->update([
+                foreach ($cartItems as $items) {
+                    foreach($items as $item) {
+                        $item->update([
                             'price' => $request->preco,
                         ]);
                     }

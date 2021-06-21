@@ -86,12 +86,12 @@ class BillingController extends Controller
             $countries = array('Portugal', 'Espanha', 'França');
             $types = array('1' => 'Faturação', '2' => 'Envio', '3' => 'Ambas');
 
-            $cartCount = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->count();
-            $carts = Cart::all();
+            $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
+            $cartItems = CartItems::where('cart_id', $cart->id)->get();
             $products = Product::all();
             $total = 0;
 
-            return view('onlineshop.profile.addresses.edit', compact('carts', 'products', 'total', 'address', 'countries', 'types', 'cartCount'));
+            return view('onlineshop.profile.addresses.edit', compact('products', 'total', 'address', 'countries', 'types', 'cartItems'));
         }
         else
         {
