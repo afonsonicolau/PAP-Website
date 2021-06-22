@@ -10,6 +10,10 @@ use App\Models\User;
 use App\Models\Order;
 use App\Mail\OrderEmail;
 use App\Models\Product;
+
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
@@ -19,7 +23,7 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth','verified']);    
+        $this->middleware(['auth','verified']);
     }
 
     public function store(Request $request)
@@ -96,7 +100,7 @@ class OrderController extends Controller
                 'state' => $state,
             ]);
 
-            // Update tables in database 
+            // Update tables in database
             $delivery->update([
                 'used' => 1,
             ]);
@@ -108,7 +112,7 @@ class OrderController extends Controller
             $cart->update([
                 'bought' => 1,
             ]);
-                
+
             // Get order to send e-mail to user
             $order = Order::latest()->first();
 
@@ -140,7 +144,7 @@ class OrderController extends Controller
         $order = Order::where('order_number', $order)->first();
         $delivery = Address::find($delivery);
         $billing = Address::find($billing);
-        
+
         if(auth()->user()->id == $order->user_id)
         {
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
@@ -157,7 +161,7 @@ class OrderController extends Controller
     public function show($order)
     {
         $order = Order::where('order_number', $order)->first();
-        
+
         if(auth()->user()->id == $order->user_id)
         {
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
