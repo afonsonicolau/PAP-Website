@@ -12,20 +12,20 @@ use App\Models\Address;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Http\Request;
+use Request;
 
 class CartController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'verified']);    
+        $this->middleware(['auth', 'verified']);
     }
 
     public function index()
     {
         $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
-            
+
         return view('onlineshop.cart', compact('cartItems'));
     }
 
@@ -35,7 +35,7 @@ class CartController extends Controller
         $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
         if ($cartItems->count() > 0)
-        {   
+        {
             $addresses = Address::all();
 
             return view('onlineshop.checkout', compact('cart', 'addresses', 'cartItems'));
@@ -64,7 +64,7 @@ class CartController extends Controller
         else
         {
             $quantity = $request->quantidade;
-            
+
             $cart = Cart::where('user_id', $userId)->where('bought', 0)->latest()->first();
             $cartCheck = CartItems::where('cart_id', $cart->id)->where('product_id', $productId)->latest()->first();
 
@@ -75,7 +75,7 @@ class CartController extends Controller
                     $cartCheck->update([
                         'quantity' => $quantity,
                     ]);
-                } 
+                }
                 else {
                     return redirect()->back()->with('error', 'A quantidade que escolheu juntamente com a quantidade no carrinho excede o stock atual.');
                 }
@@ -89,9 +89,9 @@ class CartController extends Controller
                             'user_id' => $userId,
                         ]);
                     }
-                    
+
                     $cart = Cart::where('user_id', $userId)->latest()->first();
-                    
+
                     CartItems::create([
                         'product_id' => $productId,
                         'cart_id' => $cart->id,
@@ -101,21 +101,20 @@ class CartController extends Controller
                     ]);
                 }
             }
-            
-            return redirect(route('online-shop.product-listing'));
-        }  
+
+            return redirect(route('online-shop.product-listing'))->withCookie(cookie('cart_' . $userId, 'value', 15));
+        }
     }
 
     public function update($productId, $quantity)
     {
         $product = "";
         $cart = "";
-        $cartItem = "";
 
         if($quantity >= 1 && is_numeric($quantity)) {
             $product = Product::find($productId);
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
-            
+
             if ($quantity <= $product->stock) {
                 CartItems::where('cart_id', $cart->id)->where('product_id', $product->id)->update([
                     'quantity' => $quantity,
@@ -125,7 +124,7 @@ class CartController extends Controller
             }
             else {
                 return false;
-            }            
+            }
         }
         else {
             return false;
@@ -139,6 +138,6 @@ class CartController extends Controller
 
         $cartItemCount = CartItems::where('cart_id', $cart->id)->count();
 
-        return response()->json($cartItemCount); 
+        return response()->json($cartItemCount);
     }
 }
