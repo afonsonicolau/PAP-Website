@@ -8,7 +8,8 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-12 col-xs-12">
                         <div class="ps-checkout__billing">
-                            <h3>Encomenda # {{ $order->order_number }}</h3>
+                            <h3 style="display: inline;">Encomenda # {{ $order->order_number }}</h3>
+                            <a type="button" class="btn btn-info" href="/storage/invoices/{{ $order->order_number }}_order_invoice.pdf" style="margin-left: 5%; margin-bottom: 1%;" download>Fatura</a>
                             <hr>
                             <div class="form-group">
                                 <h4>ARTIGOS ENCOMENDADOS</h4>
@@ -28,11 +29,11 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $totalQuantity = 0;   
+                                            $totalQuantity = 0;
                                         @endphp
                                         @foreach ($cartOrder as $item)
                                             @php
-                                                $totalQuantity += $item->quantity;   
+                                                $totalQuantity += $item->quantity;
                                             @endphp
                                             <tr>
                                                 <td style="border: none;">{{ $item->product->type->reference }}</td>
@@ -54,7 +55,7 @@
                                 </div>
                                 <hr>
                             </div>
-                            </div> 
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-4">
                                     <h4><b>Morada de Faturação</b></h4>
@@ -71,7 +72,7 @@
                                             @break
                                         @endif
                                     @endforeach
-                                </div>  
+                                </div>
                                 <div class="col-md-4">
                                     <h4><b>Morada de Envio</b></h4>
                                     <br>
@@ -94,9 +95,9 @@
                                     <b>Envio: </b>{{ $order->delivery_method }} <br>
                                     <b>Pagamento: </b>{{ $order->payment_method }}
                                 </div>
-                                
-                            </div>                        
-                        </div>  
+
+                            </div>
+                        </div>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <div class="ps-profile">
                                 <header>
@@ -111,12 +112,12 @@
                             <div class="ps-shipping">
                                 <h3>Encomendas</h3>
                                 <p>Aqui estão todas as suas encomendas, pode editá-las e criar outras se precisar!</p>
-                            </div> 
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
-        
+
         </div>
     </div>
 
