@@ -29,7 +29,7 @@ return [
     'tax_rate'        => 'Tax rate',
     'total_amount'    => 'Preço Total',
     'pay_until'       => 'Por favor, pague até',
-    'amount_in_words' => 'Amount in words',
+    'amount_in_words' => 'Total por extenso',
     'notes'           => 'Notas',
     'shipping'        => 'Envio',
 

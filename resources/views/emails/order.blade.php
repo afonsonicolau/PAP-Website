@@ -9,11 +9,11 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
 <p style="font-size: 17px;"><b>Produtos Encomendados</b></p>
 <hr>
 @php
-    $totalQuantity = 0;   
+    $totalQuantity = 0;
 @endphp
 @foreach ($cartItems as $item)
     @php
-        $totalQuantity += $item->quantity;   
+        $totalQuantity += $item->quantity;
     @endphp
     <div class="col-md-12" style="font-size: 15px;">
         <b>Item:</b> {{ $item->product->type->type }}, {{ $item->product->collection->collection }}<br>
@@ -28,9 +28,13 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
 @endforeach
 
 <p><b>Total da Encomenda:</b>  {{ $order->total_price }}€
-    <br> 
+    <br>
     <b>Quantidade Total:</b> {{ $totalQuantity }} produto(s)</p>
 <br>
+
+<p><b>Fatura:</b> {{ $invoice }}</p>
+<br>
+
 Muito obrigado,<br>
 {{ config('app.name') }}
 @endcomponent
