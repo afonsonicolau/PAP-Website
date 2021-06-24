@@ -11,22 +11,20 @@ class OrderEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $order, $delivery, $billing, $cartItems, $invoice;
+    public $order, $delivery, $billing, $cartItems;
 
-    public function __construct($order, $delivery, $billing, $cartItems, $invoice)
+    public function __construct($order, $delivery, $billing, $cartItems)
     {
         $this->order = $order;
         $this->delivery = $delivery;
         $this->billing = $billing;
         $this->cartItems = $cartItems;
-        $this->invoice = $invoice;
     }
     public function build()
     {
         return $this->markdown('emails.order')->with([  'order' => $this->order,
                                                         'delivery' => $this->delivery,
                                                         'billing' => $this->billing,
-                                                        'cartItems' => $this->cartItems,
-                                                        'invoice' => $this->invoice])->subject('Olfaire - Nova Encomenda');
+                                                        'cartItems' => $this->cartItems,])->subject('Olfaire - Nova Encomenda');
     }
 }
