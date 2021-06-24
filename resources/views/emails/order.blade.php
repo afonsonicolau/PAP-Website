@@ -32,9 +32,6 @@ Caso realize tracking da sua encomenda com a Guia entregue e o site dos CTT indi
     <b>Quantidade Total:</b> {{ $totalQuantity }} produto(s)</p>
 <br>
 
-<p><b>Fatura:</b> {{ $invoice }}</p>
-<br>
-
 Muito obrigado,<br>
 {{ config('app.name') }}
 @endcomponent

@@ -51,31 +51,7 @@ class OrderController extends Controller
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
             $totalPrice = 0;
 
-            $buyer = new Buyer([
-                'name'          => $delivery->name,
-                'custom_fields' => [
-                    'email' => 'test@example.com',
-                ],
-            ]);
-
             $items = array();
-            foreach($cartItems as $item) {
-                array_push($items, (new InvoiceItem())->title($item->product->type->type)->pricePerUnit($item->price)->quantity($item->quantity)->taxByPercent($item->iva));
-            }
-
-            $invoice = Invoice::make()
-                ->buyer($buyer)
-                ->shipping(2)
-                ->addItems($items);
-                //->logo(public_path('assets/images/logo_2.svg'))
-                // You can additionally save generated invoice to configured disk
-                /* ->filename($user->id . '_order_invoice_' . Carbon::now()->format('Y-m-d_H-i-m'))
-                ->save('invoices'); */
-
-
-            // Then send email to party with link
-            $link = $invoice->url();
-            return $invoice->stream();
 
             foreach($cartItems as $item) {
                 // Gets product and it's stock
@@ -98,6 +74,8 @@ class OrderController extends Controller
                 ]);
 
                 $totalPrice += round((($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
+
+                array_push($items, (new InvoiceItem())->title($item->product->type->type)->pricePerUnit($item->price)->quantity($item->quantity)->taxByPercent($item->iva));
             }
 
             $paid = 1;
@@ -142,7 +120,23 @@ class OrderController extends Controller
                 'user_id' => $user->id,
             ]);
 
-            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems, $link));
+            $buyer = new Buyer([
+                'name'          => $delivery->name,
+                'custom_fields' => [
+                    'email' => 'test@example.com',
+                ],
+            ]);
+
+            $invoice = Invoice::make()
+                ->buyer($buyer)
+                ->shipping(2)
+                ->addItems($items)
+                //->logo(public_path('assets/images/logo_2.svg'))
+                // You can additionally save generated invoice to configured disk
+                ->filename($order->order_number . '_order_invoice_' . Carbon::now()->format('Y-m-d_H-i-m'))
+                ->save('invoices');
+
+            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
 
             return redirect(route('online-shop.order-confirmation', [$order->order_number, $delivery->id, $billing->id]));
         }
