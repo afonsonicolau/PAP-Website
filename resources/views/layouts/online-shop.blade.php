@@ -98,21 +98,27 @@
                                     @php
                                         $total = 0;
                                         $totalQuantity = 0;
+                                        $i = 0;
                                     @endphp
                                     @if ($cartItems != '')
                                         @foreach ($cartItems as $item)
-                                            <div class="ps-cart-item" id="cartItem_{{ $item->product_id }}">
-                                                <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
-                                                <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
-                                                    <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
-                                                        <br><span style="display: flex; margin-left: 9px;">Total:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
-                                                    </p>
+                                            @if ($i < 2)
+                                                <div class="ps-cart-item" id="cartItem_{{ $item->product_id }}">
+                                                    <div class="ps-cart-item__thumbnail"><a href="{{ route('online-shop.product-detail', $item->product_id) }}"></a><img src="/storage/thumbnail/{{ $item->product->thumbnail }}" alt=""></div>
+                                                    <div class="ps-cart-item__content"><a class="ps-cart-item__title" href="{{ route('online-shop.product-detail', $item->product_id) }}">{{ $item->product->type->type }}</a>
+                                                        <p class="pr-70"><span>Quantidade:<i id="cartItemQuantity_{{ $item->product_id }}">{{ $item->quantity }}</i></span>
+                                                            <br><span style="display: flex; margin-left: 9px;">Subtotal:<i id="cartItemTotal_{{ $item->product_id }}">{{ round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity }}€</i></span>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            @php
-                                                $total += round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
-                                                $totalQuantity += $item->quantity;
-                                            @endphp
+                                                @php
+                                                    $i++;
+                                                    $total += round( (($item->iva / 100) * ($item->price)) + $item->price, 2) * $item->quantity;
+                                                    $totalQuantity += $item->quantity;
+                                                @endphp
+                                            @else
+                                                <p style="text-align: left; margin-left: 5%;"><b>Existem mais produtos no carrinho, para os poder ver, por favor, clique "Editar Carrinho"</b></p>
+                                            @endif
                                         @endforeach
                                     @endif
                                 </div>
@@ -286,9 +292,9 @@
 
         $(".outlet-products").on("click", function(event){
             event.preventDefault();
-        
+
             let html = $(".outlet-products").text();
-            
+
             if(html == "Só Produtos Outlets") {
                 $(".outlet-products").text("Só Produtos Não Outlet");
                 outletProducts(1);
@@ -334,7 +340,7 @@
 
         $(".showmoreCollections").on("click", function(event){
             event.preventDefault();
-        
+
             let numCollections = ($(".collection_filter").length) - 1;
 
             if(collectionsState == "minus") {
@@ -358,7 +364,7 @@
 
         $(".showmoreTypes").on("click", function(event){
             event.preventDefault();
-        
+
             let numTypes = ($(".collection_filter").length) - 1;
 
             if(typesState == "minus") {
@@ -491,7 +497,7 @@
                             $(`#cartItem_${productId}`).remove();
                             $(`#cart_${productId}`).remove();
 
-                            // Send front-end notification 
+                            // Send front-end notification
                             Swal.fire(
                                 'Produto Retirado!',
                                 'A ação ocorreu com sucesso e o produto foi retirado do carrinho!',
@@ -552,17 +558,17 @@
 
                         // Subtract created_at from now timestamp
                         let timePassedMs = Date.now() - Date.parse(product.created_at);
-                       
+
                         let badge = "";
                         if((timePassedMs / 1000) < 604800) {
                             badge = '<div class="ps-badge"><span>Novo</span></div>'
                         }
-                        
+
                         let outletBadge = "";
                         if(product.outlet == 1) {
                             outletBadge = '<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>'
                         }
-                        
+
                         let productColumn = `
                                             <div class="ps-product__column" id="product_${product.id}">
                                                 <div class="ps-shoe mb-30">
@@ -669,7 +675,7 @@
                             $(`#cartItemQuantity_${productId}`).text(cartQuantity);
                             $(`#cartItemTotal_${productId}`).text(total + "€");
                             $(`#productPriceTotal_${productId}`).text(total + "€");
-                            
+
                             // Update total values
                             totalPrice = parseFloat(totalPrice).toFixed(2);
                             $(`#productsTotal`).text(totalPrice + "€");
@@ -682,7 +688,7 @@
                             $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                         },
                     });
-                } 
+                }
                 else {
                     $("#cartQuantity_" + productId).addClass('form-validate-invalid');
                 }
@@ -697,7 +703,7 @@
         $("#deliveryBilling").on("click", function() {
             let checked = $("input[id='deliveryBilling']:checked").length;
 
-            // if user wants addresses to be different checked will be > 0 
+            // if user wants addresses to be different checked will be > 0
             if (checked > 0) {
                 $("#deliveryPlusBilling").addClass("hidden");
                 $("#delivery").removeClass("hidden");
@@ -770,7 +776,7 @@
             if (string == "") {
                 string = "null"
             }
-            
+
             $.ajax({
                 url: `/online-shop/product-listing/${string}`,
                 type: "GET",
@@ -806,7 +812,7 @@
 
                             // Subtract created_at from now timestamp
                             let timePassedMs = Date.now() - Date.parse(product.created_at);
-                        
+
                             let badge = "";
                             if((timePassedMs / 1000) < 604800) {
                                 badge = '<div class="ps-badge"><span>Novo</span></div>'
@@ -845,7 +851,7 @@
                             `;
 
                             $('.ps-product__columns').append(productColumn);
-                        }   
+                        }
                     }
                 },
                 error: function(response) {
