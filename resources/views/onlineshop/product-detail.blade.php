@@ -14,7 +14,7 @@
                                     @foreach (json_decode($product->images) as $key => $image)
                                         <div class="item"><img src="/storage/products/{{ $image }}" alt=""></div>
                                     @endforeach
-                                @endif 
+                                @endif
                             </div>
                         </div>
                         <div class="ps-product__image">
@@ -38,19 +38,19 @@
                     <option value="1">3</option>
                     <option value="1">4</option>
                     <option value="2">5</option>
-                </select><a href="#">(Read all 8 reviews)</a> 
+                </select><a href="#">(Read all 8 reviews)</a>
                 </div>--}}
                 @php
                     $colors = json_decode($product->color);
                     $colorsText = "";
-                
+
                     foreach ($colors as $value) {
                         $colorsText .= $value . ', ';
                     }
 
                     $colorsText = rtrim($colorsText, ", ");
-                @endphp     
-               
+                @endphp
+
                 <h1>{{ $product->type->type }}</h1>
                 <p class="ps-product__category"><b>Coleção:</b> {{ $product->collection->collection }}<br>
                 <b>Cores:</b> {{ $colorsText }}</p>
@@ -58,32 +58,38 @@
                 <hr>
                 @if($product->stock >= 100)
                     <h4>Stock: <b class="text-success">{{ $product->stock }} unidades</b></h4>
-                @else
+                @elseif($product->stock >= 30)
                     <h4>Stock: <b style="color:#ffc107!important">{{ $product->stock }} unidades</b></h4>
+                @else
+                    <h4>Stock: <b style="color:#dc3545!important">{{ $product->stock }} unidades</b></h4>
                 @endif
                 {{-- <div class="ps-product__block ps-product__quickview">
-                   
+
                 </div> --}}
                 <div class="ps-product__block ps-product__size"></div>
 
-                @if (auth()->user()) 
-                    <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
-						@csrf
-                        <div class="form-group">
-                            <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="{{ $product->stock }}" data-type="int" placeholder="Quantidade">
-                            @if ($errors->has('quantidade'))
-                                <p class="text-danger">{{$errors->first('quantidade')}}</p>
-                            @endif
-                            @if (Session::has('error'))
-                                <p class="text-danger">{{ Session::get('error') }}</p>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button>
-                        </div>
-                    </form>
+                @if ($product->stock > 0)
+                    @if (auth()->user())
+                        <form method="POST" action="{{ route('online-shop.add-to-cart', [$product->id, auth()->user()->id]) }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <input class="form-control" type="number" id="quantidade" name="quantidade" min="1" value="1" style="width: 10em;" data-validate="yes" data-min="1" data-max="{{ $product->stock }}" data-type="int" placeholder="Quantidade">
+                                @if ($errors->has('quantidade'))
+                                    <p class="text-danger">{{$errors->first('quantidade')}}</p>
+                                @endif
+                                @if (Session::has('error'))
+                                    <p class="text-danger">{{ Session::get('error') }}</p>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="ps-btn mb-10">Adicionar ao Carrinho<i class="ps-icon-next"></i></button>
+                            </div>
+                        </form>
+                    @else
+                        <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('login') }}">Adicionar ao Carrinho<i class="ps-icon-next"></i></a>
+                    @endif
                 @else
-                    <div class="ps-product__shopping"><a class="ps-btn mb-10" href="{{ route('login') }}">Inicie Sessão<i class="ps-icon-next"></i></a>
+                    <p>Este produto está sem stock de momento, pedimos desculpa pelo inconveniente.</p>
                 @endif
                 {{-- <div class="ps-product__actions"><a class="mr-10" href="whishlist.html"><i class="ps-icon-heart"></i></a><a href="compare.html"><i class="ps-icon-share"></i></a></div> --}}
                 </div>
@@ -100,7 +106,7 @@
             <div class="tab-content mb-60">
                 <div class="tab-pane active" role="tabpanel" id="tab_01">
                 <p>{{ $product->description }}</p>
-                
+
                 </div>
                 <div class="tab-pane" role="tabpanel" id="tab_02">
                 <p class="mb-20">1 review for <strong>Shoes Air Jordan</strong></p>

@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Mail\OrderEmail;
 use App\Models\Product;
 
+use Carbon\Carbon;
 use LaravelDaily\Invoices\Invoice;
 use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
@@ -21,13 +22,11 @@ use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
-    public function __construct()
-    {
+    public function __construct() {
         $this->middleware(['auth','verified']);
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'delivery_id' => 'required',
             'billing_id' => 'required',
@@ -40,12 +39,10 @@ class OrderController extends Controller
             'billing_id.required' => "Selecione uma morada de faturação.",
         ]);
 
-        if($validator->fails())
-        {
+        if($validator->fails()) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
-        else
-        {
+        else {
             // Variable treatment
             $delivery = Address::find($request->delivery_id);
             $billing = Address::find($request->billing_id);
@@ -54,8 +51,33 @@ class OrderController extends Controller
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
             $totalPrice = 0;
 
-            foreach($cartItems as $item)
-            {
+            $buyer = new Buyer([
+                'name'          => $delivery->name,
+                'custom_fields' => [
+                    'email' => 'test@example.com',
+                ],
+            ]);
+
+            $items = array();
+            foreach($cartItems as $item) {
+                array_push($items, (new InvoiceItem())->title($item->product->type->type)->pricePerUnit($item->price)->quantity($item->quantity)->taxByPercent($item->iva));
+            }
+
+            $invoice = Invoice::make()
+                ->buyer($buyer)
+                ->shipping(2)
+                ->addItems($items);
+                //->logo(public_path('assets/images/logo_2.svg'))
+                // You can additionally save generated invoice to configured disk
+                /* ->filename($user->id . '_order_invoice_' . Carbon::now()->format('Y-m-d_H-i-m'))
+                ->save('invoices'); */
+
+
+            // Then send email to party with link
+            $link = $invoice->url();
+            return $invoice->stream();
+
+            foreach($cartItems as $item) {
                 // Gets product and it's stock
                 $product = Product::find($item->product_id);
                 $stock = $product->stock - $item->quantity;
@@ -80,8 +102,7 @@ class OrderController extends Controller
 
             $paid = 1;
             $state = "Em Processamento";
-            if($request->payment_method == 'Multibanco')
-            {
+            if($request->payment_method == 'Multibanco') {
                 $paid = 0;
                 $state = "Falta Pagamento";
             }
@@ -116,29 +137,6 @@ class OrderController extends Controller
             // Get order to send e-mail to user
             $order = Order::latest()->first();
 
-            $buyer = new Buyer([
-                'name'          => $delivery->name,
-                'custom_fields' => [
-                    'email' => 'test@example.com',
-                ],
-            ]);
-
-            $items = array();
-            foreach($cartItems as $item) {
-                array_push($items, (new InvoiceItem())->title($item->product->type->type)->pricePerUnit($item->price)->quantity($item->quantity)->taxByPercent($item->iva));
-            }
-
-            $invoice = Invoice::make()
-                ->buyer($buyer)
-                ->shipping(2)
-                ->addItems($items)
-                //->logo(public_path('assets/images/logo_2.svg'))
-                // You can additionally save generated invoice to configured disk
-                ->save('invoices')->filename($user->id . '_order_invoice_');
-
-            // Then send email to party with link
-            $link = $invoice->url();
-
             // Create a new cart for user
             Cart::create([
                 'user_id' => $user->id,
@@ -146,15 +144,12 @@ class OrderController extends Controller
 
             Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems, $link));
 
-            return $invoice->stream();
             return redirect(route('online-shop.order-confirmation', [$order->order_number, $delivery->id, $billing->id]));
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        if($request->has('paid'))
-        {
+    public function update(Request $request, $id) {
+        if($request->has('paid')) {
             Order::where('order_number', $id)->update([
                 'paid' => 1,
             ]);
@@ -163,31 +158,26 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
-    public function confirmation($order, $delivery, $billing)
-    {
+    public function confirmation($order, $delivery, $billing) {
         $order = Order::where('order_number', $order)->first();
         $delivery = Address::find($delivery);
         $billing = Address::find($billing);
 
-        if(auth()->user()->id == $order->user_id)
-        {
+        if(auth()->user()->id == $order->user_id) {
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
             return view('onlineshop.orderconfirmation', compact('cartItems', 'order', 'delivery', 'billing'));
         }
-        else
-        {
+        else {
             abort(403, 'Ação Não-Autorizada.');
         }
     }
 
-    public function show($order)
-    {
+    public function show($order) {
         $order = Order::where('order_number', $order)->first();
 
-        if(auth()->user()->id == $order->user_id)
-        {
+        if(auth()->user()->id == $order->user_id) {
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
 
@@ -196,8 +186,7 @@ class OrderController extends Controller
 
             return view('onlineshop.profile.orders.show', compact('cartOrder', 'cartItems', 'order', 'addresses'));
         }
-        else
-        {
+        else {
             abort(403, 'Ação Não-Autorizada.');
         }
     }

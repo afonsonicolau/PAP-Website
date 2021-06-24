@@ -19,9 +19,9 @@
 									$days = floor(($diff - $years * 365 * 60 * 60 * 24 - $months * 30 * 60 * 60 * 24) / (60 * 60 * 24));
 								@endphp
 								@if ($days < 8)
-									<div class="ps-badge"><span>Novo</span></div>
+									<div class="ps-badge"><span>Novo Produto</span></div>
 								@endif
-								
+
 								@if ($product->outlet == 1)
 									<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>
 								@endif
@@ -31,21 +31,27 @@
 							</div>
 							<div class="ps-shoe__content">
 								<div class="ps-shoe__variants">
-									Stock: {{ $product->stock }} unidade(s)
+									@if($product->stock >= 100)
+										<p>Stock: <b class="text-success">{{ $product->stock }} unidades</b></p>
+									@elseif($product->stock >= 30)
+										<p>Stock: <b style="color:#ffc107!important">{{ $product->stock }} unidades</b></p>
+									@else
+										<p>Stock: <b style="color:#dc3545!important">{{ $product->stock }} unidades</b></p>
+									@endif
 								</div>
 								<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
 									<p class="ps-shoe__categories">
 										@php
 											$colors = json_decode($product->color);
 											$colorsText = "";
-										
+
 											foreach ($colors as $value) {
 												$colorsText .= $value . ', ';
 											}
 
 											$colorsText = rtrim($colorsText, ", ");
-										@endphp     
-										<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+										@endphp
+										<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>
 										<br>
 										<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
 									</p>
@@ -69,10 +75,10 @@
 					<div class="col-12 pt-5 d-flex justify-content-center">
 						{{ $productList->links() }}
 					</div>
-				</div> --}}  
+				</div> --}}
 				<div class="ps-pagination">
 					{{ $productList->links() }}
-				</div> 
+				</div>
 			</div>
 		</div>
 		<div class="ps-sidebar" data-mh="product-listing">
@@ -84,11 +90,11 @@
 				<div class="ps-widget__content">
 					<ul class="ps-list--checked">
 						<li class="collection_filter current" id="collection_none"><a  href="#">Todas as Coleções</a></li>
-						@php 
+						@php
 							$i = 0;
 						@endphp
 						@foreach($collectionsDistinct as $collection)
-							@php 
+							@php
 								$i++;
 							@endphp
 							<li class="collection_filter collectionH_{{ $i }}" id="collection_{{ $collection->collection->id }}"><a href="#">{{ $collection->collection->collection }}</a></li>
@@ -123,11 +129,11 @@
 				<div class="ps-widget__content">
 					<ul class="ps-list--checked">
 						<li class="type_filter current" id="type_none"><a href="#">Todos os Tipos de Produtos</a></li>
-						@php 
+						@php
 							$i = 0;
 						@endphp
 						@foreach($typesDistinct as $type)
-							@php 
+							@php
 								$i++;
 							@endphp
 							<li class="type_filter typeH_{{ $i }}" id="type_{{ $type->type->id }}"><a href="#">{{ $type->type->type }}</a></li>
