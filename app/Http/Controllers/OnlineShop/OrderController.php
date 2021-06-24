@@ -133,7 +133,7 @@ class OrderController extends Controller
                 ->addItems($items)
                 //->logo(public_path('assets/images/logo_2.svg'))
                 // You can additionally save generated invoice to configured disk
-                ->filename($order->order_number . '_order_invoice_' . Carbon::now()->format('Y-m-d_H-i-m'))
+                ->filename($order->order_number . '_order_invoice')
                 ->save('invoices');
 
             Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
