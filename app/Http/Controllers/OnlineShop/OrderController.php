@@ -12,7 +12,7 @@ use App\Mail\OrderEmail;
 use App\Models\Product;
 
 use LaravelDaily\Invoices\Invoice;
-use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\Buyer;
 use LaravelDaily\Invoices\Classes\InvoiceItem;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -116,13 +116,37 @@ class OrderController extends Controller
             // Get order to send e-mail to user
             $order = Order::latest()->first();
 
+            $buyer = new Buyer([
+                'name'          => $delivery->name,
+                'custom_fields' => [
+                    'email' => 'test@example.com',
+                ],
+            ]);
+
+            $items = array();
+            foreach($cartItems as $item) {
+                array_push($items, (new InvoiceItem())->title($item->product->type->type)->pricePerUnit($item->price)->quantity($item->quantity)->taxByPercent($item->iva));
+            }
+
+            $invoice = Invoice::make()
+                ->buyer($buyer)
+                ->shipping(2)
+                ->addItems($items)
+                //->logo(public_path('assets/images/logo_2.svg'))
+                // You can additionally save generated invoice to configured disk
+                ->save('invoices')->filename($user->id . '_order_invoice_');
+
+            // Then send email to party with link
+            $link = $invoice->url();
+
             // Create a new cart for user
             Cart::create([
                 'user_id' => $user->id,
             ]);
 
-            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
+            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems, $link));
 
+            return $invoice->stream();
             return redirect(route('online-shop.order-confirmation', [$order->order_number, $delivery->id, $billing->id]));
         }
     }
