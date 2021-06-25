@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -136,7 +137,9 @@ class OrderController extends Controller
                 ->filename($order->order_number . '_order_invoice')
                 ->save('invoices');
 
-            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems));
+            Mail::to($user->email)->send(new OrderEmail($order, $delivery, $billing, $cartItems), function($message) use($order) {
+                $message->attach(storage_path('app/public/invoices/' . $order->order_number . '_order_invoice'));
+            });
 
             return redirect(route('online-shop.order-confirmation', [$order->order_number, $delivery->id, $billing->id]));
         }

@@ -1,7 +1,7 @@
 @extends('layouts.online-shop')
 
 @section('content')
-	
+
 	{{-- <div class="ps-banner">
 		<div class="rev_slider fullscreenbanner" id="home-banner">
 			<ul>
@@ -27,7 +27,7 @@
 					<p>Supa wanted something that was going to rep his East Coast <br> roots and, more specifically, his hometown of <br/> New York City in  a big way.</p>
 				</div><a class="tp-caption ps-btn" id="layer364" href="#" data-x="['left','left','left','left']" data-hoffset="['-60','15','15','15']" data-y="['middle','middle','middle','middle']" data-voffset="['120','140','200','200']" data-type="text" data-responsive_offset="on" data-textAlign="['center','center','center','center']" data-frames="[{&quot;delay&quot;:1500,&quot;speed&quot;:1500,&quot;frame&quot;:&quot;0&quot;,&quot;from&quot;:&quot;x:50px;opacity:0;&quot;,&quot;to&quot;:&quot;o:1;&quot;,&quot;ease&quot;:&quot;Power3.easeInOut&quot;},{&quot;delay&quot;:&quot;wait&quot;,&quot;speed&quot;:300,&quot;frame&quot;:&quot;999&quot;,&quot;to&quot;:&quot;x:50px;opacity:0;&quot;,&quot;ease&quot;:&quot;Power3.easeInOut&quot;}]">Purchase Now<i class="ps-icon-next"></i></a>
 				</li>
-			</ul>		
+			</ul>
 		</div>
 	</div> --}}
 	<div class="ps-section--features-product ps-section masonry-root pt-100 pb-100">
@@ -75,21 +75,27 @@
 									</div>
 									<div class="ps-shoe__content">
 										<div class="ps-shoe__variants">
-											Stock: {{ $product->stock }} unidade(s)
+											@if($product->stock >= 100)
+												<p>Stock: <b class="text-success">{{ $product->stock }} unidades</b></p>
+											@elseif($product->stock >= 30)
+												<p>Stock: <b style="color:#ffc107!important">{{ $product->stock }} unidades</b></p>
+											@else
+												<p>Stock: <b style="color:#dc3545!important">{{ $product->stock }} unidades</b></p>
+											@endif
 										</div>
 										@php
 											$colors = json_decode($product->color);
 											$colorsText = "";
-										
+
 											foreach ($colors as $value) {
 												$colorsText .= $value . ', ';
 											}
 
 											$colorsText = rtrim($colorsText, ", ");
-										@endphp  
+										@endphp
 										<div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">{{ $product->type->type }}
 											<p class="ps-shoe__categories">
-												<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+												<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>
 												<br>
 												<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
 											</p>
@@ -132,21 +138,27 @@
 										</div>
 										<div class="ps-shoe__content">
 											<div class="ps-shoe__variants">
-												Stock: {{ $product->stock }} unidade(s)
+												@if($product->stock >= 100)
+													<p>Stock: <b class="text-success">{{ $product->stock }} unidades</b></p>
+												@elseif($product->stock >= 30)
+													<p>Stock: <b style="color:#ffc107!important">{{ $product->stock }} unidades</b></p>
+												@else
+													<p>Stock: <b style="color:#dc3545!important">{{ $product->stock }} unidades</b></p>
+												@endif
 											</div>
 											<div class="ps-shoe__detail"><a class="ps-shoe__name" href="{{ route('online-shop.product-detail', $product->id) }}">{{ $product->type->type }}
 												@php
 													$colors = json_decode($product->color);
 													$colorsText = "";
-												
+
 													foreach ($colors as $value) {
 														$colorsText .= $value . ', ';
 													}
 
 													$colorsText = rtrim($colorsText, ", ");
-												@endphp     
+												@endphp
 												<p class="ps-shoe__categories">
-													<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>	
+													<a href="{{ route('online-shop.product-detail', $product->id) }}">Coleção: {{ $product->collection->collection }}</a>
 													<br>
 													<a href="{{ route('online-shop.product-detail', $product->id) }}">Cores: {{ $colorsText }}</a>
 												</p>
