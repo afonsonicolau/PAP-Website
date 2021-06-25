@@ -23,8 +23,8 @@ class UserEmail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emails.company')->with([  'name' => $this->name, 
-                                                        'message' => $this->message,
-                                                        'email' => $this->email])->subject('Nova mensagem - ' . $this->subject);
-    }   
+        return $this->markdown('emails.company')->with([  'name' => $this->name,
+                                                          'message' => $this->message,
+                                                          'email' => $this->email])->subject('Nova mensagem - ' . $this->subject);
+    }
 }
