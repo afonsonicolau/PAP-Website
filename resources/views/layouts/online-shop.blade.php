@@ -278,31 +278,34 @@
     <!-- Custom Script -->
     <script>
         // Outlet products
-        function outletProducts(outlet) {
+        function changeProducts(outlet) {
             $.ajax({
-                url: `/online-shop/cart/${productId}`,
+                url: `/online-shop/product-listing/${outlet}`,
                 type: "GET",
                 data: { '_token': '{{ csrf_token() }}' },
                 datatype: "html",
-                success: function(response) {
-
+                success: function() {
+                    getPriceRange();
+                    conosle.log("Wewqewqewwe")
+                },
+                error: function() {
+                    console.log("erererererer");
                 }
             });
         }
 
-        $(".outlet-products").on("click", function(event){
-            event.preventDefault();
+        $("#all_products").on('click', function() {
+            $(".active").removeClass('active').removeClass('current');
+            $(this).addClass('active').addClass('current');
 
-            let html = $(".outlet-products").text();
+            changeProducts(0);
+        });
 
-            if(html == "Só Produtos Outlets") {
-                $(".outlet-products").text("Só Produtos Não Outlet");
-                outletProducts(1);
-            }
-            else if(html == "Só Produtos Não Outlet") {
-                $(".outlet-products").text("Só Produtos Outlets");
-                outletProducts(0);
-            }
+        $("#outlet_products").on('click', function() {
+            $(".active").removeClass('active').removeClass('current');
+            $(this).addClass('active').addClass('current');
+
+            changeProducts(1);
         });
 
         // Limit collections and types
@@ -569,6 +572,14 @@
                             outletBadge = '<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>'
                         }
 
+                        let stock = "";
+                        if(product.stock >= 100)
+                            stock = `<p>Stock: <b class="text-success">${product.stock} unidades</b></p>`
+                        else if(product.stock >= 30)
+                            stock = `<p>Stock: <b style="color:#ffc107!important">${product.stock} unidades</b></p>`
+                        else
+                            stock = `<p>Stock: <b style="color:#dc3545!important">${product.stock} unidades</b></p>`
+
                         let productColumn = `
                                             <div class="ps-product__column" id="product_${product.id}">
                                                 <div class="ps-shoe mb-30">
@@ -581,7 +592,7 @@
                                                     </div>
                                                     <div class="ps-shoe__content">
                                                         <div class="ps-shoe__variants">
-                                                            Stock: ${product.stock} unidade(s)
+                                                            ${stock}
                                                         </div>
                                                         <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
                                                         <p class="ps-shoe__categories">
@@ -823,6 +834,14 @@
                                 outletBadge = '<div class="ps-badge ps-badge--sale ps-badge--2nd"><span>Outlet</span></div>'
                             }
 
+                            let stock = "";
+                            if(product.stock >= 100)
+                                stock = `<p>Stock: <b class="text-success">${product.stock} unidades</b></p>`
+                            else if(product.stock >= 30)
+                                stock = `<p>Stock: <b style="color:#ffc107!important">${product.stock} unidades</b></p>`
+                            else
+                                stock = `<p>Stock: <b style="color:#dc3545!important">${product.stock} unidades</b></p>`
+
                             let productColumn = `
                                 <div class="ps-product__column" id="product_${product.id}">
                                     <div class="ps-shoe mb-30">
@@ -835,7 +854,7 @@
                                         </div>
                                         <div class="ps-shoe__content">
                                             <div class="ps-shoe__variants">
-                                                Stock: ${product.stock} unidade(s)
+                                                ${stock}
                                             </div>
                                             <div class="ps-shoe__detail"><a class="ps-shoe__name" href="#">${product.type.type}
                                             <p class="ps-shoe__categories">
