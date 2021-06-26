@@ -11,12 +11,11 @@ use App\Models\Cart;
 use App\Models\CartItems;
 use App\Models\CompanyDetails;
 
-use Illuminate\Http\Request;
-
 class ShopController extends Controller
 {
     public function __construct()
     {
+        $this->outlet_check = null;
         $this->paginateNumber = 50;
     }
 
@@ -31,7 +30,7 @@ class ShopController extends Controller
             $cart = Cart::where('user_id', auth()->user()->id)->where('bought', 0)->latest()->first();
             $cartItems = CartItems::where('cart_id', $cart->id)->get();
         }
-        
+
         return view('onlineshop.index', compact('products', 'cart', 'cartItems'));
     }
 
@@ -69,9 +68,13 @@ class ShopController extends Controller
         $priceMax = round($price[1] / ($iva), 2);
         $collectionId = trim($collection, 'collection_');
         $typeId = trim($type, 'type_');
+        $outlet = "";
+        $this->outlet_check == null ? $outlet = 0 : $outlet = 1;
 
         $productsSelected = new Product;
-        
+
+        $productsSelected = $productsSelected->where('outlet', $outlet);
+
         if ($collectionId > 0 && $typeId > 0) {
             $productsSelected = $productsSelected->where('collection_id', $collectionId)->where('type_id', $typeId);
         }
@@ -81,14 +84,14 @@ class ShopController extends Controller
         elseif ($collectionId > 0 ) {
             $productsSelected = $productsSelected->where('collection_id', $collectionId);
         }
-        
+
         $productsSelected = $productsSelected->where('disabled', 0)->where('price', '>=', $priceMin)->where('price', '<=', $priceMax)->with('collection')->with('type')->latest()->paginate($this->paginateNumber);
 
         if($productsSelected->first() == "") {
             return false;
         }
 
-        return response()->json($productsSelected); 
+        return response()->json($productsSelected);
     }
 
     public function product_search($searchedString)
@@ -107,7 +110,7 @@ class ShopController extends Controller
             foreach ($types as $type) {
                 $typesLike = $type->where('type', 'LIKE', "%{$searchedString}%")->get();
             }
-            
+
             if($collectionsLike->first() != "") {
                 foreach ($collectionsLike as $collection) {
                     $checkCollection = $productsSearched->where('collection_id', $collection->id)->first();
@@ -131,12 +134,12 @@ class ShopController extends Controller
         }
         else {
             array_push($searchResult, $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
-            
+
             return response()->json($searchResult);
         }
 
         if(!empty($searchResult)) {
-            return response()->json($searchResult); 
+            return response()->json($searchResult);
         }
     }
 
@@ -152,5 +155,12 @@ class ShopController extends Controller
         }
 
         return view('onlineshop.product-detail', compact('product', 'cartItems'));
+    }
+
+    public function change_products_type($outlet_condition)
+    {
+        $this->outlet_check = $outlet_condition;
+
+        return true;
     }
 }

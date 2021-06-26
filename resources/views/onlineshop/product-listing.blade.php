@@ -83,6 +83,18 @@
 		</div>
 		<div class="ps-sidebar" data-mh="product-listing">
 			<aside class="ps-widget--sidebar ps-widget--category">
+				<!-- Outlet -->
+				<div class="ps-widget__header">
+					<h3>Produtos</h3>
+				</div>
+				<div class="ps-widget__content">
+					<ul class="ps-list--checked">
+						<li class="all_products active current" id="all_products"><a href="#">Todos os Produtos</a></li>
+						<li class="outlet_products" id="outlet_products"><a href="#">Produtos Outlet</a></li>
+					</ul>
+				</div>
+			</aside>
+			<aside class="ps-widget--sidebar ps-widget--category">
 				<!-- Collections -->
 				<div class="ps-widget__header">
 					<h3>Coleção</h3>
@@ -114,13 +126,6 @@
 					<a class="ac-slider__filter ps-btn" href="#">Filtrar</a>
 				</div>
 			</aside>
-			{{-- <aside class="ps-widget--sidebar ps-widget--filter">
-				<!-- Price Range -->
-				<div class="ps-widget__header">
-					<h3>Outlet</h3>
-				</div>
-				<a class="ac-slider__filter ps-btn outlet-products" href="#" >Só Produtos Outlets</a>
-			</aside> --}}
 			<aside class="ps-widget--sidebar ps-widget--category" >
 				<div class="ps-widget__header">
 					<!-- Types -->
