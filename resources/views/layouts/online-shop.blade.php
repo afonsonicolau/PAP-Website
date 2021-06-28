@@ -280,9 +280,21 @@
         // Outlet products
         let outlet = 0;
 
+        function removeFilters() {
+            $(".collection_filter").removeClass("current");
+            $("#collection_none").addClass("current");
+
+            $(".type_filter").removeClass("current");
+            $("#type_none").addClass("current");
+
+           $("#searchInput").html("");
+        }
+
         $("#all_products").on('click', function() {
             $(".active").removeClass('active').removeClass('current');
             $(this).addClass('active').addClass('current');
+
+            removeFilters();
 
             outlet = 0;
 
@@ -293,9 +305,12 @@
             $(".active").removeClass('active').removeClass('current');
             $(this).addClass('active').addClass('current');
 
+            removeFilters();
+
             outlet = 1;
 
             getPriceRange();
+
         });
 
         // Limit collections and types
@@ -779,7 +794,7 @@
             }
 
             $.ajax({
-                url: `/online-shop/product-listing/${string}`,
+                url: `/online-shop/product-listing/${string}/${outlet}`,
                 type: "GET",
                 data: { '_token': '{{ csrf_token() }}' },
                 dataType: "json",

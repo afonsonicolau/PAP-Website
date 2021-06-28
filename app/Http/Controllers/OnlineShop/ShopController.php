@@ -93,7 +93,7 @@ class ShopController extends Controller
         return response()->json($productsSelected);
     }
 
-    public function product_search($searchedString)
+    public function product_search($searchedString, $outlet)
     {
         $searchResult = array();
         $productsSearched = new Product;
@@ -113,7 +113,10 @@ class ShopController extends Controller
             if($collectionsLike->first() != "") {
                 foreach ($collectionsLike as $collection) {
                     $checkCollection = $productsSearched->where('collection_id', $collection->id)->first();
-                    if ($checkCollection) {
+                    if ($checkCollection && $outlet == 1) {
+                        array_push($searchResult, $productsSearched->where('collection_id', $collection->id)->where('outlet', $outlet)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+                    }
+                    elseif ($checkCollection) {
                         array_push($searchResult, $productsSearched->where('collection_id', $collection->id)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
                     }
                 }
@@ -121,7 +124,10 @@ class ShopController extends Controller
             if($typesLike->first() != "") {
                 foreach ($typesLike as $type) {
                     $checkType = $productsSearched->where('type_id', $type->id)->first();
-                    if($checkType) {
+                    if($checkType && $outlet == 1) {
+                        array_push($searchResult, $productsSearched->where('type_id', $type->id)->where('outlet', $outlet)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+                    }
+                    elseif($checkType) {
                         array_push($searchResult, $productsSearched->where('type_id', $type->id)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
                     }
                 }
@@ -132,7 +138,12 @@ class ShopController extends Controller
             }
         }
         else {
-            array_push($searchResult, $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+            if($outlet == 1) {
+                array_push($searchResult, $productsSearched->where('outlet', $outlet)->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+            }
+            else {
+                array_push($searchResult, $productsSearched->where('disabled', 0)->with('collection')->with('type')->latest()->paginate($this->paginateNumber));
+            }
 
             return response()->json($searchResult);
         }
