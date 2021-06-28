@@ -15,7 +15,6 @@ class ShopController extends Controller
 {
     public function __construct()
     {
-        $this->outlet_check = null;
         $this->paginateNumber = 50;
     }
 
@@ -59,7 +58,7 @@ class ShopController extends Controller
         return view('onlineshop.product-listing', compact('cart', 'cartItems', 'max', 'productList', 'collectionsDistinct', 'typesDistinct', 'dateNow'));
     }
 
-    public function product_filter($collection, $type, $priceRange)
+    public function product_filter($collection, $type, $priceRange, $outlet)
     {
         $iva = CompanyDetails::first()->iva;
         $iva = ($iva / 100) + 1;
@@ -68,12 +67,12 @@ class ShopController extends Controller
         $priceMax = round($price[1] / ($iva), 2);
         $collectionId = trim($collection, 'collection_');
         $typeId = trim($type, 'type_');
-        $outlet = "";
-        $this->outlet_check == null ? $outlet = 0 : $outlet = 1;
 
         $productsSelected = new Product;
 
-        $productsSelected = $productsSelected->where('outlet', $outlet);
+        if ($outlet == 1) {
+            $productsSelected = $productsSelected->where('outlet', $outlet);
+        }
 
         if ($collectionId > 0 && $typeId > 0) {
             $productsSelected = $productsSelected->where('collection_id', $collectionId)->where('type_id', $typeId);
@@ -155,12 +154,5 @@ class ShopController extends Controller
         }
 
         return view('onlineshop.product-detail', compact('product', 'cartItems'));
-    }
-
-    public function change_products_type($outlet_condition)
-    {
-        $this->outlet_check = $outlet_condition;
-
-        return true;
     }
 }
