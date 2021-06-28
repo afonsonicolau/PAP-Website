@@ -278,34 +278,24 @@
     <!-- Custom Script -->
     <script>
         // Outlet products
-        function changeProducts(outlet) {
-            $.ajax({
-                url: `/online-shop/product-listing/${outlet}`,
-                type: "GET",
-                data: { '_token': '{{ csrf_token() }}' },
-                datatype: "html",
-                success: function() {
-                    getPriceRange();
-                    conosle.log("Wewqewqewwe")
-                },
-                error: function() {
-                    console.log("erererererer");
-                }
-            });
-        }
+        let outlet = 0;
 
         $("#all_products").on('click', function() {
             $(".active").removeClass('active').removeClass('current');
             $(this).addClass('active').addClass('current');
 
-            changeProducts(0);
+            outlet = 0;
+
+            getPriceRange();
         });
 
         $("#outlet_products").on('click', function() {
             $(".active").removeClass('active').removeClass('current');
             $(this).addClass('active').addClass('current');
 
-            changeProducts(1);
+            outlet = 1;
+
+            getPriceRange();
         });
 
         // Limit collections and types
@@ -528,12 +518,12 @@
         };
 
         //  -- Filters --
-        function productsFilter(collectionId, typeId, priceRange) {
+        function productsFilter(collectionId, typeId, priceRange, outlet) {
             $.ajax({
                 type: "GET",
                 data: { '_token': '{{ csrf_token() }}' },
                 dataType: "json",
-                url: `/online-shop/product-listing/${collectionId}/${typeId}/${priceRange}`,
+                url: `/online-shop/product-listing/${collectionId}/${typeId}/${priceRange}/${outlet}`,
                 success: function(response) {
                     $('.ps-product__columns').empty();
 
@@ -643,7 +633,7 @@
             let typeId = $(".type_filter.current").attr("id");
             let collectionId = $(".collection_filter.current").attr("id");
 
-            productsFilter(collectionId, typeId, priceRange);
+            productsFilter(collectionId, typeId, priceRange, outlet);
         };
         // -- Filters --
 

@@ -26,9 +26,8 @@ Route::get('/online-shop/product-listing', [App\Http\Controllers\OnlineShop\Shop
 Route::get('/online-shop/product-listing/product-detail/{product}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_detail_index'])->name('online-shop.product-detail');
 
 // Filters
-Route::get('/online-shop/product-listing/{collection}/{type}/{price}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_filter'])->name('online-shop.filter');
+Route::get('/online-shop/product-listing/{collection}/{type}/{price}/{outlet}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_filter'])->name('online-shop.filter');
 Route::get('/online-shop/product-listing/{searched}', [App\Http\Controllers\OnlineShop\ShopController::class, 'product_search'])->name('online-shop.search');
-Route::get('/online-shop/product-listing/{outlet}', [App\Http\Controllers\OnlineShop\ShopController::class, 'change_products_type'])->name('online-shop.filter');
 
 // User Cart
 Route::get('/online-shop/cart', [App\Http\Controllers\OnlineShop\CartController::class, 'index'])->name('online-shop.cart');
